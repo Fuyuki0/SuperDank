@@ -83,7 +83,7 @@ public class LightningWeapon extends Weapon {
             currentTarget = nextTarget;
             if (currentTarget != null) enemies.remove(currentTarget);
         }
-        world.getLightningEffects().add(new LightningEffect(strikePoints));
+        world.getProjectiles().add(new LightningEffect(strikePoints));
     }
 
     @Override

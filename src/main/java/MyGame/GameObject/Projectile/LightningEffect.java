@@ -1,8 +1,10 @@
 package MyGame.GameObject.Projectile;
 
+import MyGame.World;
+
 import java.util.List;
 
-public class LightningEffect {
+public class LightningEffect extends Projectile {
     private List<double[]> strikePoints;
     private double timer;
     private final double MAX_TIMER = 0.3; // Fades out in 0.3 seconds
@@ -10,8 +12,10 @@ public class LightningEffect {
     private int currentFrame = 0;
     private int currentFrame_2 = 0;
     private double animationTimer = 0.0;
+    private double animationTimer2 = 0.0;
 
     public LightningEffect(List<double[]> strikePoints) {
+        super(strikePoints);
         this.strikePoints = strikePoints;
         this.timer = MAX_TIMER;
     }
@@ -27,14 +31,24 @@ public class LightningEffect {
             }
             animationTimer = 0;
         }
-        animationTimer += deltaTime;
-        if (animationTimer > MAX_TIMER / 30){
+        animationTimer2 += deltaTime;
+        if (animationTimer2 > MAX_TIMER / 30){
             currentFrame_2++;
             if (currentFrame_2 >= 30) {
                 currentFrame_2 = 0;
             }
-            animationTimer = 0;
+            animationTimer2 = 0;
         }
+    }
+
+    @Override
+    public void updateProj(double deltaTime, World world) {
+        this.update(deltaTime);
+    }
+
+    @Override
+    public boolean isDone() {
+        return this.isFade();
     }
 
     public boolean isFade() {

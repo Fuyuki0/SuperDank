@@ -7,7 +7,7 @@ public interface Item {
     String getName();
     String getDescription();
     void applyBuff(World world);
-    public void updateEffect(double deltaTime, World world, Player player);
+    void updateEffect(double deltaTime, World world, Player player);
     ItemRarity getItemRarity();
     void setItemRarity(ItemRarity itemRarity);
 }

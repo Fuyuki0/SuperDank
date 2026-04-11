@@ -55,6 +55,17 @@ public class OrbitRock extends Weapon{
             rockCount = rocks.size();
         }
 
+        if (!rocks.isEmpty()) {
+            for (int i = rocks.size() - 1; i >= 0; i--) {
+                Rock rock = rocks.get(i);
+                rock.updateProj(deltaTime, world);
+
+                if (rock.isDone()) {
+                    rocks.remove(i);
+                }
+            }
+        }
+
     }
 
     @Override

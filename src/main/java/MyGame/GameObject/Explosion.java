@@ -1,4 +1,4 @@
-package MyGame.GameObject.Projectile;
+package MyGame.GameObject;
 
 public class Explosion {
     private double posX, posY;

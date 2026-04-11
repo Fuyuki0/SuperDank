@@ -6,20 +6,20 @@ import MyGame.GameObject.Enemies.Boss;
 import MyGame.GameObject.Enemies.Charger;
 import MyGame.GameObject.Enemies.Enemy;
 import MyGame.GameObject.*;
-import MyGame.GameObject.Items.Equipment.*;
 import MyGame.GameObject.Items.Item;
-import MyGame.GameObject.Items.ItemRarity;
 import MyGame.GameObject.Items.PowerUp.EnergyDrink;
 import MyGame.GameObject.Items.PowerUp.Steak;
 import MyGame.GameObject.Projectile.*;
-import MyGame.GameObject.Skill.Skill_1.CrossSlash;
-import MyGame.GameObject.Skill.Skill_1.JumpingSlash;
-import MyGame.GameObject.Skill.Skill_1.Slash;
+import MyGame.GameObject.Skill.CrossSlash;
+import MyGame.GameObject.Skill.JumpingSlash;
+import MyGame.GameObject.Skill.Slash;
+import MyGame.GameObject.Skill.Ultimate;
 import MyGame.GameObject.Weapon.*;
 import javafx.scene.media.AudioClip;
 import java.util.ArrayList;
 import java.util.List;
 
+import static MyGame.GameObject.Items.ItemManager.openingChest;
 import static MyGame.Main.SCREEN_HEIGHT;
 import static MyGame.Main.SCREEN_WIDTH;
 
@@ -53,8 +53,8 @@ public class World {
     private List<Slash> slashes;
     private List<JumpingSlash> jumpingSlashes;
     private List<CrossSlash> crossSlashes;
+    private Ultimate ultimate;
     private boolean ultimateActive = false;
-    private double ultimateTimer = 0;
 
     private List<Weapon> weaponList;
     private Bow bow;
@@ -67,6 +67,7 @@ public class World {
     private List<Boomerang> boomerangs;
     private List<Arrow> arrows;
     private List<LightningEffect> lightningEffects;
+    private List<Projectile> projectiles = new ArrayList<>();
 
     private List<Chest> chests;
     private List<Steak> steaks;
@@ -127,6 +128,7 @@ public class World {
         this.slashes = new ArrayList<>();
         this.jumpingSlashes = new ArrayList<>();
         this.crossSlashes = new ArrayList<>();
+        this.ultimate = new Ultimate();
 
         this.weaponList = new ArrayList<>();
 
@@ -253,67 +255,9 @@ public class World {
 
         // ultimate
         if (ultimateActive) {
-            ultimateTimer += deltaTime;
-            player.setJumping(false);
-            player.setVelocityZ(0);
-            if (ultimateTimer < 1.5) {
-                player.setCurrentMovementState(Player.MovementState.UltimateUp);
-            } else {
-                player.setCurrentMovementState(Player.MovementState.UltimateDown);
-            }
-            if (ultimateSoundCheck < 1) {
-                SoundManager.ultimatePlayer.play();
-                ultimateSoundCheck++;
-            }
-            if (SoundManager.ultimatePlayer != null)
-                SoundManager.ultimatePlayer.play();
-            if (ultimateTimer < 1.5) {
-                player.setPosZ((ultimateTimer / 1.5) * 3000);
-            } else if (ultimateTimer < 1.95) {
-                double slamProgress = (ultimateTimer - 1.5) / 0.42;
-                player.setPosZ(5000 - (slamProgress * 5000));
-            } else
-                player.setPosZ(0);
-
-            if (ultimateTimer < 2.0) {
-                for (Enemy enemy : enemies) {
-                    if (!enemy.isBoss()) {
-                        double distanceX = player.getPosX() - enemy.getPosX();
-                        double distanceY = player.getPosY() - enemy.getPosY();
-                        double distance = distanceX * distanceX + distanceY * distanceY;
-                        if (distance < 300 * 300) {
-                            enemy.setPosX(enemy.getPosX() - distanceX * deltaTime * 4);
-                            enemy.setPosY(enemy.getPosY() - distanceY * deltaTime * 4);
-                        } else {
-                            enemy.setPosX(enemy.getPosX() + distanceX * deltaTime * 4);
-                            enemy.setPosY(enemy.getPosY() + distanceY * deltaTime * 4);
-                        }
-                    }
-                }
-            } else if (ultimateTimer > 2.0 && (ultimateTimer - deltaTime) <= 2.0) {
-                triggerScreenShake(0.5, 60);
-                for (Enemy enemy : enemies) {
-                    enemy.takeDamageAndEffectPlayer(player, 500 * (1 + player.getStatDamage() / 100), damageTexts, false);
-                }
-            } else if (ultimateTimer >= 2.0 && ultimateTimer < 2.3) {
-                enteringAnimationTimer += deltaTime;
-                if (enteringAnimationTimer > 0.06) {
-                    currentEnteringFrame++;
-                    if (currentEnteringFrame >= 5) {
-                        currentEnteringFrame = 0;
-                    }
-                    enteringAnimationTimer = 0;
-                }
-            } else if (ultimateTimer >= 2.5 && ultimateTimer < 3) {
-                ultimateActive = false;
-                player.setShielded(false);
-            } else if (ultimateTimer >= 3 && ultimateTimer < 3.5){
-                SoundManager.ultimatePlayer.stop();
-                ultimateSoundCheck = 0;
-            } else {
-                return;
-            }
+            ultimate.update(deltaTime, this);
         }
+
 
 
         // player vs obstacle (no dash inside)
@@ -643,54 +587,13 @@ public class World {
             }
         }
 
-        // arrow
-        for (int i = arrows.size() - 1; i >= 0; i--) {
-            Arrow arrow = arrows.get(i);
-            arrow.update(deltaTime);
-            arrow.checkBound(cameraPosX, cameraPosY, SCREEN_WIDTH, SCREEN_HEIGHT);
+        // projectile
+        for (int i = projectiles.size() - 1; i >= 0; i--) {
+            Projectile projectile = projectiles.get(i);
+            projectile.updateProj(deltaTime, this);
 
-            for (int j = 0; j < enemies.size(); j++) {
-                Enemy enemy = enemies.get(j);
-                if (arrow.checkCollision(enemy)) {
-                    if (arrow.hitEnemy(enemy)) {
-                        double arrowDamage = 30 * (1 + bow.getBonusDamage() / 100);
-                        if (Math.random() < bow.getBonusCritRate() / 100) {
-                            arrowDamage *= (1 + bow.getBonusCritDmg() / 100);
-                            enemy.takeDamageAndEffectPlayer(player, arrowDamage, damageTexts, true);
-                        } else {
-                            enemy.takeDamageAndEffectPlayer(player, arrowDamage, damageTexts, false);
-                        }
-                        enemy.smoothHitboxContactPushOut(arrow.getFaceToX() * 30, arrow.getFaceToY() * 30, 0.08);
-                    }
-                }
-            }
-            if (!arrow.canPierce() || arrow.isFade()) {
-                arrows.remove(i);
-            }
-        }
-
-        // boomerang
-        for (int i = boomerangs.size() - 1; i >= 0; i--) {
-            Boomerang boomerang = boomerangs.get(i);
-            boomerang.update(deltaTime);
-
-            for (int j = 0; j < enemies.size(); j++) {
-                Enemy enemy = enemies.get(j);
-                if (boomerang.checkCollision(enemy)) {
-                    if (boomerang.hitEnemy(enemy)) {
-                        double boomerangDamage = 20 * (1 + boomerangWeapon.getBonusDamage() / 100);
-                        if (Math.random() < boomerangWeapon.getBonusCritRate() / 100) {
-                            boomerangDamage *= (1 + boomerangWeapon.getBonusCritDmg() / 100);
-                            enemy.takeDamageAndEffectPlayer(player, boomerangDamage, damageTexts, true);
-                        } else {
-                            enemy.takeDamageAndEffectPlayer(player, boomerangDamage, damageTexts, false);
-                        }
-                        enemy.smoothHitboxContactPushOut(boomerang.getFaceToX() * 50, boomerang.getFaceToY() * 50, 0.08);
-                    }
-                }
-            }
-            if (boomerang.isBroken()) {
-                boomerangs.remove(i);
+            if (projectile.isDone()) {
+                projectiles.remove(i);
             }
         }
 
@@ -712,47 +615,11 @@ public class World {
             }
         }
 
-        // orbitRock
-        if (orbitRock != null) {
-            List<Rock> rocks = orbitRock.getRocks();
-            if (!rocks.isEmpty()) {
-                for (int i = rocks.size() - 1; i >= 0; i--) {
-                    Rock rock = rocks.get(i);
-                    double currentAngle = this.orbitRock.getAngle() + rock.getCurrentRelativeAngle();
-                    double currentRadius = orbitRock.getRADIUS() * rock.spawn();
-                    double rockPosX = player.getPosX() + Math.cos(Math.toRadians(currentAngle)) * currentRadius;
-                    double rockPosY = player.getPosY() + Math.sin(Math.toRadians(currentAngle)) * currentRadius;
-                    for (int j = 0; j < enemies.size(); j++) {
-                        Enemy enemy = enemies.get(j);
-                        double distanceX = enemy.getPosX() - rockPosX;
-                        double distanceY = enemy.getPosY() - rockPosY;
-                        double distance = (distanceX * distanceX + distanceY * distanceY);
-                        double rockRadius = 40 * (1 + orbitRock.getBonusSize() / 100);
-                        if ((distance < rockRadius * rockRadius) && !player.isJumping()) {
-                            double damage = 20 * (1 + orbitRock.getBonusDamage() / 100);
-                            enemy.takeDamageAndEffectPlayer(player, damage, damageTexts, false);
-                            enemy.smoothHitboxContactPushOut(-enemy.getFaceToX() * 200, -enemy.getFaceToY() * 200, 0.1);
-                            SoundManager.fireballSound.play();
-                            rock.hitEnemy();
-                            if (rock.isBroken()) break;
-                        }
-                    }
-                }
-            }
-        }
-
-        // lightning
-        for (int i = lightningEffects.size() - 1; i >= 0; i--) {
-            LightningEffect lightningEffect = lightningEffects.get(i);
-            lightningEffect.update(deltaTime);
-            if (lightningEffect.isFade()) lightningEffects.remove(i);
-        }
-
         // chest
         for (int i = chests.size() - 1; i >= 0; i--) {
             Chest chest = chests.get(i);
             if (player.checkCollision(chest) && !player.isJumping()) {
-                openingChest();
+                openingChest(this);
                 chests.remove(i);
             }
         }
@@ -1055,96 +922,6 @@ public class World {
         }
     }
 
-    // chest
-    public void openingChest() {
-        this.gameStop = true;
-        List<Item> possibleLoot = new ArrayList<>();
-        // stock
-        possibleLoot.add(new DataFragment());
-        possibleLoot.add(new EngineOverload());
-        possibleLoot.add(new MagnetRing());
-        possibleLoot.add(new PhantomDrive());
-        possibleLoot.add(new ServoMotor());
-        possibleLoot.add(new Steak());
-        // modified
-        possibleLoot.add(new AdrenalSyringe());
-        possibleLoot.add(new HexEditor());
-        possibleLoot.add(new MagneticRepulsor());
-        possibleLoot.add(new NeuroAmplifier());
-        possibleLoot.add(new TungstenPlating());
-        // prototype
-        possibleLoot.add(new NecroticHeart());
-        possibleLoot.add(new ParasiticGas());
-        possibleLoot.add(new SoulHarvester());
-        possibleLoot.add(new TitaniumArmor());
-        // artifact
-        possibleLoot.add(new DeepestVoid());
-        possibleLoot.add(new Doomsday());
-        possibleLoot.add(new MutatedBrain());
-        // ultimate
-        possibleLoot.add(new FinalWeapon());
-
-        ItemRarity rolledRarity = chestGachaRarity(this.player);
-        List<Item> storeLoot = new ArrayList<>();
-        for (Item i : possibleLoot) {
-            if (i.getItemRarity() == rolledRarity && !hasItem(i.getName())) {
-                storeLoot.add(i);
-            }
-        }
-        if (!storeLoot.isEmpty()) {
-            this.item = storeLoot.get((int)(Math.random() * storeLoot.size()));
-        } else {
-            this.item = new Item() {
-                private final ItemRarity rarity = rolledRarity;
-
-                @Override public String getName() {
-                    if (rarity == ItemRarity.Ultimate) return "Da Crown";
-                    return "Coins";
-                }
-
-                @Override public String getDescription() {
-                    if (rarity == ItemRarity.Stock) return "Gained 100 Coins!";
-                    if (rarity == ItemRarity.Modified) return "Gained 5,000 Coins!";
-                    if (rarity == ItemRarity.Prototype) return "Gained 100,000 Coins!";
-                    if (rarity == ItemRarity.Artifact) return "Gained 5,000,000 Coins!";
-                    return "You have obtained everything.";
-                }
-
-                @Override public void applyBuff(World world) {
-                    if (rarity == ItemRarity.Stock) player.setCoin(player.getCoin() + 100);
-                    if (rarity == ItemRarity.Modified) player.setCoin(player.getCoin() + 5000);
-                    if (rarity == ItemRarity.Prototype) player.setCoin(player.getCoin() + 100000);
-                    if (rarity == ItemRarity.Artifact) player.setCoin(player.getCoin() + 5000000);
-                    if (rarity == ItemRarity.Ultimate) {}
-                }
-
-                @Override
-                public void updateEffect(double deltaTime, World world, Player player) {}
-                @Override public ItemRarity getItemRarity() {return rarity;}
-                @Override public void setItemRarity(ItemRarity itemRarity) {}
-            };
-        }
-    }
-
-    public static ItemRarity chestGachaRarity(Player player) {
-        double luckBonus = (player != null) ? player.getLuck() : 0;
-        double roll = (Math.random() * 100) + luckBonus;
-
-        if (roll <= 50) return ItemRarity.Stock;
-        if (roll <= 80) return ItemRarity.Modified;
-        if (roll <= 94) return ItemRarity.Prototype;
-        if (roll <= 99) return ItemRarity.Artifact;
-        return ItemRarity.Ultimate;
-
-        //if (roll <= 1) return ItemRarity.Stock;
-        //if (roll <= 2) return ItemRarity.Modified;
-        //if (roll <= 3) return ItemRarity.Prototype;
-        //if (roll <= 99) return ItemRarity.Artifact;
-        //return ItemRarity.Ultimate;
-
-    }
-
-
 
         public void triggerSlash(double controllerPosX, double controllerPosY) {
         if (!player.canSlash()) return;
@@ -1209,7 +986,7 @@ public class World {
             player.setUltimateCooldown(60.0);
             player.setShielded(true);
             ultimateActive = true;
-            ultimateTimer = 0;
+            ultimate.setUltimateTimer(0);
             ultimateSoundCheck = 0;
             SoundManager.ultimatePlayer.stop();
         }
@@ -1719,14 +1496,6 @@ public class World {
         this.ultimateActive = ultimateActive;
     }
 
-    public double getUltimateTimer() {
-        return ultimateTimer;
-    }
-
-    public void setUltimateTimer(double ultimateTimer) {
-        this.ultimateTimer = ultimateTimer;
-    }
-
     public void setScreenShakeTimer(double screenShakeTimer) {
         this.screenShakeTimer = screenShakeTimer;
     }
@@ -1851,6 +1620,22 @@ public class World {
         return ultimateSoundCheck;
     }
 
+
+    public List<Projectile> getProjectiles() {
+        return projectiles;
+    }
+
+    public void setProjectiles(List<Projectile> projectiles) {
+        this.projectiles = projectiles;
+    }
+
+    public Ultimate getUltimate() {
+        return ultimate;
+    }
+
+    public void setUltimate(Ultimate ultimate) {
+        this.ultimate = ultimate;
+    }
 
     public void setUltimateSoundCheck(int ultimateSoundCheck) {
         this.ultimateSoundCheck = ultimateSoundCheck;

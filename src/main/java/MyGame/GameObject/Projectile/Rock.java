@@ -1,11 +1,13 @@
 package MyGame.GameObject.Projectile;
 
+import MyGame.GameObject.Enemies.Enemy;
+import MyGame.GameObject.SoundManager;
 import MyGame.World;
 
 import javax.xml.stream.events.StartDocument;
 
 
-public class Rock{
+public class Rock extends Projectile {
     private int pierceCount = 30;
     private boolean isBroken;
     private double spawnTimer;
@@ -18,6 +20,7 @@ public class Rock{
     private double animationTimer = 0.0;
 
     public Rock(double angle) {
+        super(angle);
         this.isBroken = false;
         this.spawnTimer = 0;
 
@@ -44,6 +47,40 @@ public class Rock{
             animationTimer = 0;
         }
 
+    }
+
+    @Override
+    protected void update(double deltaTime) {
+    }
+
+    @Override
+    public void updateProj(double deltaTime, World world) {
+        double currentAngle = world.getOrbitRock().getAngle() + this.getCurrentRelativeAngle();
+        double currentRadius = world.getOrbitRock().getRADIUS() * this.spawn();
+
+        double rockPosX = world.getPlayer().getPosX() + Math.cos(Math.toRadians(currentAngle)) * currentRadius;
+        double rockPosY = world.getPlayer().getPosY() + Math.sin(Math.toRadians(currentAngle)) * currentRadius;
+
+        for (int j = 0; j < world.getEnemies().size(); j++) {
+            Enemy enemy = world.getEnemies().get(j);
+            double distanceX = enemy.getPosX() - rockPosX;
+            double distanceY = enemy.getPosY() - rockPosY;
+            double distance = (distanceX * distanceX + distanceY * distanceY);
+            double rockRadius = 40 * (1 + world.getOrbitRock().getBonusSize() / 100);
+            if ((distance < rockRadius * rockRadius) && !world.getPlayer().isJumping()) {
+                double damage = 20 * (1 + world.getOrbitRock().getBonusDamage() / 100);
+                enemy.takeDamageAndEffectPlayer(world.getPlayer(), damage, world.getDamageTexts(), false);
+                enemy.smoothHitboxContactPushOut(-enemy.getFaceToX() * 200, -enemy.getFaceToY() * 200, 0.1);
+                SoundManager.fireballSound.play();
+                this.hitEnemy();
+                if (this.isBroken()) break;
+            }
+        }
+    }
+
+    @Override
+    public boolean isDone() {
+        return isBroken;
     }
 
     public double spawn() {

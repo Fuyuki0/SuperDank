@@ -29,7 +29,7 @@ public class Enemy extends GameObject {
     protected double knockBackVelocityY = 0;
 
     // type
-    private boolean isCharger = false;
+    protected boolean isCharger = false;
     protected boolean isBoss = false;
 
 
@@ -214,23 +214,10 @@ public class Enemy extends GameObject {
 
     public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double margin, double screenWidth, double screenHeight, Effect hitFlash, Image enemyMech, Image chargerMech, Image bossMech) {
 
-        if (this.isBoss()) {
-            gc.setFill(Color.rgb(0, 0, 0, 0.4));
-            double shadowWidth = 120;
-            double shadowHeight = 30;
-            gc.fillOval(this.getPosX() - cameraPosX - (shadowWidth / 2.0), this.getPosY() - cameraPosY - (shadowHeight / 2.0) + 65, shadowWidth, shadowHeight);
-        } else if (this.isCharger()){
-            gc.setFill(Color.rgb(0, 0, 0, 0.4));
-            double shadowWidth = 40;
-            double shadowHeight = 15;
-            gc.fillOval(this.getPosX() - cameraPosX - (shadowWidth / 2.0), this.getPosY() - cameraPosY - (shadowHeight / 2.0) + 30, shadowWidth, shadowHeight);
-        } else {
-            gc.setFill(Color.rgb(0, 0, 0, 0.4));
-            double shadowWidth = 60;
-            double shadowHeight = 20;
-            gc.fillOval(this.getPosX() - cameraPosX - (shadowWidth / 2.0), this.getPosY() - cameraPosY - (shadowHeight / 2.0) + 40, shadowWidth, shadowHeight);
-        }
-
+        gc.setFill(Color.rgb(0, 0, 0, 0.4));
+        double shadowWidth = 60;
+        double shadowHeight = 20;
+        gc.fillOval(this.getPosX() - cameraPosX - (shadowWidth / 2.0), this.getPosY() - cameraPosY - (shadowHeight / 2.0) + 40, shadowWidth, shadowHeight);
 
         double offsetX = 0;
         double offsetY = 0;
@@ -249,28 +236,11 @@ public class Enemy extends GameObject {
         ) {
             double idleStartX = 0;
             double idleStartY = 0;
-            if (this.isCharger()) {
-                frameWidth = 60;
-                frameHeight = 60;
-                if (this.getDirectionY() > 0) {
-                    idleStartY = 0;
-                } else {
-                    idleStartY = 60;
-                }
-            } else if (this.isBoss()) {
-                frameWidth = 98;
-                frameHeight = 81;
-                if (this.getPosY() - cameraPosY < screenHeight / 2.0 + 40) {
-                    idleStartY = 0;
-                } else {
-                    idleStartY = 0;
-                }
+
+            if (this.getPosY() - cameraPosY < screenHeight / 2.0 + 40) {
+                idleStartY = 0;
             } else {
-                if (this.getPosY() - cameraPosY < screenHeight / 2.0 + 40) {
-                    idleStartY = 0;
-                } else {
-                    idleStartY = 77;
-                }
+                idleStartY = 77;
             }
             sourceX = idleStartX + (this.getCurrentFrame() * frameWidth);
             sourceY = idleStartY;
@@ -284,35 +254,15 @@ public class Enemy extends GameObject {
                 gc.setEffect(hitFlash);
             }
 
-            if (this.isCharger()) {
-                if (this.getDirectionX() < 0) {
-                    gc.scale(-1, 1);
-                }
-                gc.drawImage(
-                        chargerMech,
-                        sourceX, sourceY, frameWidth, frameHeight,
-                        -(frameWidth * scaleEnemy / 2), -(frameHeight * scaleEnemy / 2), frameWidth * scaleEnemy, frameHeight * scaleEnemy
-                );
-            } else if (this.isBoss()) {
-                scaleEnemy = 2;
-                if (isFlipped) {
-                    gc.scale(-1, 1);
-                }
-                gc.drawImage(
-                        bossMech,
-                        sourceX, sourceY, frameWidth, frameHeight,
-                        -(frameWidth * scaleEnemy / 2), -(frameHeight * scaleEnemy / 2), frameWidth * scaleEnemy, frameHeight * scaleEnemy
-                );
-            } else {
-                if (isFlipped) {
-                    gc.scale(-1, 1);
-                }
-                gc.drawImage(
-                        enemyMech,
-                        sourceX, sourceY, frameWidth, frameHeight,
-                        -(frameWidth * scaleEnemy / 2), -(frameHeight * scaleEnemy / 2), frameWidth * scaleEnemy, frameHeight * scaleEnemy
-                );
+            if (isFlipped) {
+                gc.scale(-1, 1);
             }
+            gc.drawImage(
+                    enemyMech,
+                    sourceX, sourceY, frameWidth, frameHeight,
+                    -(frameWidth * scaleEnemy / 2), -(frameHeight * scaleEnemy / 2), frameWidth * scaleEnemy, frameHeight * scaleEnemy
+            );
+
             gc.setEffect(null);
             gc.restore();
         }

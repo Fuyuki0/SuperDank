@@ -2,12 +2,14 @@ package MyGame.GameObject.Projectile;
 
 import MyGame.GameObject.Enemies.Enemy;
 import MyGame.GameObject.GameObject;
+import MyGame.World;
+import javafx.scene.control.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Boomerang extends GameObject {
+public class Boomerang extends Projectile {
     private double speed = 1000;
     private double velocityX;
     private double velocityY;
@@ -78,6 +80,33 @@ public class Boomerang extends GameObject {
         this.posY += faceToY * speed * deltaTime;
         this.spinningAngle = (this.spinningAngle + (100 * deltaTime) / 2) % 360;
         this.smoothTurning *= 1.005;
+    }
+
+    @Override
+    public void updateProj(double deltaTime, World world) {
+            this.update(deltaTime);
+
+            for (int j = 0; j < world.getEnemies().size(); j++) {
+                Enemy enemy = world.getEnemies().get(j);
+                if (this.checkCollision(enemy)) {
+                    if (this.hitEnemy(enemy)) {
+                        double boomerangDamage = 20 * (1 + world.getBoomerangWeapon().getBonusDamage() / 100);
+                        if (Math.random() < world.getBoomerangWeapon().getBonusCritRate() / 100) {
+                            boomerangDamage *= (1 + world.getBoomerangWeapon().getBonusCritDmg() / 100);
+                            enemy.takeDamageAndEffectPlayer(world.getPlayer(), boomerangDamage, world.getDamageTexts(), true);
+                        } else {
+                            enemy.takeDamageAndEffectPlayer(world.getPlayer(), boomerangDamage, world.getDamageTexts(), false);
+                        }
+                        enemy.smoothHitboxContactPushOut(this.getFaceToX() * 50, this.getFaceToY() * 50, 0.08);
+                    }
+                }
+            }
+
+    }
+
+    @Override
+    public boolean isDone() {
+        return this.isBroken();
     }
 
     public double getFaceToY() {

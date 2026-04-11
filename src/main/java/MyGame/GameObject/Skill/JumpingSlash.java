@@ -1,24 +1,30 @@
-package MyGame.GameObject.Skill.Skill_1;
+package MyGame.GameObject.Skill;
 
-public class Slash {
-    private double posX;
-    private double posY;
-    private double posZ;
-    private double angle;
+import MyGame.GameObject.Enemies.Enemy;
+import MyGame.GameObject.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class JumpingSlash {
+    private double PosX;
+    private double PosY;
+    private double PosZ;
+    private Player player;
+    private List<Enemy> enemyList;
     private double timer;
     private final double MAX_TIMER = 0.2;
-    private boolean slashHit;
 
     private int currentFrame = 0;
     private double animationTimer = 0.0;
 
-    public Slash(double posX, double posY, double posZ, double angle) {
-        this.posX = posX;
-        this.posY = posY;
-        this.posZ = posZ;
-        this.angle = angle;
+    public JumpingSlash(double PosX, double PosY, double PosZ, Player player) {
+        this.PosX = PosX;
+        this.PosY = PosY;
+        this.PosZ = PosZ;
+        this.player = player;
         this.timer = MAX_TIMER;
-        this.slashHit = false;
+        this.enemyList = new ArrayList<>();
     }
 
     public void update(double deltaTime) {
@@ -27,7 +33,7 @@ public class Slash {
         this.animationTimer += deltaTime;
         if (animationTimer > 0.02) {
             currentFrame++;
-            if (currentFrame >= 7) {
+            if (currentFrame >= 10) {
                 currentFrame = 0;
             }
             animationTimer = 0;
@@ -42,28 +48,20 @@ public class Slash {
         return Math.max(0, timer / MAX_TIMER);
     }
 
-    public double getPosX() {
-        return posX;
+    public Player getPlayer() {
+        return player;
     }
 
-    public void setPosX(double posX) {
-        this.posX = posX;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
-    public double getPosY() {
-        return posY;
+    public List<Enemy> getEnemyList() {
+        return enemyList;
     }
 
-    public void setPosY(double posY) {
-        this.posY = posY;
-    }
-
-    public double getAngle() {
-        return angle;
-    }
-
-    public void setAngle(double angle) {
-        this.angle = angle;
+    public void setEnemyList(List<Enemy> enemyList) {
+        this.enemyList = enemyList;
     }
 
     public double getTimer() {
@@ -78,16 +76,24 @@ public class Slash {
         return MAX_TIMER;
     }
 
-    public boolean isSlashHit() {
-        return slashHit;
+    public double getPosX() {
+        return PosX;
     }
 
-    public void setSlashHit(boolean slashHit) {
-        this.slashHit = slashHit;
+    public void setPosX(double posX) {
+        PosX = posX;
+    }
+
+    public double getPosY() {
+        return PosY;
+    }
+
+    public void setPosY(double posY) {
+        PosY = posY;
     }
 
     public double getPosZ() {
-        return posZ;
+        return PosZ;
     }
 
     public int getCurrentFrame() {
@@ -107,6 +113,6 @@ public class Slash {
     }
 
     public void setPosZ(double posZ) {
-        this.posZ = posZ;
+        PosZ = posZ;
     }
 }

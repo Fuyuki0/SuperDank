@@ -7,9 +7,9 @@ import MyGame.GameObject.Items.Item;
 import MyGame.GameObject.Items.PowerUp.EnergyDrink;
 import MyGame.GameObject.Items.PowerUp.Steak;
 import MyGame.GameObject.Projectile.*;
-import MyGame.GameObject.Skill.Skill_1.CrossSlash;
-import MyGame.GameObject.Skill.Skill_1.JumpingSlash;
-import MyGame.GameObject.Skill.Skill_1.Slash;
+import MyGame.GameObject.Skill.CrossSlash;
+import MyGame.GameObject.Skill.JumpingSlash;
+import MyGame.GameObject.Skill.Slash;
 import MyGame.GameObject.Weapon.Aura;
 import MyGame.GameObject.Weapon.OrbitRock;
 import MyGame.GameObject.Weapon.Sword;
@@ -17,7 +17,6 @@ import MyGame.GameObject.Weapon.Weapon;
 import javafx.animation.AnimationTimer;
 import javafx.animation.PauseTransition;
 import javafx.animation.ScaleTransition;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
@@ -25,15 +24,12 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
@@ -378,12 +374,12 @@ public class GameEngine {
 
         // craked for ultimate
         if (world.isUltimateActive()) {
-            if (world.getUltimateTimer() >= 2) {
+            if (world.getUltimate().getUltimateTimer() >= 2) {
                 frameWidth = 150;
                 frameHeight = 150;
                 double scaleEnter = 5;
                 gc.save();
-                gc.setGlobalAlpha(Math.max(0, 1.0 - ((world.getUltimateTimer() - 1.5) / 1.0)));
+                gc.setGlobalAlpha(Math.max(0, 1.0 - ((world.getUltimate().getUltimateTimer() - 1.5) / 1.0)));
                 gc.translate(player.getPosX() - cameraPosX + 10, player.getPosY() - cameraPosY + 50);
                 gc.setEffect(black);
                 gc.drawImage(
@@ -1205,7 +1201,7 @@ public class GameEngine {
 
         // ultimate
         if (world.isUltimateActive()) {
-            double ultimateTimer = world.getUltimateTimer();
+            double ultimateTimer = world.getUltimate().getUltimateTimer();
             gc.save();
             gc.setFill(Color.rgb(0, 0, 0, 0.3));
             gc.fillRect(0, 0, screenWidth, screenHeight);
@@ -1225,7 +1221,7 @@ public class GameEngine {
             gc.restore();
 
 
-            if (world.getUltimateTimer() > 2.0 && world.getUltimateTimer() < 2.3) {
+            if (ultimateTimer > 2.0 && ultimateTimer < 2.3) {
                 frameWidth = 128 * 5;
                 frameHeight = 256 * 5;
                 sourceX = world.getCurrentEnteringFrame() * frameWidth;
@@ -1880,10 +1876,12 @@ public class GameEngine {
         try {
             Media bgmMedia = new Media(getClass().getResource(playlist[currentSongIndex]).toExternalForm());
             bgmPlayer = new MediaPlayer(bgmMedia);
-            if (currentSongIndex == 3) {
-                bgmPlayer.setVolume(0.15);
-            } else if (currentSongIndex == 1) {
+            if (currentSongIndex == 1) {
                 bgmPlayer.setVolume(0.10);
+            } else if (currentSongIndex == 2) {
+                bgmPlayer.setVolume(0.10);
+            } else if (currentSongIndex == 3) {
+                bgmPlayer.setVolume(0.15);
             } else {
                 bgmPlayer.setVolume(0.05);
             }

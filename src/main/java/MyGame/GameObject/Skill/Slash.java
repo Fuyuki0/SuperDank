@@ -1,41 +1,40 @@
-package MyGame.GameObject.Skill.Skill_1;
+package MyGame.GameObject.Skill;
 
-import MyGame.GameObject.Enemies.Enemy;
-import java.util.ArrayList;
-import java.util.List;
-
-public class CrossSlash {
-    private double posX, posY;
+public class Slash {
+    private double posX;
+    private double posY;
+    private double posZ;
     private double angle;
     private double timer;
-    private final double MAX_TIMER = 0.4;
-    private List<Enemy> hitEnemies;
+    private final double MAX_TIMER = 0.2;
+    private boolean slashHit;
 
     private int currentFrame = 0;
     private double animationTimer = 0.0;
 
-    public CrossSlash(double posX, double posY, double angle) {
+    public Slash(double posX, double posY, double posZ, double angle) {
         this.posX = posX;
         this.posY = posY;
+        this.posZ = posZ;
         this.angle = angle;
         this.timer = MAX_TIMER;
-        this.hitEnemies = new ArrayList<>();
+        this.slashHit = false;
     }
 
     public void update(double deltaTime) {
         this.timer -= deltaTime;
 
         this.animationTimer += deltaTime;
-        if (animationTimer > 0.04) {
+        if (animationTimer > 0.02) {
             currentFrame++;
-            if (currentFrame >= 8) {
+            if (currentFrame >= 7) {
                 currentFrame = 0;
             }
             animationTimer = 0;
         }
     }
 
-    public boolean isFade() {
+    public boolean fade() {
         return timer <= 0;
     }
 
@@ -79,8 +78,16 @@ public class CrossSlash {
         return MAX_TIMER;
     }
 
-    public List<Enemy> getHitEnemies() {
-        return hitEnemies;
+    public boolean isSlashHit() {
+        return slashHit;
+    }
+
+    public void setSlashHit(boolean slashHit) {
+        this.slashHit = slashHit;
+    }
+
+    public double getPosZ() {
+        return posZ;
     }
 
     public int getCurrentFrame() {
@@ -99,7 +106,7 @@ public class CrossSlash {
         this.animationTimer = animationTimer;
     }
 
-    public void setHitEnemies(List<Enemy> hitEnemies) {
-        this.hitEnemies = hitEnemies;
+    public void setPosZ(double posZ) {
+        this.posZ = posZ;
     }
 }

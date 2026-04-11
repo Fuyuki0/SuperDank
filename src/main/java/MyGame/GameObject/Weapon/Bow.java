@@ -37,7 +37,7 @@ public class Bow extends Weapon {
         int shootAmount = Math.min((int) amount + (int)bonusProjCount, enemies.size());
         for (int i = 0; i < shootAmount; i++) {
             Enemy target = enemies.get(i);
-            world.getArrows().add(new Arrow(player.getPosX(), player.getPosY(), target.getPosX(), target.getPosY()));
+            world.getProjectiles().add(new Arrow(player.getPosX(), player.getPosY(), target.getPosX(), target.getPosY()));
         }
     }
 

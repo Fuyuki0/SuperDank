@@ -2,11 +2,15 @@ package MyGame.GameObject.Projectile;
 
 import MyGame.GameObject.Enemies.Enemy;
 import MyGame.GameObject.GameObject;
+import MyGame.World;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Arrow extends GameObject {
+import static MyGame.Main.SCREEN_HEIGHT;
+import static MyGame.Main.SCREEN_WIDTH;
+
+public class Arrow extends Projectile {
     private double speed = 1600;
     private double velocityX;
     private double velocityY;
@@ -74,6 +78,33 @@ public class Arrow extends GameObject {
         this.posY += velocityY * speed * deltaTime;
         this.fadeTimer -= deltaTime;
         updateAnimation(deltaTime);
+    }
+
+    public void updateProj(double deltaTime, World world) {
+        this.update(deltaTime);
+        double cameraPosX = world.getPlayer().getPosX() - (SCREEN_WIDTH / 2.0);
+        double cameraPosY = world.getPlayer().getPosY() - (SCREEN_HEIGHT / 2.0);
+        this.checkBound(cameraPosX, cameraPosY, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        for (int j = 0; j < world.getEnemies().size(); j++) {
+            Enemy enemy = world.getEnemies().get(j);
+            if (this.checkCollision(enemy)) {
+                if (this.hitEnemy(enemy)) {
+                    double arrowDamage = 30 * (1 + world.getBow().getBonusDamage() / 100);
+                    if (Math.random() < world.getBow().getBonusCritRate() / 100) {
+                        arrowDamage *= (1 + world.getBow().getBonusCritDmg() / 100);
+                        enemy.takeDamageAndEffectPlayer(world.getPlayer(), arrowDamage, world.getDamageTexts(), true);
+                    } else {
+                        enemy.takeDamageAndEffectPlayer(world.getPlayer(), arrowDamage, world.getDamageTexts(), false);
+                    }
+                    enemy.smoothHitboxContactPushOut(this.getFaceToX() * 30, this.getFaceToY() * 30, 0.08);
+                }
+            }
+        }
+    }
+
+    public boolean isDone() {
+        return !this.canPierce() || this.isFade();
     }
 
     public void updateAnimation(double deltaTime) {
