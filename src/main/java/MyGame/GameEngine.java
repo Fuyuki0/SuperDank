@@ -48,6 +48,7 @@ import static MyGame.Main.SCREEN_WIDTH;
 
 public class GameEngine {
     private Main.GameState currentGameState;
+    private Scene scene;
     private World world;
     private final Controller controller;
     private final Camera camera;
@@ -221,6 +222,8 @@ public class GameEngine {
             Label timeSurvivedLabel,
             VBox topLeftWeaponHang
     ) {
+        this.scene = scene;
+        this.world = world;
         this.controller = controller;
         this.camera = camera;
         this.gc = gc;
@@ -880,6 +883,14 @@ public class GameEngine {
         // projectiles
         for (Projectile projectile : world.getProjectiles()) {
             projectile.draw(gc, cameraPosX, cameraPosY, this);
+        }
+        // rocks
+        OrbitRock orbitRock = world.getOrbitRock();
+        if (orbitRock != null) {
+            for (int i = 0; i < orbitRock.getRocks().size(); i++) {
+                Rock rock = orbitRock.getRocks().get(i);
+                rock.draw(gc, cameraPosX, cameraPosY, this);
+            }
         }
 
         // sword

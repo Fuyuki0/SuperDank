@@ -107,33 +107,28 @@ public class Rock extends Projectile {
     @Override
     public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, GameEngine engine) {
         OrbitRock orbitRock = engine.getWorld().getOrbitRock();
+        if (orbitRock == null) {
+            return;
+        }
         double frameWidth = 64;
         double frameHeight = 64;
-        if (orbitRock != null) {
-            List<Rock> rocks = orbitRock.getRocks();
-            if (!rocks.isEmpty()) {
-                for (int i = rocks.size() - 1; i >= 0; i--) {
-                    Rock rock = rocks.get(i);
-                    double sourceX = 0 + rock.getCurrentFrame() * frameWidth;
-                    double sourceY = 0;
-                    gc.save();
-                    gc.setGlobalAlpha(Math.max(rock.spawn(), 90));
-                    double currentAngle = orbitRock.getAngle() + rock.getCurrentRelativeAngle();
-                    double currentRadius = orbitRock.getRADIUS() * rock.spawn();
-                    double rockPosX = engine.getWorld().getPlayer().getPosX() - cameraPosX + Math.cos(Math.toRadians(currentAngle)) * currentRadius;
-                    double rockPosY = engine.getWorld().getPlayer().getPosY() - cameraPosY - engine.getWorld().getPlayer().getPosZ() + Math.sin(Math.toRadians(currentAngle)) * currentRadius;
-                    double scaleRock = 1.2 + (1 + orbitRock.getBonusSize() / 100) * 1.2;
-                    gc.translate(rockPosX, rockPosY);
-                    gc.rotate(currentAngle + 90);
-                    gc.drawImage(
-                            engine.getRockImage(),
-                            sourceX, sourceY, frameWidth, frameHeight,
-                            -(frameWidth * scaleRock / 2), -(frameHeight * scaleRock / 2.0), frameWidth * scaleRock, frameHeight * scaleRock
-                    );
-                    gc.restore();
-                }
-            }
-        }
+        double sourceX = 0 + this.getCurrentFrame() * frameWidth;
+        double sourceY = 0;
+        gc.save();
+        gc.setGlobalAlpha(Math.max(this.spawn(), 90));
+        double currentAngle = orbitRock.getAngle() + this.getCurrentRelativeAngle();
+        double currentRadius = orbitRock.getRADIUS() * this.spawn();
+        double rockPosX = engine.getWorld().getPlayer().getPosX() - cameraPosX + Math.cos(Math.toRadians(currentAngle)) * currentRadius;
+        double rockPosY = engine.getWorld().getPlayer().getPosY() - cameraPosY - engine.getWorld().getPlayer().getPosZ() + Math.sin(Math.toRadians(currentAngle)) * currentRadius;
+        double scaleRock = 1.2 + (1 + orbitRock.getBonusSize() / 100) * 1.2;
+        gc.translate(rockPosX, rockPosY);
+        gc.rotate(currentAngle + 90);
+        gc.drawImage(
+                engine.getRockImage(),
+                sourceX, sourceY, frameWidth, frameHeight,
+                -(frameWidth * scaleRock / 2), -(frameHeight * scaleRock / 2.0), frameWidth * scaleRock, frameHeight * scaleRock
+        );
+        gc.restore();
     }
 
 
