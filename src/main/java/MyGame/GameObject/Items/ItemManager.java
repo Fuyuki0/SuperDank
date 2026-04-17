@@ -4,13 +4,12 @@ import MyGame.GameObject.Items.Equipment.*;
 import MyGame.GameObject.Items.PowerUp.Steak;
 import MyGame.GameObject.Player;
 import MyGame.World;
-import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemManager {
-    public static void openingChest(World world) {
+    public static Item openingChest(World world) {
         Player player = world.getPlayer();
         world.setGameStop(true);
         List<Item> possibleLoot = new ArrayList<>();
@@ -41,9 +40,11 @@ public class ItemManager {
 
         ItemRarity rolledRarity = chestGachaRarity(player);
         List<Item> storeLoot = new ArrayList<>();
-        for (Item i : possibleLoot) {
-            if (i.getItemRarity() == rolledRarity && !world.hasItem((i.getName()))) {
-                storeLoot.add(i);
+        Item rolledItem = null;
+        for (Item item : possibleLoot) {
+            if (item.getItemRarity() == rolledRarity && !world.hasItem((item.getName()))) {
+                storeLoot.add(item);
+                rolledItem = item;
             }
         }
         if (!storeLoot.isEmpty()) {
@@ -79,6 +80,7 @@ public class ItemManager {
                 @Override public void setItemRarity(ItemRarity itemRarity) {}
             });
         }
+        return rolledItem;
     }
 
     public static ItemRarity chestGachaRarity(Player player) {
