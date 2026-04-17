@@ -303,12 +303,9 @@ public class World {
 
         for (Weapon weapon : weaponList) {
             if (weapon != null) {
-                weapon.update(deltaTime, this, false);
+                weapon.update(deltaTime, this);
             }
         }
-
-        double cameraPosX = player.getPosX() - (SCREEN_WIDTH / 2.0);
-        double cameraPosY = player.getPosY() - (SCREEN_HEIGHT / 2.0);
 
         // crystal
         crystalAnimationTimer += deltaTime;
@@ -367,6 +364,9 @@ public class World {
             }
         }
 
+        // chargerwave
+        chargerWaveTimer += deltaTime;
+
         if (!enemies.isEmpty()) {
             for (Enemy enemy : enemies) {
 
@@ -382,7 +382,7 @@ public class World {
                         // dodge check
                         if (Math.random() >= player.getDodgeChance()) {
                             double damage = 50 * difficultyMultiplier;
-                            if (enemy.isCharger()) damage = 40 * difficultyMultiplier;
+                            if (enemy.isCharger()) damage = 60 * difficultyMultiplier;
                             else if (enemy.isBoss()) damage = 100 * difficultyMultiplier;
                             if (player.getDashTimer() > 0) damage *= (1 - player.getDashDamageReduction());
                             enemy.doDamage(player, damage);
@@ -436,8 +436,6 @@ public class World {
                 }
             }
 
-            // chargerwave
-            chargerWaveTimer += deltaTime;
 
             // enemy collision
             for (int i = 0; i < enemies.size(); i++) {

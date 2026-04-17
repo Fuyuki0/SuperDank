@@ -1,8 +1,9 @@
 package MyGame.GameObject.Projectile;
 
+import MyGame.GameEngine;
 import MyGame.GameObject.Enemies.Enemy;
-import MyGame.GameObject.GameObject;
 import MyGame.World;
+import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,6 +127,26 @@ public class Arrow extends Projectile {
         if (this.fadeTimer > 0.5) {
             return 1.0;
         }return Math.max(0, this.fadeTimer / 0.5);
+    }
+
+    @Override
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, GameEngine engine) {
+        double frameWidth = 64;
+        double frameHeight = 64;
+        double scaleArrow = 1.1;
+        gc.save();
+        gc.setGlobalAlpha(this.opacity());
+        double sourceX = 0 + this.getCurrentFrame() * frameWidth;
+        double sourceY = 0;
+        gc.translate(this.getPosX() - cameraPosX, this.getPosY() - cameraPosY);
+        gc.rotate(this.getAngle());
+        gc.drawImage(
+                engine.getArrowImage(),
+                sourceX, sourceY, frameWidth, frameHeight,
+                -(frameWidth * scaleArrow / 2), -(frameHeight * scaleArrow / 2), frameWidth * scaleArrow, frameHeight * scaleArrow
+        );
+        gc.restore();
+        gc.setGlobalAlpha(1.0);
     }
 
 

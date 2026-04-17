@@ -1,6 +1,8 @@
 package MyGame.GameObject.Projectile;
 
+import MyGame.GameEngine;
 import MyGame.World;
+import javafx.scene.canvas.GraphicsContext;
 
 import java.util.List;
 
@@ -58,6 +60,53 @@ public class LightningEffect extends Projectile {
     public double opacity() {
         return Math.max(0, timer / MAX_TIMER);
     }
+
+    @Override
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, GameEngine engine) {
+        double frameWidth = 128;
+        double frameHeight = 128;
+        double sourceY = 0;
+        double sourceX = this.getCurrentFrame() * frameWidth;
+        gc.save();
+        gc.setGlobalAlpha(this.opacity());
+        for (int i = 0; i < this.getStrikePoints().size() - 1; i++) {
+            double[] point1 = this.getStrikePoints().get(i);
+            double[] point2 = this.getStrikePoints().get(i + 1);
+            double startX = point1[0] - cameraPosX;
+            double startY = point1[1] - cameraPosY;
+            double endX = point2[0] - cameraPosX;
+            double endY = point2[1] - cameraPosY;
+            double distanceX = endX - startX;
+            double distanceY = endY - startY;
+            double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+            double angle = Math.toDegrees(Math.atan2(distanceY, distanceX));
+            gc.save();
+            gc.translate(startX, startY);
+            gc.rotate(angle);
+            gc.drawImage(
+                    engine.getLightningImage(),
+                    sourceX, sourceY, frameWidth, frameHeight,
+                    0, -(frameHeight / 2.0), distance, frameHeight
+            );
+            gc.restore();
+            frameWidth = 96;
+            frameHeight = 96;
+            double scaleLightning = 1;
+            sourceX = this.getCurrentFrame_2() * frameWidth;
+            sourceY = 0;
+            gc.save();
+            gc.translate(endX, endY);
+            gc.drawImage(
+                    engine.getLightningImage_2(),
+                    sourceX, sourceY, frameWidth, frameHeight,
+                    -(frameWidth * scaleLightning / 2.0), -(frameHeight *scaleLightning / 2.0), frameWidth * scaleLightning, frameHeight * scaleLightning
+            );
+            gc.restore();
+            }
+        gc.restore();
+        gc.setGlobalAlpha(1);
+    }
+
 
     public void setStrikePoints(List<double[]> strikePoints) {
         this.strikePoints = strikePoints;

@@ -739,7 +739,7 @@ public class GameEngine {
 
         // frame player
 
-        player.draw(gc, cameraPosX, cameraPosY, this, playerMech, hitPlayer);
+        player.draw(gc, cameraPosX, cameraPosY, playerMech, hitPlayer);
 
         double offsetX = 10;
         double offsetY = 20;
@@ -813,7 +813,6 @@ public class GameEngine {
             }
         }
 
-
         // hp bar
         //gc.setFill(Color.LIGHTGRAY);
         //gc.fillRect(player.getPosX() - cameraPosX - 40, player.getPosY() - cameraPosY + 52 - player.getPosZ(), 80, 8);
@@ -830,7 +829,6 @@ public class GameEngine {
         //gc.fillRect(player.getPosX() - cameraPosX - 40, player.getPosY() - cameraPosY + 62 - player.getPosZ(), 80, 5);
         //gc.setFill(Color.DARKCYAN);
         //gc.fillRect(player.getPosX() - cameraPosX - 40, player.getPosY() - cameraPosY + 62 - player.getPosZ(), 80 * player.staminaRatio(), 5);
-
 
 
         // player powerup
@@ -863,84 +861,7 @@ public class GameEngine {
             gc.restore();
         }
 
-        // orbit
-        OrbitRock orbitRock = world.getOrbitRock();
-        frameWidth = 64;
-        frameHeight = 64;
-        if (orbitRock != null) {
-            List<Rock> rocks = orbitRock.getRocks();
-            if (!rocks.isEmpty()) {
-                for (int i = rocks.size() - 1; i >= 0; i--) {
-                    Rock rock = rocks.get(i);
-                    sourceX = 0 + rock.getCurrentFrame() * frameWidth;
-                    sourceY = 0;
-                    gc.save();
-                    gc.setGlobalAlpha(Math.max(rock.spawn(), 90));
-                    double currentAngle = orbitRock.getAngle() + rock.getCurrentRelativeAngle();
-                    double currentRadius = orbitRock.getRADIUS() * rock.spawn();
-                    double rockPosX = player.getPosX() - cameraPosX + Math.cos(Math.toRadians(currentAngle)) * currentRadius;
-                    double rockPosY = player.getPosY() - cameraPosY - player.getPosZ() + Math.sin(Math.toRadians(currentAngle)) * currentRadius;
-                    double scaleRock = 1.2 + (1 + orbitRock.getBonusSize() / 100) * 1.2;
-                    gc.translate(rockPosX, rockPosY);
-                    gc.rotate(currentAngle + 90);
-                    gc.drawImage(
-                            rockImage,
-                            sourceX, sourceY, frameWidth, frameHeight,
-                            -(frameWidth * scaleRock / 2), -(frameHeight * scaleRock / 2.0), frameWidth * scaleRock, frameHeight * scaleRock
-                    );
-                    gc.restore();
-                }
-            }
-        }
-
-        // lightning + effect
-        List<LightningEffect> lightnings = world.getLightningEffects();
-        frameWidth = 128;
-        frameHeight = 128;
-        sourceY = 0;
-        for (LightningEffect lightningEffect : lightnings) {
-            sourceX = lightningEffect.getCurrentFrame() * frameWidth;
-            gc.save();
-            gc.setGlobalAlpha(lightningEffect.opacity());
-            for (int i = 0; i < lightningEffect.getStrikePoints().size() - 1; i++) {
-                double[] point1 = lightningEffect.getStrikePoints().get(i);
-                double[] point2 = lightningEffect.getStrikePoints().get(i + 1);
-                double startX = point1[0] - cameraPosX;
-                double startY = point1[1] - cameraPosY;
-                double endX = point2[0] - cameraPosX;
-                double endY = point2[1] - cameraPosY;
-                double distanceX = endX - startX;
-                double distanceY = endY - startY;
-                double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-                double angle = Math.toDegrees(Math.atan2(distanceY, distanceX));
-                gc.save();
-                gc.translate(startX, startY);
-                gc.rotate(angle);
-                gc.drawImage(
-                        lightningImage,
-                        sourceX, sourceY, frameWidth, frameHeight,
-                        0, -(frameHeight / 2.0), distance, frameHeight
-                );
-                gc.restore();
-                frameWidth = 96;
-                frameHeight = 96;
-                double scaleLightning = 1;
-                sourceX = lightningEffect.getCurrentFrame_2() * frameWidth;
-                sourceY = 0;
-                gc.save();
-                gc.translate(endX, endY);
-                gc.drawImage(
-                        lightningImage_2,
-                        sourceX, sourceY, frameWidth, frameHeight,
-                            -(frameWidth * scaleLightning / 2.0), -(frameHeight *scaleLightning / 2.0), frameWidth * scaleLightning, frameHeight * scaleLightning
-                );
-                gc.restore();
-            }
-        }
-        gc.restore();
-        gc.setGlobalAlpha(1);
-
-
+        // damage text
         List<DamageText> damageTexts = world.getDamageTexts();
         gc.setFont(FONT_30);
         for (DamageText damageText : damageTexts) {
@@ -956,45 +877,10 @@ public class GameEngine {
         }
         gc.setGlobalAlpha(1);
 
-        List<Arrow> arrows = world.getArrows();
-        frameWidth = 64;
-        frameHeight = 64;
-        double scaleArrow = 1.1;
-        for (Arrow arrow : arrows) {
-            gc.save();
-            gc.setGlobalAlpha(arrow.opacity());
-            sourceX = 0 + arrow.getCurrentFrame() * frameWidth;
-            sourceY = 0;
-            gc.translate(arrow.getPosX() - cameraPosX, arrow.getPosY() - cameraPosY);
-            gc.rotate(arrow.getAngle());
-            gc.drawImage(
-                    arrowImage,
-                    sourceX, sourceY, frameWidth, frameHeight,
-                    -(frameWidth * scaleArrow / 2), -(frameHeight * scaleArrow / 2), frameWidth * scaleArrow, frameHeight * scaleArrow
-            );
-            gc.restore();
+        // projectiles
+        for (Projectile projectile : world.getProjectiles()) {
+            projectile.draw(gc, cameraPosX, cameraPosY, this);
         }
-        gc.setGlobalAlpha(1.0);
-
-        List<Boomerang> boomerangs = world.getBoomerangs();
-        frameWidth = 349;
-        frameHeight = 349;
-        for (Boomerang boomerang : boomerangs) {
-            sourceX = 0;
-            sourceY = 0;
-            double scaleBoomerang = 0.2 + (world.getBoomerangWeapon().getBonusSize() / 100) / 5;
-            gc.save();
-            gc.setGlobalAlpha(boomerang.opacity());
-            gc.translate(boomerang.getPosX() - cameraPosX, boomerang.getPosY() - cameraPosY);
-            gc.rotate(boomerang.getSpinningAngle());
-            gc.drawImage(
-                    boomerangImage,
-                    sourceX, sourceY, frameWidth, frameHeight,
-                    -(frameWidth * scaleBoomerang / 2), -(frameHeight * scaleBoomerang / 2), frameWidth * scaleBoomerang, frameHeight * scaleBoomerang
-            );
-            gc.restore();
-        }
-        gc.setGlobalAlpha(1);
 
         // sword
         Sword sword = world.getSword();

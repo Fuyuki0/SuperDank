@@ -23,8 +23,8 @@ public class LightningWeapon extends Weapon {
     }
 
     @Override
-    public void update(double deltaTime, World world, boolean attackWhileJumping) {
-        super.update(deltaTime, world, true);
+    public void update(double deltaTime, World world) {
+        super.update(deltaTime, world);
     }
 
     @Override

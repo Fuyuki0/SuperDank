@@ -66,12 +66,12 @@ public abstract class Weapon {
         this.activeTimer = 0;
     }
 
-    public void update(double deltaTime, World world, boolean attackWhileJumping) {
+    public void update(double deltaTime, World world) {
         timer -= deltaTime;
 
         if (hasActiveTimer) {
             if (activeTimer > 0) {
-                if (!attackWhileJumping) {
+                if (!this.attackWhileJumping) {
                     if (!world.getPlayer().isJumping())
                         activeTimer -= deltaTime;
                 } else

@@ -4,7 +4,6 @@ import MyGame.GameObject.Enemies.Enemy;
 import MyGame.GameObject.Player;
 import MyGame.GameObject.SoundManager;
 import MyGame.World;
-import javafx.scene.input.KeyCode;
 
 public class Sword extends Weapon {
 
@@ -25,8 +24,8 @@ public class Sword extends Weapon {
     }
 
     @Override
-    public void update(double deltaTime, World world, boolean attackWhileJumping) {
-        super.update(deltaTime, world, attackWhileJumping);
+    public void update(double deltaTime, World world) {
+        super.update(deltaTime, world);
 
         animationTimer += deltaTime;
         if (isAttacking()) {

@@ -26,7 +26,7 @@ public class OrbitRock extends Weapon{
         this.rocks = new ArrayList<>();
     }
 
-    public void update(double deltaTime, World world, boolean attackWhileJumping) {
+    public void update(double deltaTime, World world) {
         this.attackWhileJumping = false;
         this.angle = (angle + (360 * deltaTime / 2 * (1 + bonusAttackSpeed / 100))) % 360;
         for (Rock rock : rocks) {

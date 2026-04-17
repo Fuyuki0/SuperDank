@@ -17,7 +17,7 @@ public class Aura extends Weapon{
         this.timer = 0;
     }
 
-    public void update(double deltaTime, World world, boolean attackWhileJumping) {
+    public void update(double deltaTime, World world) {
         this.attackWhileJumping = false;
         if (timer > 0) {
             timer -= deltaTime;

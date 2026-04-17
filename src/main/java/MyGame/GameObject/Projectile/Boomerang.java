@@ -1,9 +1,9 @@
 package MyGame.GameObject.Projectile;
 
+import MyGame.GameEngine;
 import MyGame.GameObject.Enemies.Enemy;
-import MyGame.GameObject.GameObject;
 import MyGame.World;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +108,27 @@ public class Boomerang extends Projectile {
     public boolean isDone() {
         return this.isBroken();
     }
+
+    @Override
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, GameEngine engine) {
+        double frameWidth = 349;
+        double frameHeight = 349;
+        double sourceX = 0;
+        double sourceY = 0;
+        double scaleBoomerang = 0.2 + (engine.getWorld().getBoomerangWeapon().getBonusSize() / 100) / 5;
+        gc.save();
+        gc.setGlobalAlpha(this.opacity());
+        gc.translate(this.getPosX() - cameraPosX, this.getPosY() - cameraPosY);
+        gc.rotate(this.getSpinningAngle());
+        gc.drawImage(
+                engine.getBoomerangImage(),
+                sourceX, sourceY, frameWidth, frameHeight,
+                -(frameWidth * scaleBoomerang / 2), -(frameHeight * scaleBoomerang / 2), frameWidth * scaleBoomerang, frameHeight * scaleBoomerang
+        );
+        gc.restore();
+        gc.setGlobalAlpha(1);
+    }
+
 
     public double getFaceToY() {
         return faceToY;

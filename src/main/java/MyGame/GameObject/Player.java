@@ -379,7 +379,7 @@ public class Player extends GameObject {
         }
     }
 
-    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, GameEngine engine, Image playerMech, Effect hitPlayer) {
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, Image playerMech, Effect hitPlayer) {
 
         double offsetX = 10;
         double offsetY = 20;

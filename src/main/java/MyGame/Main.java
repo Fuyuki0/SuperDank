@@ -376,7 +376,7 @@ public class Main extends Application {
 
     public void warmUpEngine(GraphicsContext gc, GameEngine engine) {
         Player player = new Player(0, 0);
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
 
             new Enemy(0, 0, player);
             new Enemy(0, 0, player);
