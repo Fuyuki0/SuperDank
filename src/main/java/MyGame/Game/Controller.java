@@ -1,13 +1,12 @@
-package MyGame;
+package MyGame.Game;
 
-import MyGame.GameObject.Player;
+import MyGame.GameObject.Player.Player;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 
-import static MyGame.Main.SCREEN_HEIGHT;
-import static MyGame.Main.SCREEN_WIDTH;
+import static MyGame.Game.Main.SCREEN_HEIGHT;
+import static MyGame.Game.Main.SCREEN_WIDTH;
 
 public class Controller {
 

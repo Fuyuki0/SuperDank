@@ -1,6 +1,6 @@
-package MyGame;
+package MyGame.Game;
 
-import MyGame.GameObject.Player;
+import MyGame.GameObject.Player.Player;
 
 public class Camera {
     private double posX;

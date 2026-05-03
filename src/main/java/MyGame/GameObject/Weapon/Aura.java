@@ -1,7 +1,8 @@
 package MyGame.GameObject.Weapon;
 
-import MyGame.GameObject.SoundManager;
-import MyGame.World;
+import MyGame.Game.GameEngine;
+import MyGame.Game.SoundManager;
+import MyGame.Game.World;
 
 public class Aura extends Weapon{
     private double radius;
@@ -92,5 +93,30 @@ public class Aura extends Weapon{
 
     public String getName() {
         return "Aura";
+    }
+
+    @Override
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        double frameWidth = 128;
+        double frameHeight = 128;
+        double sourceX = 0;
+        double sourceY = 0;
+        double scaleAura = 2.2 + (1 + this.getBonusSize() / 100) * 2.2;
+        if (this.getCurrentFrame() == 5) {
+            sourceX = 0;
+            sourceY = 128;
+        } else {
+            sourceX = this.getCurrentFrame() * frameWidth;
+            sourceY = 0;
+        }
+        gc.save();
+        gc.setGlobalAlpha(0.3);
+        gc.translate(engine.getWorld().getPlayer().getPosX() - cameraPosX, engine.getWorld().getPlayer().getPosY() - cameraPosY);
+        gc.drawImage(
+                engine.getAuraImage(),
+                sourceX, sourceY, frameWidth, frameHeight,
+                -(frameWidth / 2) * scaleAura, -(frameHeight / 2) * scaleAura, frameWidth * scaleAura, frameHeight * scaleAura
+        );
+        gc.restore();
     }
 }

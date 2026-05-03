@@ -1,7 +1,7 @@
 package MyGame.GameObject.Weapon;
 
 import MyGame.GameObject.Projectile.Rock;
-import MyGame.World;
+import MyGame.Game.World;
 
 import java.util.ArrayList;
 import java.util.List;

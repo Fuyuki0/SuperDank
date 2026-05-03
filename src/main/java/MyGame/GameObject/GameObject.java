@@ -1,9 +1,11 @@
 package MyGame.GameObject;
 
+import MyGame.Interface.Renderable;
+
 import java.util.Comparator;
 import java.util.Objects;
 
-public abstract class GameObject {
+public abstract class GameObject implements Renderable {
     protected double posX;
     protected double posY;
     protected double hitbox;

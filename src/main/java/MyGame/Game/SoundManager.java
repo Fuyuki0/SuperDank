@@ -1,4 +1,4 @@
-package MyGame.GameObject;
+package MyGame.Game;
 
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;

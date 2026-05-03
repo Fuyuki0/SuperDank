@@ -1,10 +1,15 @@
 package MyGame.GameObject.Skill;
 
+import MyGame.Game.GameEngine;
 import MyGame.GameObject.Enemies.Enemy;
+import MyGame.GameObject.Player.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CrossSlash {
+import MyGame.Interface.ActiveSkill;
+import MyGame.Game.World;
+
+public class CrossSlash implements ActiveSkill {
     private double posX, posY;
     private double angle;
     private double timer;
@@ -35,8 +40,67 @@ public class CrossSlash {
         }
     }
 
-    public boolean isFade() {
+    @Override
+    public void updateSkill(double deltaTime, World world) {
+        update(deltaTime);
+        Player player = world.getPlayer();
+        if (!isFinished()) {
+            for (Enemy enemy : world.getEnemies()) {
+                if (!getHitEnemies().contains(enemy)) {
+                    double distanceX = enemy.getPosX() - getPosX();
+                    double distanceY = enemy.getPosY() - getPosY();
+                    if (distanceX * distanceX + distanceY * distanceY < 300 * 300) {
+                        getHitEnemies().add(enemy);
+                        double damage = 150 * (1 + player.getStatDamage() / 100);
+                        enemy.takeDamageAndEffectPlayer(player, damage, world.getDamageTexts(), false);
+                        enemy.smoothHitboxContactPushOut(-player.getFaceToX() * 100, -player.getFaceToY() * 100, 0.2);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        double frameWidth = 128 * 6;
+        double frameHeight = 128 * 6;
+        double sourceX = 0 + frameWidth * (getCurrentFrame() % 2);
+        double sourceY = 0 + frameHeight * (getCurrentFrame() / 2);
+
+        gc.save();
+        gc.setGlobalAlpha(opacity());
+        gc.translate(getPosX() - cameraPosX, getPosY() - cameraPosY);
+        gc.rotate(Math.toDegrees(getAngle()));
+
+        gc.save();
+        gc.rotate(-50);
+        gc.drawImage(
+                engine.getCrossSlashImage(),
+                sourceX, sourceY, frameWidth, frameHeight,
+                -(frameWidth / 2.0), -(frameHeight / 2.0), frameWidth, frameHeight
+        );
+        gc.restore();
+
+        gc.save();
+        gc.scale(1, -1);
+        gc.rotate(-50);
+        gc.drawImage(
+                engine.getCrossSlashImage(),
+                sourceX, sourceY, frameWidth, frameHeight,
+                -(frameWidth / 2.0), -(frameHeight / 2.0), frameWidth, frameHeight
+        );
+        gc.restore();
+
+        gc.restore();
+    }
+
+    @Override
+    public boolean isFinished() {
         return timer <= 0;
+    }
+
+    public boolean isFade() {
+        return isFinished();
     }
 
     public double opacity() {

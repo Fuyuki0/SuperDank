@@ -1,4 +1,4 @@
-package MyGame;
+package MyGame.Game;
 
 
 
@@ -6,22 +6,24 @@ import MyGame.GameObject.Enemies.Boss;
 import MyGame.GameObject.Enemies.Charger;
 import MyGame.GameObject.Enemies.Enemy;
 import MyGame.GameObject.*;
-import MyGame.GameObject.Items.Item;
+import MyGame.GameObject.Items.Collectable.Chest;
+import MyGame.GameObject.Player.Player;
+import MyGame.Interface.Collectable;
+import MyGame.GameObject.Items.Collectable.Experience;
+import MyGame.Interface.Item;
 import MyGame.GameObject.Items.PowerUp.EnergyDrink;
 import MyGame.GameObject.Items.PowerUp.Steak;
 import MyGame.GameObject.Projectile.*;
-import MyGame.GameObject.Skill.CrossSlash;
-import MyGame.GameObject.Skill.JumpingSlash;
-import MyGame.GameObject.Skill.Slash;
-import MyGame.GameObject.Skill.Ultimate;
+import MyGame.GameObject.Skill.*;
 import MyGame.GameObject.Weapon.*;
+import MyGame.Interface.ActiveSkill;
+import MyGame.Rarity.Rarity;
 import javafx.scene.media.AudioClip;
 import java.util.ArrayList;
 import java.util.List;
 
-import static MyGame.GameObject.Items.ItemManager.openingChest;
-import static MyGame.Main.SCREEN_HEIGHT;
-import static MyGame.Main.SCREEN_WIDTH;
+import static MyGame.Game.Main.SCREEN_HEIGHT;
+import static MyGame.Game.Main.SCREEN_WIDTH;
 
 public class World {
     private boolean showMiniMap = true;
@@ -50,9 +52,7 @@ public class World {
     private List<Experience> experience;
 
     // skill
-    private List<Slash> slashes;
-    private List<JumpingSlash> jumpingSlashes;
-    private List<CrossSlash> crossSlashes;
+    private List<ActiveSkill> activeSkills;
     private Ultimate ultimate;
     private boolean ultimateActive = false;
 
@@ -125,9 +125,7 @@ public class World {
 
         this.experience = new ArrayList<>();
 
-        this.slashes = new ArrayList<>();
-        this.jumpingSlashes = new ArrayList<>();
-        this.crossSlashes = new ArrayList<>();
+        this.activeSkills = new ArrayList<>();
         this.ultimate = new Ultimate();
 
         this.weaponList = new ArrayList<>();
@@ -255,7 +253,7 @@ public class World {
 
         // ultimate
         if (ultimateActive) {
-            ultimate.update(deltaTime, this);
+            ultimate.updateSkill(deltaTime, this);
         }
 
 
@@ -545,45 +543,7 @@ public class World {
         }
 
         // exp
-        for (int i = experience.size() - 1; i >= 0; i--) {
-            Experience exp = experience.get(i);
-            double expPosX = exp.getPosX();
-            double expPosY = exp.getPosY();
-            for (Obstacle obstacle : obstacles) {
-                double left = obstacle.getPosX();
-                double right = obstacle.getPosX() + obstacle.getWidth();
-                double top = obstacle.getPosY();
-                double bottom = obstacle.getPosY() + obstacle.getHeight();
-
-                if (expPosX > left && expPosX < right && expPosY > top && expPosY < bottom) {
-                    double distanceLeft = expPosX - left;
-                    double distanceRight = right - expPosX;
-                    double distanceTop = expPosY - top;
-                    double distanceBottom = bottom - expPosY;
-                    double min = Math.min(Math.min(distanceLeft, distanceRight), Math.min(distanceTop, distanceBottom));
-                    if (min == distanceLeft) expPosX = left - exp.getHitbox();
-                    else if (min == distanceRight) expPosX = right + exp.getHitbox();
-                    else if (min == distanceTop) expPosY = top - exp.getHitbox();
-                    else if (min == distanceBottom) expPosY = bottom + exp.getHitbox();
-                }
-                exp.setPosX(expPosX);
-                exp.setPosY(expPosY);
-            }
-
-            double distancePosX = player.getPosX() - exp.getPosX();
-            double distancePosY = player.getPosY() - exp.getPosY();
-            double distance = Math.sqrt(distancePosX * distancePosX + distancePosY * distancePosY);
-            if ((distance < player.getMagnetRadius() || drinkMagnetTimer > 0) && !player.isJumping()) {
-                double pullingSpeed = 600 * deltaTime;
-                exp.setPosX(exp.getPosX() + (distancePosX / distance) * pullingSpeed);
-                exp.setPosY(exp.getPosY() + (distancePosY / distance) * pullingSpeed);
-            }
-            if (player.checkCollision(exp) && !player.isJumping()) {
-                player.addExperience(exp.getExpValue());
-                Experience.release(exp);
-                experience.remove(i);
-            }
-        }
+        checkCollection(experience, deltaTime);
 
         // projectile
         for (int i = projectiles.size() - 1; i >= 0; i--) {
@@ -614,101 +574,17 @@ public class World {
         }
 
         // chest
-        for (int i = chests.size() - 1; i >= 0; i--) {
-            Chest chest = chests.get(i);
-            if (player.checkCollision(chest) && !player.isJumping()) {
-                openingChest(this);
-                chests.remove(i);
-            }
-        }
+        checkCollection(chests, deltaTime);
 
         // steak
-        for (int i = steaks.size() - 1; i >= 0; i--) {
-            Steak steak = steaks.get(i);
-            if (player.checkCollision(steak) && !player.isJumping()) {
-                if (player.getMaxHealth() > player.getCurrentHealth()) {
-                    player.setCurrentHealth(player.getCurrentHealth() + steak.getHealAmount());
-                }
-                steaks.remove(i);
-            }
-        }
+        checkCollection(steaks, deltaTime);
 
-        // slash
-        for (int i = slashes.size() - 1; i >= 0; i--) {
-            Slash slash = slashes.get(i);
-            slash.update(deltaTime);
-            if (!slash.isSlashHit()) {
-                for (Enemy enemy : enemies) {
-                    double distancePosX = enemy.getPosX() - slash.getPosX();
-                    double distancePosY = enemy.getPosY() - slash.getPosY();
-                    double distance = Math.sqrt(distancePosX * distancePosX + distancePosY * distancePosY);
-                    if (distance < 700) {
-                        double slashCheckFront = (distancePosX / distance) * Math.cos(Math.toRadians(slash.getAngle())) + (distancePosY / distance) * Math.sin(Math.toRadians(slash.getAngle()));
-                        if (slashCheckFront > 0.90) {
-                            double slashDamage = 60 * (1 + player.getStatDamage() / 100);
-                            enemy.takeDamageAndEffectPlayer(player, slashDamage, damageTexts, false);
-                            enemy.smoothHitboxContactPushOut(Math.cos(Math.toRadians(slash.getAngle())) * 200,
-                                    Math.sin(Math.toRadians(slash.getAngle())) * 200,
-                                    0.08
-                            );
-                            slash.setSlashHit(true);
-                        }
-                    }
-                }
-                if (slash.isSlashHit())
-                    player.setCurrentStamina(player.getCurrentStamina() - 5);
-            }
-            if (slash.fade()) slashes.remove(i);
-
-        }
-
-        for (int i = jumpingSlashes.size() - 1; i >= 0; i--) {
-            JumpingSlash jumpingSlash = jumpingSlashes.get(i);
-            jumpingSlash.update(deltaTime);
-            for (Enemy enemy : enemies) {
-                if (!jumpingSlash.getEnemyList().contains(enemy)) {
-                    double distanceX = enemy.getPosX() - player.getPosX();
-                    double distanceY = enemy.getPosY() - player.getPosY();
-                    double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-                    if (distance < 300) {
-                        enemy.takeDamageAndEffectPlayer(player, 80* (1 + player.getStatDamage() / 100), damageTexts, false);
-                        enemy.smoothHitboxContactPushOut(-enemy.getFaceToX() * 300, -enemy.getFaceToY() * 300, 0.2);
-                        jumpingSlash.getEnemyList().add(enemy);
-                        player.setSlashCooldown(player.getSlashCooldown() - 0.01);
-                    }
-                }
-            }
-            player.setCanJumpingSlashOnce(false);
-            if (jumpingSlash.fade()) jumpingSlashes.remove(i);
-        }
-
-        for (int i = damageTexts.size() - 1; i >= 0; i--) {
-            DamageText damageText = damageTexts.get(i);
-            damageText.update(deltaTime);
-            if (damageText.isFade()) {
-                damageTexts.remove(i);
-            }
-        }
-
-        // Cross slash X
-        for (int i = crossSlashes.size() - 1; i >= 0; i--) {
-            CrossSlash crossSlash = crossSlashes.get(i);
-            crossSlash.update(deltaTime);
-            if (crossSlash.isFade()) {
-                crossSlashes.remove(i);
-            } else {
-                for (Enemy enemy : enemies) {
-                    if (!crossSlash.getHitEnemies().contains(enemy)) {
-                        double distanceX = enemy.getPosX() - crossSlash.getPosX();
-                        double distanceY = enemy.getPosY() - crossSlash.getPosY();
-                        if (distanceX * distanceX + distanceY * distanceY < 300 * 300) {
-                            crossSlash.getHitEnemies().add(enemy);
-                            double damage = 150 * (1 + player.getStatDamage() / 100);
-                            enemy.takeDamageAndEffectPlayer(player, damage, damageTexts, false);
-                            enemy.smoothHitboxContactPushOut(-player.getFaceToX() * 100, -player.getFaceToY() * 100, 0.2);
-                        }
-                    }
-                }
+        // Active Skills
+        for (int i = activeSkills.size() - 1; i >= 0; i--) {
+            ActiveSkill skill = activeSkills.get(i);
+            skill.updateSkill(deltaTime, this);
+            if (skill.isFinished()) {
+                activeSkills.remove(i);
             }
         }
 
@@ -725,29 +601,7 @@ public class World {
 
 
         // energy drink powerup
-        for (int i = energyDrinks.size() - 1; i >= 0; i--) {
-            EnergyDrink drink = energyDrinks.get(i);
-            if (player.checkCollision(drink) && !player.isJumping()) {
-                int type = drink.getDrinkType();
-                if (type == 0) {
-                    drinkShieldTimer = 5.0;
-                    player.setShielded(true);
-                }
-                else if (type == 1) {
-                    drinkSpeedTimer = 5.0;
-                    if (!drinkSpeedActive) {
-                        drinkSpeedActive = true;
-                        player.addSpeedMultiplier(1.0);
-                        player.setStatAtkSpeed(player.getStatAtkSpeed() + 20);
-                        for (Weapon weapon : weaponList) weapon.setBonusAttackSpeed(weapon.getBonusAttackSpeed() + 20);
-                    }
-                }
-                else if (type == 2) {
-                    drinkMagnetTimer = 5.0;
-                }
-                energyDrinks.remove(i);
-            }
-        }
+        checkCollection(energyDrinks, deltaTime);
         if (drinkShieldTimer > 0) {
             drinkShieldTimer -= deltaTime;
             if (drinkShieldTimer <= 0) player.setShielded(false);
@@ -928,7 +782,7 @@ public class World {
             SoundManager.jumpingSlashSound.play();
             player.triggerJumpingDashAttack();
             player.setCurrentStamina(player.getCurrentStamina() - 10 * player.getSkillStaminaMultiplier());
-            jumpingSlashes.add(new JumpingSlash(player.getPosX(), player.getPosY(), player.getPosZ(), player));
+            activeSkills.add(new JumpingSlash(player.getPosX(), player.getPosY(), player.getPosZ(), player));
             return;
         } else {
             SoundManager.skill1Sound.play();
@@ -938,7 +792,7 @@ public class World {
         double angle = Math.atan2(distanceY, distanceX);
         double slashPosX = player.getPosX() + Math.cos(angle) * 40;
         double slashPosY = player.getPosY() + Math.sin(angle) * 40;
-        slashes.add(new Slash(slashPosX, slashPosY, player.getPosZ(), Math.toDegrees(angle)));
+        activeSkills.add(new Slash(slashPosX, slashPosY, player.getPosZ(), Math.toDegrees(angle)));
     }
 
     public void triggerSlash() {
@@ -948,7 +802,7 @@ public class World {
             SoundManager.jumpingSlashSound.play();
             player.triggerJumpingDashAttack();
             player.setCurrentStamina(player.getCurrentStamina() - 10 * player.getSkillStaminaMultiplier());
-            jumpingSlashes.add(new JumpingSlash(player.getPosX(), player.getPosY(), player.getPosZ(), player));
+            activeSkills.add(new JumpingSlash(player.getPosX(), player.getPosY(), player.getPosZ(), player));
             return;
         } else {
             SoundManager.skill1Sound.play();
@@ -958,7 +812,7 @@ public class World {
         double angle = Math.atan2(distanceY, distanceX);
         double slashPosX = player.getPosX() + Math.cos(angle) * 40;
         double slashPosY = player.getPosY() + Math.sin(angle) * 40;
-        slashes.add(new Slash(slashPosX, slashPosY, player.getPosZ(), Math.toDegrees(angle)));
+        activeSkills.add(new Slash(slashPosX, slashPosY, player.getPosZ(), Math.toDegrees(angle)));
     }
 
 
@@ -971,7 +825,7 @@ public class World {
             double angle = Math.atan2(player.getFaceToY(), player.getFaceToX());
             double spawnX = player.getPosX() + (player.getFaceToX() * 400);
             double spawnY = player.getPosY() + (player.getFaceToY() * 400);
-            crossSlashes.add(new CrossSlash(spawnX, spawnY, angle));
+            activeSkills.add(new CrossSlash(spawnX, spawnY, angle));
         }
     }
 
@@ -1076,6 +930,21 @@ public class World {
     }
 
 
+    // collecting things
+    public void checkCollection(List<? extends Collectable> collectibles, double deltaTime) {
+        collectibles.removeIf(item -> {
+            item.updateCollectible(player, this, deltaTime);
+            GameObject gameObject = (GameObject) item;
+            if (player.checkCollision(gameObject) && !player.isJumping()) {
+                item.onCollect(player, this);
+                return true;
+            }
+            return false;
+        });
+
+    }
+
+
 
 
 
@@ -1156,20 +1025,12 @@ public class World {
         this.experience = experience;
     }
 
-    public List<Slash> getSlashes() {
-        return slashes;
+    public List<ActiveSkill> getActiveSkills() {
+        return activeSkills;
     }
 
-    public void setSlashes(List<Slash> slashes) {
-        this.slashes = slashes;
-    }
-
-    public List<JumpingSlash> getJumpingSlashes() {
-        return jumpingSlashes;
-    }
-
-    public void setJumpingSlashes(List<JumpingSlash> jumpingSlashes) {
-        this.jumpingSlashes = jumpingSlashes;
+    public void setActiveSkills(List<ActiveSkill> activeSkills) {
+        this.activeSkills = activeSkills;
     }
 
     public List<Arrow> getArrows() {
@@ -1361,13 +1222,7 @@ public class World {
         this.lightningEffects = lightningEffects;
     }
 
-    public List<CrossSlash> getCrossSlashes() {
-        return crossSlashes;
-    }
 
-    public void setCrossSlashes(List<CrossSlash> crossSlashes) {
-        this.crossSlashes = crossSlashes;
-    }
 
     public List<double[]> getBlackHoles() {
         return blackHoles;
@@ -1638,4 +1493,5 @@ public class World {
     public void setUltimateSoundCheck(int ultimateSoundCheck) {
         this.ultimateSoundCheck = ultimateSoundCheck;
     }
+
 }

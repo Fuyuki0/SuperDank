@@ -1,10 +1,10 @@
 package MyGame.GameObject.Items.Equipment;
 
 import MyGame.GameObject.Enemies.Enemy;
-import MyGame.GameObject.Items.Item;
-import MyGame.GameObject.Items.ItemRarity;
-import MyGame.GameObject.Player;
-import MyGame.World;
+import MyGame.Interface.Item;
+import MyGame.Rarity.ItemRarity;
+import MyGame.GameObject.Player.Player;
+import MyGame.Game.World;
 
 public class MagneticRepulsor implements Item {
     private double magneticRepulsorTimer = 3.0;

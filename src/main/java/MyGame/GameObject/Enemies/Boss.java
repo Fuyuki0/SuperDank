@@ -1,9 +1,7 @@
 package MyGame.GameObject.Enemies;
 
-import MyGame.GameObject.Player;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Effect;
-import javafx.scene.image.Image;
+import MyGame.Game.GameEngine;
+import MyGame.GameObject.Player.Player;
 import javafx.scene.paint.Color;
 
 public class Boss extends Enemy{
@@ -145,8 +143,40 @@ public class Boss extends Enemy{
     }
 
     @Override
-    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double margin, double screenWidth, double screenHeight, Effect hitFlash, Image enemyMech, Image chargerMech, Image bossMech) {
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        javafx.scene.effect.Effect hitFlash = engine.getHitFlash();
+        javafx.scene.image.Image enemyMech = engine.getEnemyMech();
+        javafx.scene.image.Image chargerMech = engine.getChargerMech();
+        javafx.scene.image.Image bossMech = engine.getBossMech();
 
+        // telegraph attack
+        gc.save();
+        gc.translate(-cameraPosX, -cameraPosY);
+        double maxTelegraphTime = this.getMaxStateTimer();
+        double progress = this.getStateTimer() / maxTelegraphTime;
+        if (progress > 1.0) progress = 1.0;
+        if (this.getCurrentState() == BossState.TELEGRAPH_CIRCLE) {
+            double maxRadius = 350;
+            double currentRadius = maxRadius * progress;
+            gc.setFill(Color.rgb(200, 0, 0, 0.2));
+            gc.setStroke(Color.RED);
+            gc.setLineWidth(2);
+            gc.fillOval(this.getAttackTargetPosX() - maxRadius, this.getAttackTargetPosY() - maxRadius, maxRadius * 2, maxRadius * 2);
+            gc.strokeOval(this.getAttackTargetPosX() - maxRadius, this.getAttackTargetPosY() - maxRadius, maxRadius * 2, maxRadius * 2);
+            gc.setFill(Color.rgb(255, 0, 0, 0.6));
+            gc.fillOval(this.getAttackTargetPosX() - currentRadius, this.getAttackTargetPosY() - currentRadius, currentRadius * 2, currentRadius * 2);
+        } else if (this.getCurrentState() == BossState.TELEGRAPH_ARC) {
+            double maxRadius = 550;
+            double currentRadius = maxRadius * progress;
+            double angle = 90;
+            double counterAngle = -this.getAttackAngle();
+            double startAngle = counterAngle - (angle / 2);
+            gc.setFill(Color.rgb(200, 0, 0, 0.2));
+            gc.fillArc(this.getPosX() - maxRadius, this.getPosY() - maxRadius, maxRadius * 2, maxRadius * 2, startAngle, angle, javafx.scene.shape.ArcType.ROUND);
+            gc.setFill(Color.rgb(255, 0, 0, 0.6));
+            gc.fillArc(this.getPosX() - currentRadius, this.getPosY() - currentRadius, currentRadius * 2, currentRadius * 2, startAngle, angle, javafx.scene.shape.ArcType.ROUND);
+        }
+        gc.restore();
         gc.setFill(Color.rgb(0, 0, 0, 0.4));
         double shadowWidth = 120;
         double shadowHeight = 30;

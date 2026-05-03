@@ -1,10 +1,10 @@
 package MyGame.GameObject.Weapon;
 
 import MyGame.GameObject.Enemies.Enemy;
-import MyGame.GameObject.Player;
+import MyGame.GameObject.Player.Player;
 import MyGame.GameObject.Projectile.LightningEffect;
-import MyGame.GameObject.SoundManager;
-import MyGame.World;
+import MyGame.Game.SoundManager;
+import MyGame.Game.World;
 
 import java.util.ArrayList;
 import java.util.List;

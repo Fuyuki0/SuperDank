@@ -1,15 +1,15 @@
 package MyGame.GameObject.Items.Equipment;
 
 import MyGame.GameObject.Enemies.Enemy;
-import MyGame.GameObject.Items.Item;
-import MyGame.GameObject.Items.ItemRarity;
-import MyGame.GameObject.Player;
-import MyGame.World;
+import MyGame.Interface.Item;
+import MyGame.Rarity.ItemRarity;
+import MyGame.GameObject.Player.Player;
+import MyGame.Game.World;
 
 import java.util.List;
 
-import static MyGame.Main.SCREEN_HEIGHT;
-import static MyGame.Main.SCREEN_WIDTH;
+import static MyGame.Game.Main.SCREEN_HEIGHT;
+import static MyGame.Game.Main.SCREEN_WIDTH;
 
 public class FinalWeapon implements Item {
     private double finalWeaponTimer = 0;

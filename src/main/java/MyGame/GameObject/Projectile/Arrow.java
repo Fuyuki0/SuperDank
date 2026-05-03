@@ -1,15 +1,14 @@
 package MyGame.GameObject.Projectile;
 
-import MyGame.GameEngine;
+import MyGame.Game.GameEngine;
 import MyGame.GameObject.Enemies.Enemy;
-import MyGame.World;
-import javafx.scene.canvas.GraphicsContext;
+import MyGame.Game.World;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static MyGame.Main.SCREEN_HEIGHT;
-import static MyGame.Main.SCREEN_WIDTH;
+import static MyGame.Game.Main.SCREEN_HEIGHT;
+import static MyGame.Game.Main.SCREEN_WIDTH;
 
 public class Arrow extends Projectile {
     private double speed = 1600;
@@ -130,7 +129,7 @@ public class Arrow extends Projectile {
     }
 
     @Override
-    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, GameEngine engine) {
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
         double frameWidth = 64;
         double frameHeight = 64;
         double scaleArrow = 1.1;

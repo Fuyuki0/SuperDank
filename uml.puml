@@ -1,210 +1,13 @@
 @startuml
 class MyGame.GameObject.Items.Equipment.MagneticRepulsor {
+- double magneticRepulsorTimer
 - ItemRarity itemRarity
 + String getName()
 + String getDescription()
 + void applyBuff(World)
++ void updateEffect(double,World,Player)
 + ItemRarity getItemRarity()
 + void setItemRarity(ItemRarity)
-}
-
-
-class MyGame.World {
-- boolean showMiniMap
-- Player player
-- List<Enemy> enemies
-- double enemySpawnTimer
-- double chargersSpawnTimer
-- double bossSpawnTimer
-- boolean bossIsAlive
-- List<Experience> experience
-- List<Slash> slashes
-- List<JumpingSlash> jumpingSlashes
-- List<CrossSlash> crossSlashes
-- boolean ultimateActive
-- double ultimateTimer
-- List<Weapon> weaponList
-- Bow bow
-- Sword sword
-- Aura aura
-- OrbitRock orbitRock
-- BoomerangWeapon boomerangWeapon
-- LightningWeapon lightningWeapon
-- List<Rock> rocks
-- List<Boomerang> boomerangs
-- List<Arrow> arrows
-- List<LightningEffect> lightningEffects
-- List<Chest> chests
-- List<Steak> steaks
-- Item item
-- List<Item> itemList
-- boolean gameStop
-- List<Obstacle> obstacles
-- double timeSurvived
-- List<DamageText> damageTexts
-- double difficultyMultiplier
-- double adrenalTimer
-- double adrenalCooldown
-- boolean adrenalActive
-- double magneticRepulsorTimer
-- double parasiticGasTimer
-- double mutatedBrainTimer
-- double rainbowTimer
-- List<MyGame.GameObject.Projectile.Explosion> explosions
-- double doomsdayTimer
-- int doomsdayLastStat
-- double hexEditorTimer
-- List<double[]> blackHoles
-- double repulsorVisualTimer
-- double gasVisualTimer
-- double finalWeaponTimer
-- List<double[]> glitchStrikes
-- List<EnergyDrink> energyDrinks
-- double energyDrinkTimer
-- boolean energyDrinkActive
-- double drinkShieldTimer
-- double drinkSpeedTimer
-- boolean drinkSpeedActive
-- double drinkMagnetTimer
-- double screenShakeTimer
-- double screenShakeIntensity
-- boolean uiNeedsUpdate
-+ void mapGenerate()
-+ void update(double,double,double)
-+ boolean insideObstacle(double,double)
-+ void spawnEnemy(int)
-+ void openingChest()
-+ {static} ItemRarity chestGachaRarity(Player)
-+ void resumeGame()
-+ void triggerSlash(double,double)
-+ void triggerSlash()
-+ void triggerCrossSlash()
-+ void triggerUltimate()
-+ int getWeaponLevel(WeaponType)
-+ void upgradeExistWeapon(Weapon,Rarity)
-+ boolean isExistWeapon(Weapon)
-+ void addNewWeapon(Weapon)
-+ void addItem(Item)
-+ boolean hasItem(String)
-+ void triggerScreenShake(double,double)
-+ boolean isShowMiniMap()
-+ void setShowMiniMap(boolean)
-+ Player getPlayer()
-+ void setPlayer(Player)
-+ List<Enemy> getEnemies()
-+ void setEnemies(List<Enemy>)
-+ double getEnemySpawnTimer()
-+ void setEnemySpawnTimer(double)
-+ List<Experience> getExperience()
-+ void setExperience(List<Experience>)
-+ List<Slash> getSlashes()
-+ void setSlashes(List<Slash>)
-+ List<JumpingSlash> getJumpingSlashes()
-+ void setJumpingSlashes(List<JumpingSlash>)
-+ List<Arrow> getArrows()
-+ void setArrows(List<Arrow>)
-+ Bow getBow()
-+ void setBow(Bow)
-+ Sword getSword()
-+ void setSword(Sword)
-+ Aura getAura()
-+ void setAura(Aura)
-+ OrbitRock getOrbitRock()
-+ void setOrbitRock(OrbitRock)
-+ List<Chest> getChests()
-+ void setChests(List<Chest>)
-+ List<Steak> getSteaks()
-+ void setSteaks(List<Steak>)
-+ Item getItem()
-+ void setItem(Item)
-+ boolean isGameStop()
-+ void setGameStop(boolean)
-+ double getTimeSurvived()
-+ void setTimeSurvived(double)
-+ double getScreenShakeTimer()
-+ double getScreenShakeIntensity()
-+ List<DamageText> getDamageTexts()
-+ void setDamageTexts(List<DamageText>)
-+ List<Rock> getRocks()
-+ void setRocks(List<Rock>)
-+ double getChargersSpawnTimer()
-+ void setChargersSpawnTimer(double)
-+ List<Boomerang> getBoomerangs()
-+ void setBoomerangs(List<Boomerang>)
-+ BoomerangWeapon getBoomerangWeapon()
-+ void setBoomerangWeapon(BoomerangWeapon)
-+ List<Weapon> getWeaponList()
-+ double getBossSpawnTimer()
-+ void setBossSpawnTimer(double)
-+ boolean isBossIsAlive()
-+ void setBossIsAlive(boolean)
-+ List<Item> getItemList()
-+ void setItemList(List<Item>)
-+ double getDifficultyMultiplier()
-+ void setDifficultyMultiplier(double)
-+ List<Obstacle> getObstacles()
-+ void setObstacles(List<Obstacle>)
-+ LightningWeapon getLightningWeapon()
-+ void setLightningWeapon(LightningWeapon)
-+ List<LightningEffect> getLightningEffects()
-+ void setLightningEffects(List<LightningEffect>)
-+ List<CrossSlash> getCrossSlashes()
-+ void setCrossSlashes(List<CrossSlash>)
-+ double getAdrenalTimer()
-+ void setAdrenalTimer(double)
-+ boolean isAdrenalActive()
-+ void setAdrenalActive(boolean)
-+ double getMagneticRepulsorTimer()
-+ void setMagneticRepulsorTimer(double)
-+ double getParasiticGasTimer()
-+ void setParasiticGasTimer(double)
-+ double getMutatedBrainTimer()
-+ void setMutatedBrainTimer(double)
-+ double getDoomsdayTimer()
-+ void setDoomsdayTimer(double)
-+ int getDoomsdayLastStat()
-+ void setDoomsdayLastStat(int)
-+ double getHexEditorTimer()
-+ void setHexEditorTimer(double)
-+ List<double[]> getBlackHoles()
-+ void setBlackHoles(List<double[]>)
-+ double getRainbowTimer()
-+ void setRainbowTimer(double)
-+ List<Explosion> getExplosions()
-+ void setExplosions(List<Explosion>)
-+ double getRepulsorVisualTimer()
-+ void setRepulsorVisualTimer(double)
-+ double getGasVisualTimer()
-+ void setGasVisualTimer(double)
-+ double getAdrenalCooldown()
-+ void setAdrenalCooldown(double)
-+ double getFinalWeaponTimer()
-+ void setFinalWeaponTimer(double)
-+ void setGlitchStrikes(List<double[]>)
-+ List<EnergyDrink> getEnergyDrinks()
-+ void setEnergyDrinks(List<EnergyDrink>)
-+ double getEnergyDrinkTimer()
-+ void setEnergyDrinkTimer(double)
-+ boolean isEnergyDrinkActive()
-+ void setEnergyDrinkActive(boolean)
-+ double getDrinkShieldTimer()
-+ void setDrinkShieldTimer(double)
-+ double getDrinkSpeedTimer()
-+ void setDrinkSpeedTimer(double)
-+ boolean isDrinkSpeedActive()
-+ void setDrinkSpeedActive(boolean)
-+ double getDrinkMagnetTimer()
-+ void setDrinkMagnetTimer(double)
-+ boolean isUltimateActive()
-+ void setUltimateActive(boolean)
-+ double getUltimateTimer()
-+ void setUltimateTimer(double)
-+ void setScreenShakeTimer(double)
-+ void setScreenShakeIntensity(double)
-+ boolean isUiNeedsUpdate()
-+ void setUiNeedsUpdate(boolean)
-+ List<double[]> getGlitchStrikes()
-+ void setWeaponList(List<Weapon>)
 }
 
 
@@ -217,9 +20,9 @@ class MyGame.GameObject.Weapon.Cores.VectorCore {
 }
 
 class MyGame.GameObject.Projectile.Explosion {
-- double posX
-- double timer
 - double MAX_TIMER
+- double timer
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
 + void update(double)
 + boolean isFade()
 + double opacity()
@@ -234,64 +37,34 @@ class MyGame.GameObject.Projectile.Explosion {
 }
 
 
-class MyGame.Main {
-+ {static} int SCREEN_WIDTH
-+ {static} int SCREEN_HEIGHT
-+ GameState currentState
-- VBox mainMenu
-- VBox settingMenu
-- BorderPane uiLayer
-- Pane rouletteWindow
-- VBox gambaPopup
-- HBox itemBox
-- StackPane holdDynamicRoulette
-- VBox holdDynamicStat
-- Button acceptRouletteButton
-- Button refreshButton
-- Button skipButton
-- int freeRefresh
-- int refreshCost
-- Button continueGameButton
-- Button returnMainMenuButton
-- TranslateTransition spinningAnimation
-- PauseTransition pauseTransition
-- Weapon winningWeapon
-- Weapon randomWeapon
-- Button createCustomButton(String)
-+ void refreshButtonState(Player)
-- Rarity gachaRarity(Player)
-- VBox generateBonusStatDatabase(Weapon)
-- void rouletteDatabase(World)
-+ void triggerPopupLevelUp(GameEngine)
-- TranslateTransition getTranslateTransition(double,int)
-+ {static} void main(String[])
-+ void start(Stage)
-}
-
-
-enum MyGame.GameState {
-+  Menu
-+  Play
-+  Setting
-}
-
-enum MyGame.GameObject.Items.ItemRarity {
-+  Stock
-+  Modified
-+  Prototype
-+  Artifact
-+  Ultimate
+enum MyGame.Rarity.Rarity {
++  Common
++  Uncommon
++  Rare
++  Epic
++  Legendary
++  Abysmal
++  Divine
 - Color color
+- double multiplyBonusWeapon
+- double multiplyBonusCore
 + Color getColor()
++ void setColor(Color)
++ double getMultiplyBonusWeapon()
++ double getMultiplyBonusCore()
++ void setMultiplyBonusCore(double)
++ void setMultiplyBonusWeapon(double)
 }
 
 
-class MyGame.GameObject.CompareEnemies {
-- GameObject object_1
-- Comparator<GameObject> objectComparator
-+ void useComparator(List<Enemy>)
+interface MyGame.Interface.Renderable {
+~ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
 }
 
+interface MyGame.Interface.Collectable {
+~ void onCollect(Player,World)
+~ void updateCollectible(Player,World,double)
+}
 
 enum MyGame.GameObject.Weapon.WeaponType {
 +  SWORD
@@ -324,35 +97,61 @@ class MyGame.GameObject.Items.Equipment.NecroticHeart {
 + String getName()
 + String getDescription()
 + void applyBuff(World)
++ void updateEffect(double,World,Player)
 + ItemRarity getItemRarity()
 + void setItemRarity(ItemRarity)
 }
 
 
-class MyGame.GameObject.Skill.Skill_1.Slash {
-- double posX
-- double posY
-- double posZ
-- double angle
-- double timer
-- double MAX_TIMER
-- boolean slashHit
-+ void update(double)
-+ boolean fade()
-+ double opacity()
-+ double getPosX()
-+ void setPosX(double)
-+ double getPosY()
-+ void setPosY(double)
-+ double getAngle()
-+ void setAngle(double)
-+ double getTimer()
-+ void setTimer(double)
-+ double getMAX_TIMER()
-+ boolean isSlashHit()
-+ void setSlashHit(boolean)
-+ double getPosZ()
-+ void setPosZ(double)
+class MyGame.Game.Main {
++ {static} double SCREEN_WIDTH
++ {static} double SCREEN_HEIGHT
++ GameState currentState
+- VBox mainMenu
+- VBox settingMenu
+- BorderPane uiLayer
+- Pane rouletteWindow
+- VBox gambaPopup
+- HBox itemBox
+- StackPane holdDynamicRoulette
+- VBox holdDynamicStat
+- Button acceptRouletteButton
+- Button refreshButton
+- Button skipButton
+- int freeRefresh
+- int refreshCost
+- Button continueGameButton
+- Button returnMainMenuButton
+- TranslateTransition spinningAnimation
+- PauseTransition pauseTransition
+- Weapon winningWeapon
+- Weapon randomWeapon
+- Button createCustomButton(String)
++ void refreshButtonState(Player)
+- Rarity gachaRarity(Player)
+- VBox generateBonusStatDatabase(Weapon)
+- void rouletteDatabase(World)
++ void triggerPopupLevelUp(GameEngine)
+- TranslateTransition getTranslateTransition(double,int)
++ void warmUpEngine(GraphicsContext,GameEngine)
++ {static} void main(String[])
++ void start(Stage)
+}
+
+
+enum MyGame.Game.GameState {
++  Menu
++  Play
++  Setting
+}
+
+class MyGame.GameObject.Skill.Ultimate {
+- double ultimateTimer
++ void updateSkill(double,World)
++ boolean isFinished()
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ double getUltimateTimer()
++ void setUltimateTimer(double)
 }
 
 
@@ -361,8 +160,19 @@ class MyGame.GameObject.Items.Equipment.DeepestVoid {
 + String getName()
 + String getDescription()
 + void applyBuff(World)
++ void updateEffect(double,World,Player)
 + ItemRarity getItemRarity()
 + void setItemRarity(ItemRarity)
+}
+
+
+class MyGame.GameObject.Enemies.CompareEnemies {
+- GameObject object_1
+- List<Enemy> object_2
+- Comparator<GameObject> objectComparator
++ void useComparator(List<Enemy>)
++ List<Enemy> getObject_2()
++ void setObject_2(List<Enemy>)
 }
 
 
@@ -379,16 +189,21 @@ class MyGame.GameObject.Enemies.Enemy {
 # double maxHealth
 # double knockBackVelocityX
 # double knockBackVelocityY
-- boolean isCharger
+# boolean isCharger
 # boolean isBoss
+- int currentFrame
+- double animationTimer
+- int animationState
+# double flashTimer
 + void doDamage(Player,double)
 + void takeDamageAndEffectPlayer(Player,double,List<DamageText>,boolean)
 + boolean isDead()
 + void smoothHitboxContactPushOut(double,double,double)
 + void updateKnockBack(double)
 + void update(double)
-+ String type()
-+ void charger(double,double)
++ void updateAnimation(double)
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
+# void pushObject(GameObject,double,double)
 + void addMaxHealth(double)
 + Player getPlayer()
 + double getSpeed()
@@ -420,14 +235,29 @@ class MyGame.GameObject.Enemies.Enemy {
 + void setMaxHealth(double)
 + boolean isBoss()
 + void setBoss(boolean)
++ int getCurrentFrame()
++ void setCurrentFrame(int)
++ double getAnimationTimer()
++ void setAnimationTimer(double)
++ int getAnimationState()
++ void setAnimationState(int)
++ double getFlashTimer()
++ void setFlashTimer(double)
 }
 
+
+class MyGame.GameObject.Enemies.Charger {
++ void update(double)
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ boolean isCharger()
+}
 
 class MyGame.GameObject.Items.Equipment.NeuroAmplifier {
 - ItemRarity itemRarity
 + String getName()
 + String getDescription()
 + void applyBuff(World)
++ void updateEffect(double,World,Player)
 + ItemRarity getItemRarity()
 + void setItemRarity(ItemRarity)
 }
@@ -461,7 +291,7 @@ abstract class MyGame.GameObject.Weapon.Weapon {
 # double bonusCritDmg
 # double bonusSize
 # double bonusProjCount
-+ void update(double,World,boolean)
++ void update(double,World)
 + void coreUpgrade(World,double)
 + void applyCoreEffect(Weapon,double)
 + String[] getWeaponStat()
@@ -473,6 +303,7 @@ abstract class MyGame.GameObject.Weapon.Weapon {
 + void addBonusProjCount(double)
 # {abstract}void playerAttack(World)
 + {abstract}String getName()
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
 + double getCooldown()
 + void setCooldown(double)
 + double getTimer()
@@ -521,26 +352,263 @@ enum MyGame.GameObject.Weapon.AmountType {
 +  Amount
 }
 
-class MyGame.GameObject.Skill.Skill_1.CrossSlash {
-- double posX
-- double angle
-- double timer
-- double MAX_TIMER
-- List<Enemy> hitEnemies
+class MyGame.Game.World {
+- boolean showMiniMap
+- Player player
+- List<Enemy> enemies
+- double enemySpawnTimer
+- double chargersSpawnTimer
+- double bossSpawnTimer
+- boolean bossIsAlive
+- double chargerWaveTimer
+- int currentCrystalFrame
+- double crystalAnimationTimer
+- int currentExplosionFrame
+- double explosionAnimationTimer
+- int currentBlackholeFrame
+- double blackholeAnimationTimer
+- int currentFinalWeaponFrame
+- double finalWeaponAnimationTimer
+- int currentEnteringFrame
+- double enteringAnimationTimer
+- boolean entering
+- List<Experience> experience
+- List<ActiveSkill> activeSkills
+- Ultimate ultimate
+- boolean ultimateActive
+- List<Weapon> weaponList
+- Bow bow
+- Sword sword
+- Aura aura
+- OrbitRock orbitRock
+- BoomerangWeapon boomerangWeapon
+- LightningWeapon lightningWeapon
+- List<Rock> rocks
+- List<Boomerang> boomerangs
+- List<Arrow> arrows
+- List<LightningEffect> lightningEffects
+- List<Projectile> projectiles
+- List<Chest> chests
+- List<Steak> steaks
+- Item item
+- List<Item> itemList
+- boolean gameStop
+- List<Obstacle> obstacles
+- double timeSurvived
+- List<DamageText> damageTexts
+- double difficultyMultiplier
+- double adrenalCooldown
+- List<Explosion> explosions
+- List<double[]> blackHoles
+- double rainbowTimer
+- double repulsorVisualTimer
+- double gasVisualTimer
+- List<double[]> glitchStrikes
+- List<EnergyDrink> energyDrinks
+- double energyDrinkTimer
+- boolean energyDrinkActive
+- double drinkShieldTimer
+- double drinkSpeedTimer
+- boolean drinkSpeedActive
+- double drinkMagnetTimer
+- double screenShakeTimer
+- double screenShakeIntensity
+- boolean uiNeedsUpdate
+- int enteringSoundCheck
+- int ultimateSoundCheck
++ void mapGenerate()
 + void update(double)
-+ boolean isFade()
-+ double opacity()
-+ double getPosX()
-+ void setPosX(double)
-+ double getPosY()
-+ void setPosY(double)
-+ double getAngle()
-+ void setAngle(double)
-+ double getTimer()
-+ void setTimer(double)
-+ double getMAX_TIMER()
-+ List<Enemy> getHitEnemies()
-+ void setHitEnemies(List<Enemy>)
++ boolean insideObstacle(double,double)
++ void spawnEnemy(int)
++ void triggerSlash(double,double)
++ void triggerSlash()
++ void triggerCrossSlash()
++ void triggerUltimate()
++ int getWeaponLevel(WeaponType)
++ void upgradeExistWeapon(Weapon,Rarity)
++ boolean isExistWeapon(Weapon)
++ void addNewWeapon(Weapon)
++ void addItem(Item)
++ boolean hasItem(String)
++ void checkCollection(List<? extends Collectable>,double)
++ void triggerScreenShake(double,double)
++ void pauseGame()
++ void resumeGame()
++ boolean isShowMiniMap()
++ void setShowMiniMap(boolean)
++ Player getPlayer()
++ void setPlayer(Player)
++ List<Enemy> getEnemies()
++ void setEnemies(List<Enemy>)
++ double getEnemySpawnTimer()
++ void setEnemySpawnTimer(double)
++ List<Experience> getExperience()
++ void setExperience(List<Experience>)
++ List<ActiveSkill> getActiveSkills()
++ void setActiveSkills(List<ActiveSkill>)
++ List<Arrow> getArrows()
++ void setArrows(List<Arrow>)
++ Bow getBow()
++ void setBow(Bow)
++ Sword getSword()
++ void setSword(Sword)
++ Aura getAura()
++ void setAura(Aura)
++ OrbitRock getOrbitRock()
++ void setOrbitRock(OrbitRock)
++ List<Chest> getChests()
++ void setChests(List<Chest>)
++ List<Steak> getSteaks()
++ void setSteaks(List<Steak>)
++ Item getItem()
++ void setItem(Item)
++ boolean isGameStop()
++ void setGameStop(boolean)
++ double getTimeSurvived()
++ void setTimeSurvived(double)
++ double getScreenShakeTimer()
++ double getScreenShakeIntensity()
++ List<DamageText> getDamageTexts()
++ void setDamageTexts(List<DamageText>)
++ List<Rock> getRocks()
++ void setRocks(List<Rock>)
++ double getChargersSpawnTimer()
++ void setChargersSpawnTimer(double)
++ List<Boomerang> getBoomerangs()
++ void setBoomerangs(List<Boomerang>)
++ BoomerangWeapon getBoomerangWeapon()
++ void setBoomerangWeapon(BoomerangWeapon)
++ List<Weapon> getWeaponList()
++ double getBossSpawnTimer()
++ void setBossSpawnTimer(double)
++ boolean isBossIsAlive()
++ void setBossIsAlive(boolean)
++ List<Item> getItemList()
++ void setItemList(List<Item>)
++ double getDifficultyMultiplier()
++ void setDifficultyMultiplier(double)
++ List<Obstacle> getObstacles()
++ void setObstacles(List<Obstacle>)
++ LightningWeapon getLightningWeapon()
++ void setLightningWeapon(LightningWeapon)
++ List<LightningEffect> getLightningEffects()
++ void setLightningEffects(List<LightningEffect>)
++ List<double[]> getBlackHoles()
++ void setBlackHoles(List<double[]>)
++ double getRainbowTimer()
++ void setRainbowTimer(double)
++ List<Explosion> getExplosions()
++ void setExplosions(List<Explosion>)
++ double getRepulsorVisualTimer()
++ void setRepulsorVisualTimer(double)
++ double getGasVisualTimer()
++ void setGasVisualTimer(double)
++ int getCurrentFinalWeaponFrame()
++ void setCurrentFinalWeaponFrame(int)
++ double getFinalWeaponAnimationTimer()
++ void setFinalWeaponAnimationTimer(double)
++ void setGlitchStrikes(List<double[]>)
++ List<EnergyDrink> getEnergyDrinks()
++ void setEnergyDrinks(List<EnergyDrink>)
++ double getEnergyDrinkTimer()
++ void setEnergyDrinkTimer(double)
++ boolean isEnergyDrinkActive()
++ void setEnergyDrinkActive(boolean)
++ double getDrinkShieldTimer()
++ void setDrinkShieldTimer(double)
++ double getDrinkSpeedTimer()
++ void setDrinkSpeedTimer(double)
++ boolean isDrinkSpeedActive()
++ void setDrinkSpeedActive(boolean)
++ double getDrinkMagnetTimer()
++ void setDrinkMagnetTimer(double)
++ boolean isUltimateActive()
++ void setUltimateActive(boolean)
++ void setScreenShakeTimer(double)
++ double getChargerWaveTimer()
++ void setChargerWaveTimer(double)
++ double getAdrenalCooldown()
++ void setAdrenalCooldown(double)
++ void setScreenShakeIntensity(double)
++ boolean isUiNeedsUpdate()
++ void setUiNeedsUpdate(boolean)
++ List<double[]> getGlitchStrikes()
++ int getCurrentCrystalFrame()
++ void setCurrentCrystalFrame(int)
++ double getCrystalAnimationTimer()
++ void setCrystalAnimationTimer(double)
++ int getCurrentExplosionFrame()
++ void setCurrentExplosionFrame(int)
++ double getExplosionAnimationTimer()
++ void setExplosionAnimationTimer(double)
++ int getCurrentBlackholeFrame()
++ void setCurrentBlackholeFrame(int)
++ double getBlackholeAnimationTimer()
++ void setBlackholeAnimationTimer(double)
++ int getCurrentEnteringFrame()
++ void setCurrentEnteringFrame(int)
++ double getEnteringAnimationTimer()
++ void setEnteringAnimationTimer(double)
++ boolean isEntering()
++ void setEntering(boolean)
++ void setWeaponList(List<Weapon>)
++ int getEnteringSoundCheck()
++ void setEnteringSoundCheck(int)
++ int getUltimateSoundCheck()
++ List<Projectile> getProjectiles()
++ void setProjectiles(List<Projectile>)
++ Ultimate getUltimate()
++ void setUltimate(Ultimate)
++ void setUltimateSoundCheck(int)
+}
+
+
+class MyGame.Game.GameAssets {
++ {static} Font FONT_12
++ {static} Font FONT_15
++ {static} Font FONT_16
++ {static} Font FONT_20
++ {static} Font FONT_24
++ {static} Font FONT_30
++ {static} Font FONT_35
++ {static} Font FONT_40
++ {static} Font FONT_50
++ {static} Font FONT_60
++ {static} Font FONT_100
++ {static} Font BOLD_14
++ {static} Font BOLD_30
++ {static} Font BOLD_35
++ {static} Font BOLD_80
++ {static} Font BOLD_100
++ Image playerMech
++ Image enemyMech
++ Image chargerMech
++ Image bossMech
++ Image tile
++ WritableImage tileNormal
++ WritableImage tileCracked
++ Image props
++ Image crystal
++ Image gem
++ Image arrowImage
++ Image boomerangImage
++ Image rockImage
++ Image lightningImage
++ Image lightningImage2
++ Image slashImage
++ Image crossSlashImage
++ Image jumpingSlashImage
++ Image swordImage
++ Image auraImage
++ Image explosionImage
++ Image blackholeImage
++ Image glitchImage
++ Image enteringImage
++ Image crackedImage
++ Image bossBarImage
++ Image[] fireFrames
+- Image img(String)
+- {static} Font loadFont(double,boolean)
 }
 
 
@@ -552,20 +620,21 @@ class MyGame.GameObject.Weapon.Cores.OverHeatCore {
 + String getName()
 }
 
-class MyGame.GameObject.Chest {
-+ void update(double)
-+ String type()
-}
-
 class MyGame.GameObject.Items.Equipment.EngineOverload {
 - ItemRarity itemRarity
 + String getName()
 + String getDescription()
 + void applyBuff(World)
++ void updateEffect(double,World,Player)
 + ItemRarity getItemRarity()
 + void setItemRarity(ItemRarity)
 }
 
+
+interface MyGame.Interface.ActiveSkill {
+~ void updateSkill(double,World)
+~ boolean isFinished()
+}
 
 class MyGame.GameObject.Weapon.Cores.SurgeCore {
 + String[] getWeaponStat()
@@ -581,8 +650,8 @@ abstract class MyGame.GameObject.GameObject {
 + void hitboxContactPushOut(double,double)
 + boolean checkCollision(GameObject)
 + void push(GameObject)
+# void pushObject(GameObject,double,double)
 # {abstract}void update(double)
-# {abstract}String type()
 + double getPosY()
 + void setPosY(double)
 + double getPosX()
@@ -593,14 +662,10 @@ abstract class MyGame.GameObject.GameObject {
 
 
 class MyGame.GameObject.Obstacle {
-- double posX
-- double posY
 - double width
 - double height
-+ double getPosX()
-+ void setPosX(double)
-+ double getPosY()
-+ void setPosY(double)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
++ void update(double)
 + double getWidth()
 + void setWidth(double)
 + double getHeight()
@@ -615,64 +680,53 @@ class MyGame.GameObject.Weapon.Cores.EntropyCore {
 + String getName()
 }
 
-class MyGame.GameEngine {
-- Main.GameState currentGameState
-- World world
-- Controller controller
-- Camera camera
-- GraphicsContext gc
-- Canvas canvas
-- ProgressBar healthBar
-- Label healthLabel
-- ProgressBar staminaBar
-- Label staminaLabel
-- ProgressBar experienceBar
-- Label levelLabel
-- VBox chestUIPopup
-- Label itemName
-- Label itemRarityLabel
-- Label itemDescribe
-- Button chestContinueButton
-- Button chestSkipButton
-- Label killcountlabel
-- Label coinCountLabel
-- Label timeSurvivedLabel
-- VBox topLeftWeaponHang
-- boolean isNowOverHealed
-- boolean chestDelayActive
-- Runnable levelUpCallBack
-- boolean isLevelUpCallBack
-- Runnable gameOverCallBack
-- {static} Font FONT_15
-- {static} Font FONT_20
-- {static} Font FONT_24
-- {static} Font FONT_30
-- {static} Font FONT_35
-+ AnimationTimer loop
-+ void start()
-+ void renderGame()
-+ void updateLeftPanelUI()
-+ void setGameLoop()
-+ void setWorld(World)
-+ World getWorld()
-+ Camera getCamera()
-+ void setCurrentGameState(Main.GameState)
-+ void setControl(Scene,World,Camera)
-+ Runnable getLevelUpCallBack()
-+ void setLevelUpCallBack(Runnable)
-+ boolean isLevelUpCallBack()
-+ Runnable getGameOverCallBack()
-+ void setGameOverCallBack(Runnable)
-+ void setLevelUpCallBack(boolean)
+class MyGame.GameObject.Skill.CrossSlash {
+- double posX
+- double angle
+- double timer
+- double MAX_TIMER
+- List<Enemy> hitEnemies
+- int currentFrame
+- double animationTimer
++ void update(double)
++ void updateSkill(double,World)
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ boolean isFinished()
++ boolean isFade()
++ double opacity()
++ double getPosX()
++ void setPosX(double)
++ double getPosY()
++ void setPosY(double)
++ double getAngle()
++ void setAngle(double)
++ double getTimer()
++ void setTimer(double)
++ double getMAX_TIMER()
++ List<Enemy> getHitEnemies()
++ int getCurrentFrame()
++ void setCurrentFrame(int)
++ double getAnimationTimer()
++ void setAnimationTimer(double)
++ void setHitEnemies(List<Enemy>)
 }
 
 
 class MyGame.GameObject.Weapon.Sword {
+- int currentFrame
+- double animationTimer
 + boolean isAttacking()
 + String[] getWeaponStat()
++ void update(double,World)
 + void playerAttack(World)
++ int getCurrentFrame()
++ void setCurrentFrame(int)
++ double getAnimationTimer()
++ void setAnimationTimer(double)
 + String getName()
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
 }
+
 
 class MyGame.GameObject.Weapon.Cores.PlasmaCore {
 + String[] getWeaponStat()
@@ -682,6 +736,48 @@ class MyGame.GameObject.Weapon.Cores.PlasmaCore {
 + String getName()
 }
 
+class MyGame.GameObject.Skill.JumpingSlash {
+- double PosX
+- double PosY
+- double PosZ
+- Player player
+- List<Enemy> enemyList
+- double timer
+- double MAX_TIMER
+- int currentFrame
+- double animationTimer
++ void update(double)
++ void updateSkill(double,World)
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ boolean isFinished()
++ boolean fade()
++ double opacity()
++ Player getPlayer()
++ void setPlayer(Player)
++ List<Enemy> getEnemyList()
++ void setEnemyList(List<Enemy>)
++ double getTimer()
++ void setTimer(double)
++ double getMAX_TIMER()
++ double getPosX()
++ void setPosX(double)
++ double getPosY()
++ void setPosY(double)
++ double getPosZ()
++ int getCurrentFrame()
++ void setCurrentFrame(int)
++ double getAnimationTimer()
++ void setAnimationTimer(double)
++ void setPosZ(double)
+}
+
+
+class MyGame.GameObject.Items.Collectable.Chest {
++ void update(double)
++ void onCollect(Player,World)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
+}
+
 class MyGame.GameObject.Projectile.Rock {
 - int pierceCount
 - boolean isBroken
@@ -689,10 +785,16 @@ class MyGame.GameObject.Projectile.Rock {
 - double spawnDuration
 - double currentRelativeAngle
 - double targetRelativeAngle
+- int currentFrame
+- double animationTimer
 + void update(double,World)
+# void update(double)
++ void updateProj(double,World)
++ boolean isDone()
 + double spawn()
 + boolean isBroken()
 + void hitEnemy()
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
 + String type()
 + int getPierceCount()
 + void setPierceCount(int)
@@ -705,6 +807,10 @@ class MyGame.GameObject.Projectile.Rock {
 + void setCurrentRelativeAngle(double)
 + double getTargetRelativeAngle()
 + void setTargetRelativeAngle(double)
++ int getCurrentFrame()
++ void setCurrentFrame(int)
++ double getAnimationTimer()
++ void setAnimationTimer(double)
 }
 
 
@@ -723,6 +829,7 @@ class MyGame.GameObject.Items.Equipment.SoulHarvester {
 + String getName()
 + String getDescription()
 + void applyBuff(World)
++ void updateEffect(double,World,Player)
 + ItemRarity getItemRarity()
 + void setItemRarity(ItemRarity)
 }
@@ -734,12 +841,14 @@ class MyGame.GameObject.Items.PowerUp.Steak {
 + String getName()
 + String getDescription()
 + void applyBuff(World)
++ void updateEffect(double,World,Player)
 + void update(double)
-+ String type()
++ void onCollect(Player,World)
 + int getHealAmount()
 + void setHealAmount(int)
 + ItemRarity getItemRarity()
 + void setItemRarity(ItemRarity)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
 }
 
 
@@ -753,8 +862,8 @@ class MyGame.GameObject.DamageText {
 - boolean isCrit
 + double getDamageTextOpacity()
 + boolean isFade()
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
 + void update(double)
-+ String type()
 + double getPosX()
 + void setPosX(double)
 + double getPosY()
@@ -777,26 +886,6 @@ class MyGame.GameObject.Weapon.BoomerangWeapon {
 + String getName()
 }
 
-enum MyGame.Rarity {
-+  Common
-+  Uncommon
-+  Rare
-+  Epic
-+  Legendary
-+  Abysmal
-+  Divine
-- Color color
-- double multiplyBonusWeapon
-- double multiplyBonusCore
-+ Color getColor()
-+ void setColor(Color)
-+ double getMultiplyBonusWeapon()
-+ double getMultiplyBonusCore()
-+ void setMultiplyBonusCore(double)
-+ void setMultiplyBonusWeapon(double)
-}
-
-
 class MyGame.GameObject.Weapon.Cores.ChaosCore {
 + String[] getWeaponStat()
 + void coreUpgrade(World,double)
@@ -804,391 +893,7 @@ class MyGame.GameObject.Weapon.Cores.ChaosCore {
 + String getName()
 }
 
-class MyGame.GameObject.Weapon.LightningWeapon {
-+ String[] getWeaponStat()
-+ void playerAttack(World)
-+ String getName()
-}
-
-class MyGame.GameObject.Weapon.Cores.MatrixCore {
-+ String[] getWeaponStat()
-+ void coreUpgrade(World,double)
-+ void applyCoreEffect(Weapon,double)
-+ void playerAttack(World)
-+ String getName()
-}
-
-class MyGame.GameObject.Projectile.Arrow {
-- double speed
-- double velocityX
-- double velocityY
-- double faceToX
-- double faceToY
-- double angle
-- int pierceCount
-- double fadeTimer
-- List<Enemy> hitEnemies
-+ void setFaceTo(double,double)
-+ void checkBound(double,double,double,double)
-+ boolean canPierce()
-+ boolean hitEnemy(Enemy)
-+ void update(double)
-+ boolean isFade()
-+ double opacity()
-+ String type()
-+ double getFaceToY()
-+ void setFaceToY(double)
-+ double getFaceToX()
-+ void setFaceToX(double)
-+ double getSpeed()
-+ void setSpeed(double)
-+ double getVelocityX()
-+ void setVelocityX(double)
-+ double getVelocityY()
-+ void setVelocityY(double)
-+ int getPierceCount()
-+ void setPierceCount(int)
-+ double getFadeTimer()
-+ void setFadeTimer(double)
-+ List<Enemy> getHitEnemies()
-+ double getAngle()
-+ void setAngle(double)
-+ void setHitEnemies(List<Enemy>)
-}
-
-
-class MyGame.GameObject.Enemies.Boss {
-- BossState currentState
-- double cooldown
-- double maxCooldown
-- double telegraphTimer
-- double attackTargetPosX
-- double attackTargetPosY
-- double attackAngle
-- double dashTimer
-- double dashToX
-- double dashToY
-- double dashSpeed
-+ void update(double,Player,double)
-+ void telegraphAttack(Player)
-+ void attack(Player,double)
-+ BossState getCurrentState()
-+ void setCurrentState(BossState)
-+ double getCooldown()
-+ void setCooldown(double)
-+ double getTelegraphTimer()
-+ void setTelegraphTimer(double)
-+ double getAttackTargetPosX()
-+ void setAttackTargetPosX(double)
-+ double getAttackTargetPosY()
-+ void setAttackTargetPosY(double)
-+ double getAttackAngle()
-+ double getDashTimer()
-+ void setDashTimer(double)
-+ double getDashToX()
-+ void setDashToX(double)
-+ double getDashToY()
-+ void setDashToY(double)
-+ double getDashSpeed()
-+ void setDashSpeed(double)
-+ double getMaxCooldown()
-+ void setMaxCooldown(double)
-+ void setAttackAngle(double)
-}
-
-
-enum MyGame.GameObject.Enemies.BossState {
-+  ACTIVE
-+  DASHING
-+  TELEGRAPH_CIRCLE
-+  TELEGRAPH_ARC
-+  TELEGRAPH_AIR
-+  TELEGRAPH_LINE
-}
-
-class MyGame.GameObject.Projectile.Boomerang {
-- double speed
-- double velocityX
-- double velocityY
-- double faceToX
-- double faceToY
-- double timer
-- double durationTimer
-- List<Enemy> hitEnemies
-- double spinningAngle
-- double smoothTurning
-+ void setFaceToForBoomerang(double,double)
-+ double opacity()
-+ boolean isBroken()
-+ boolean hitEnemy(Enemy)
-+ void update(double)
-+ String type()
-+ double getFaceToY()
-+ void setFaceToY(double)
-+ double getFaceToX()
-+ void setFaceToX(double)
-+ double getSpeed()
-+ void setSpeed(double)
-+ double getVelocityX()
-+ void setVelocityX(double)
-+ double getVelocityY()
-+ void setVelocityY(double)
-+ double getTimer()
-+ void setTimer(double)
-+ double getDurationTimer()
-+ List<Enemy> getHitEnemies()
-+ void setHitEnemies(List<Enemy>)
-+ double getSpinningAngle()
-+ void setSpinningAngle(double)
-}
-
-
-class MyGame.GameObject.Weapon.Cores.SiphonCore {
-+ String[] getWeaponStat()
-+ void coreUpgrade(World,double)
-+ void playerAttack(World)
-+ String getName()
-}
-
-class MyGame.GameObject.Weapon.Cores.DynamoCore {
-+ String[] getWeaponStat()
-+ void coreUpgrade(World,double)
-+ void playerAttack(World)
-+ String getName()
-}
-
-class MyGame.GameObject.Items.Equipment.HexEditor {
-- ItemRarity itemRarity
-+ String getName()
-+ String getDescription()
-+ void applyBuff(World)
-+ ItemRarity getItemRarity()
-+ void setItemRarity(ItemRarity)
-}
-
-
-class MyGame.GameObject.Weapon.Cores.BiocatalystCore {
-+ String[] getWeaponStat()
-+ void coreUpgrade(World,double)
-+ void playerAttack(World)
-+ String getName()
-}
-
-class MyGame.GameObject.Experience {
-- int expValue
-- int expType
-- {static} List<Experience> pool
-+ {static} Experience create(double,double)
-+ {static} void release(Experience)
-+ void init(double,double)
-+ void update(double)
-+ boolean checkCollision(GameObject)
-+ String type()
-+ int getExpValue()
-+ void setExpValue(int)
-+ int getExpType()
-+ void setExpType(int)
-}
-
-
-class MyGame.GameObject.Weapon.Cores.CryptoCore {
-+ String[] getWeaponStat()
-+ void coreUpgrade(World,double)
-+ void playerAttack(World)
-+ String getName()
-}
-
-class MyGame.GameObject.Items.Equipment.MagnetRing {
-- ItemRarity itemRarity
-+ String getName()
-+ String getDescription()
-+ void applyBuff(World)
-+ ItemRarity getItemRarity()
-+ void setItemRarity(ItemRarity)
-}
-
-
-class MyGame.GameObject.Items.Equipment.MutatedBrain {
-- ItemRarity itemRarity
-+ String getName()
-+ String getDescription()
-+ void applyBuff(World)
-+ ItemRarity getItemRarity()
-+ void setItemRarity(ItemRarity)
-}
-
-
-class MyGame.GameObject.Items.Equipment.ServoMotor {
-- ItemRarity itemRarity
-+ String getName()
-+ String getDescription()
-+ void applyBuff(World)
-+ ItemRarity getItemRarity()
-+ void setItemRarity(ItemRarity)
-}
-
-
-class MyGame.GameObject.Items.Equipment.TitaniumArmor {
-- ItemRarity itemRarity
-+ String getName()
-+ String getDescription()
-+ void applyBuff(World)
-+ ItemRarity getItemRarity()
-+ void setItemRarity(ItemRarity)
-}
-
-
-class MyGame.GameObject.Items.Equipment.TungstenPlating {
-- ItemRarity itemRarity
-+ String getName()
-+ String getDescription()
-+ void applyBuff(World)
-+ ItemRarity getItemRarity()
-+ void setItemRarity(ItemRarity)
-}
-
-
-class MyGame.GameObject.Items.Equipment.ParasiticGas {
-- ItemRarity itemRarity
-+ String getName()
-+ String getDescription()
-+ void applyBuff(World)
-+ ItemRarity getItemRarity()
-+ void setItemRarity(ItemRarity)
-}
-
-
-class MyGame.GameObject.Weapon.Cores.FractalCore {
-+ String[] getWeaponStat()
-+ void coreUpgrade(World,double)
-+ void applyCoreEffect(Weapon,double)
-+ void playerAttack(World)
-+ String getName()
-}
-
-class MyGame.GameObject.Weapon.Cores.SomaticCore {
-+ String[] getWeaponStat()
-+ void coreUpgrade(World,double)
-+ void playerAttack(World)
-+ String getName()
-}
-
-class MyGame.GameObject.Items.Equipment.DataFragment {
-- ItemRarity itemRarity
-+ String getName()
-+ String getDescription()
-+ void applyBuff(World)
-+ ItemRarity getItemRarity()
-+ void setItemRarity(ItemRarity)
-}
-
-
-class MyGame.GameObject.Skill.Skills {
-}
-class MyGame.GameObject.Weapon.Cores.DataCore {
-+ String[] getWeaponStat()
-+ void coreUpgrade(World,double)
-+ void playerAttack(World)
-+ String getName()
-}
-
-class MyGame.GameObject.Items.Equipment.FinalWeapon {
-- ItemRarity itemRarity
-+ String getName()
-+ String getDescription()
-+ void applyBuff(World)
-+ ItemRarity getItemRarity()
-+ void setItemRarity(ItemRarity)
-}
-
-
-class MyGame.GameObject.Weapon.OrbitRock {
-- double RADIUS
-- double rockAmount
-- int rockCount
-- double angle
-- double respawnTime
-- double timer
-- double opacity
-- List<Rock> rocks
-+ void update(double,World)
-+ String[] getWeaponStat()
-+ void playerAttack(World)
-+ String getName()
-+ double getRADIUS()
-+ double getRockAmount()
-+ void setRockAmount(double)
-+ double getAngle()
-+ void setAngle(double)
-+ List<Rock> getRocks()
-+ void setRocks(List<Rock>)
-+ double getRockCount()
-+ void setRockCount(double)
-+ double getRespawnTime()
-+ double getTimer()
-+ void setTimer(double)
-+ double getOpacity()
-+ void setRockCount(int)
-+ void setRespawnTime(double)
-+ void setOpacity(double)
-}
-
-
-class MyGame.GameObject.Weapon.Cores.ResonanceCore {
-+ String[] getWeaponStat()
-+ void coreUpgrade(World,double)
-+ void applyCoreEffect(Weapon,double)
-+ void playerAttack(World)
-+ String getName()
-}
-
-class MyGame.Controller {
-- boolean up
-- boolean down
-- boolean right
-- boolean left
-+ void control(Scene,World,Camera)
-+ void playerMovement(Player)
-}
-
-
-class MyGame.GameObject.Skill.Skill_1.JumpingSlash {
-- double PosX
-- double PosY
-- double PosZ
-- Player player
-- List<Enemy> enemyList
-- double timer
-- double MAX_TIMER
-+ void update(double)
-+ boolean fade()
-+ double opacity()
-+ Player getPlayer()
-+ void setPlayer(Player)
-+ List<Enemy> getEnemyList()
-+ void setEnemyList(List<Enemy>)
-+ double getTimer()
-+ void setTimer(double)
-+ double getMAX_TIMER()
-+ double getPosX()
-+ void setPosX(double)
-+ double getPosY()
-+ void setPosY(double)
-+ double getPosZ()
-+ void setPosZ(double)
-}
-
-
-class MyGame.GameObject.Items.PowerUp.EnergyDrink {
-- int drinkType
-+ void update(double)
-+ int getDrinkType()
-+ void setDrinkType(int)
-+ String type()
-}
-
-
-class MyGame.GameObject.Player {
+class MyGame.GameObject.Player.Player {
 - double MAP_LIMIT
 - double MAX_SPEED
 - double ACCELERATION
@@ -1260,9 +965,18 @@ class MyGame.GameObject.Player {
 - boolean hasDeepestVoid
 - List<double[]> pendingBlackHoles
 - boolean hasFinalWeapon
+- int currentFrame
+- double animationTimer
+- int checkSetFrame
+- MovementState currentMovementState
+- double flashTimer
+- double gameStartTimer
 + void setFaceTo(double,double,double)
 + void update(double)
-+ String type()
++ void update(double,World)
++ void updateAnimation(double)
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
+# void pushObject(GameObject,double,double)
 + void setVelocity(double,double)
 + double updateVelocity(double,double,double)
 + void dash()
@@ -1314,74 +1028,34 @@ class MyGame.GameObject.Player {
 + double getTimer()
 + void setTimer(double)
 + double getFaceToX()
-+ void setFaceToX(double)
 + double getFaceToY()
-+ void setFaceToY(double)
-+ double getCurrentAngle()
-+ void setCurrentAngle(double)
 + double getMAX_SPEED()
-+ double getACCELERATION()
-+ double getFRICTION()
-+ double getDirectionToX()
-+ void setDirectionToX(double)
-+ double getDirectionToY()
-+ void setDirectionToY(double)
-+ int getExperience()
-+ void setExperience(int)
-+ int getExpToLevel()
-+ void setExpToLevel(int)
 + int getPlayerLevel()
-+ void setPlayerLevel(int)
 + int getEnemiesKilled()
-+ void setEnemiesKilled(int)
 + double getSpeedMultiplier()
-+ void setSpeedMultiplier(double)
 + double getExpMultiplier()
-+ void setExpMultiplier(double)
 + double getCurrentOverHeal()
 + void setCurrentOverHeal(double)
 + double getMaxOverHeal()
 + void setMaxOverHeal(double)
 + double getLifeSteal()
-+ void setLifeSteal(int)
 + double getRegeneration()
-+ void setRegeneration(double)
 + double getMAP_LIMIT()
-+ double getDASH_COOLDOWN()
-+ double getDASH_DURATION()
-+ double getDASH_SPEED()
 + double getDashTimer()
-+ void setDashTimer(double)
-+ double getDashCooldown()
-+ void setDashCooldown(double)
-+ void setLifeSteal(double)
 + double getMaxStamina()
 + void setMaxStamina(double)
 + double getCurrentStamina()
 + void setCurrentStamina(double)
-+ double getGRAVITY()
-+ double getJUMP_SPEED()
 + double getPosZ()
 + void setPosZ(double)
-+ double getVelocityZ()
 + void setVelocityZ(double)
 + boolean isJumping()
 + void setJumping(boolean)
-+ double getStaminaTimer()
-+ void setStaminaTimer(double)
-+ double getJumpTimer()
-+ void setJumpTimer(double)
-+ double getJUMP_COOLDOWN()
 + double getSlashMaxCooldown()
 + double getSlashCooldown()
 + void setSlashCooldown(double)
 + int getCoin()
 + void setCoin(int)
-+ double getRegenerationTimer()
-+ void setRegenerationTimer(double)
-+ double getSmoothDash()
-+ void setSmoothDash(double)
-+ void setJumpingSlashing(boolean)
 + boolean isCanJumpingSlashOnce()
 + void setCanJumpingSlashOnce(boolean)
 + int getPendingLevelup()
@@ -1422,14 +1096,618 @@ class MyGame.GameObject.Player {
 + boolean isHasDeepestVoid()
 + void setHasDeepestVoid(boolean)
 + List<double[]> getPendingBlackHoles()
-+ void setPendingBlackHoles(List<double[]>)
 + boolean isHasFinalWeapon()
 + void setHasFinalWeapon(boolean)
 + void setCrossSlashCooldown(double)
 + boolean isShielded()
 + double getUltimateCooldown()
 + void setUltimateCooldown(double)
++ int getCurrentFrame()
++ int getCheckSetFrame()
 + void setShielded(boolean)
++ MovementState getCurrentMovementState()
++ double getGameStartTimer()
++ double getFlashTimer()
++ void setFlashTimer(double)
++ void setCurrentMovementState(MovementState)
+}
+
+
+enum MyGame.GameObject.Player.MovementState {
++  Idle
++  Run
++  Dash
++  JumpUp
++  JumpDown
++  Skill
++  SkillJump
++  Skill2
++  UltimateUp
++  UltimateDown
++ int checkSetFrame
++ double frameDuration
++ int maxFrames
+}
+
+enum MyGame.Rarity.ItemRarity {
++  Stock
++  Modified
++  Prototype
++  Artifact
++  Ultimate
+- Color color
++ Color getColor()
+}
+
+
+class MyGame.GameObject.Weapon.LightningWeapon {
++ String[] getWeaponStat()
++ void update(double,World)
++ void playerAttack(World)
++ String getName()
+}
+
+class MyGame.GameObject.Weapon.Cores.MatrixCore {
++ String[] getWeaponStat()
++ void coreUpgrade(World,double)
++ void applyCoreEffect(Weapon,double)
++ void playerAttack(World)
++ String getName()
+}
+
+class MyGame.GameObject.Projectile.Arrow {
+- double speed
+- double velocityX
+- double velocityY
+- double faceToX
+- double faceToY
+- double angle
+- int pierceCount
+- double fadeTimer
+- List<Enemy> hitEnemies
+- int currentFrame
+- double animationTimer
++ void setFaceTo(double,double)
++ void checkBound(double,double,double,double)
++ boolean canPierce()
++ boolean hitEnemy(Enemy)
++ void update(double)
++ void updateProj(double,World)
++ boolean isDone()
++ void updateAnimation(double)
++ boolean isFade()
++ double opacity()
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ double getFaceToY()
++ void setFaceToY(double)
++ double getFaceToX()
++ void setFaceToX(double)
++ double getSpeed()
++ void setSpeed(double)
++ double getVelocityX()
++ void setVelocityX(double)
++ double getVelocityY()
++ void setVelocityY(double)
++ int getPierceCount()
++ void setPierceCount(int)
++ double getFadeTimer()
++ void setFadeTimer(double)
++ List<Enemy> getHitEnemies()
++ double getAngle()
++ void setAngle(double)
++ void setHitEnemies(List<Enemy>)
++ int getCurrentFrame()
++ void setCurrentFrame(int)
++ double getAnimationTimer()
++ void setAnimationTimer(double)
+}
+
+
+class MyGame.GameObject.Enemies.Boss {
+- BossState currentState
+- double cooldown
+- double maxCooldown
+- double stateTimer
+- double maxStateTimer
+- double telegraphTimer
+- double attackTargetPosX
+- double attackTargetPosY
+- double attackAngle
+- double dashTimer
+- double dashToX
+- double dashToY
+- double dashSpeed
+- double gridRotationAngle
+- int remainingCircles
++ void update(double,Player,double)
++ void telegraphAttack(Player)
++ void attack(double,Player,double)
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ boolean isBoss()
++ BossState getCurrentState()
++ void setCurrentState(BossState)
++ double getCooldown()
++ void setCooldown(double)
++ double getTelegraphTimer()
++ void setTelegraphTimer(double)
++ double getAttackTargetPosX()
++ void setAttackTargetPosX(double)
++ double getAttackTargetPosY()
++ void setAttackTargetPosY(double)
++ double getAttackAngle()
++ double getDashTimer()
++ void setDashTimer(double)
++ double getDashToX()
++ void setDashToX(double)
++ double getDashToY()
++ void setDashToY(double)
++ double getDashSpeed()
++ void setDashSpeed(double)
++ double getMaxCooldown()
++ void setMaxCooldown(double)
++ void setAttackAngle(double)
++ double getStateTimer()
++ double getMaxStateTimer()
++ void setMaxStateTimer(double)
++ double getGridRotationAngle()
++ void setGridRotationAngle(double)
++ void setStateTimer(double)
+}
+
+
+enum MyGame.GameObject.Enemies.BossState {
++  ACTIVE
++  DASHING
++  TELEGRAPH_CIRCLE
++  TELEGRAPH_ARC
++  TELEGRAPH_AIR
++  TELEGRAPH_LINE
+}
+
+class MyGame.GameObject.Projectile.Boomerang {
+- double speed
+- double velocityX
+- double velocityY
+- double faceToX
+- double faceToY
+- double timer
+- double durationTimer
+- List<Enemy> hitEnemies
+- double spinningAngle
+- double smoothTurning
++ void setFaceToForBoomerang(double,double)
++ double opacity()
++ boolean isBroken()
++ boolean hitEnemy(Enemy)
++ void update(double)
++ void updateProj(double,World)
++ boolean isDone()
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ double getFaceToY()
++ void setFaceToY(double)
++ double getFaceToX()
++ void setFaceToX(double)
++ double getSpeed()
++ void setSpeed(double)
++ double getVelocityX()
++ void setVelocityX(double)
++ double getVelocityY()
++ void setVelocityY(double)
++ double getTimer()
++ void setTimer(double)
++ double getDurationTimer()
++ List<Enemy> getHitEnemies()
++ void setHitEnemies(List<Enemy>)
++ double getSpinningAngle()
++ void setSpinningAngle(double)
+}
+
+
+class MyGame.GameObject.Items.Collectable.Experience {
+- int expValue
+- int expType
+- {static} List<Experience> pool
++ {static} Experience create(double,double)
++ {static} void release(Experience)
++ void init(double,double)
++ void update(double)
++ boolean checkCollision(GameObject)
++ void updateCollectible(Player,World,double)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
++ void onCollect(Player,World)
++ int getExpValue()
++ void setExpValue(int)
++ int getExpType()
++ void setExpType(int)
+}
+
+
+class MyGame.Game.SoundManager {
++ {static} AudioClip dashingSound
++ {static} AudioClip jumpingSound
++ {static} AudioClip skill1Sound
++ {static} AudioClip skill2Sound
++ {static} AudioClip jumpingSlashSound
++ {static} MediaPlayer ultimatePlayer
++ {static} MediaPlayer enteringPlayer
++ {static} AudioClip hitSound
++ {static} AudioClip swordSound
++ {static} AudioClip arrowSound
++ {static} AudioClip fireballSound
++ {static} AudioClip shurikenSound
++ {static} AudioClip auraSound
++ {static} AudioClip lightningSound
++ {static} List<AudioClip> soundManagersLists
++ {static} List<AudioClip> getSoundManagersLists()
++ {static} void initSounds()
+}
+
+
+class MyGame.GameObject.Weapon.Cores.SiphonCore {
++ String[] getWeaponStat()
++ void coreUpgrade(World,double)
++ void playerAttack(World)
++ String getName()
+}
+
+class MyGame.GameObject.Weapon.Cores.DynamoCore {
++ String[] getWeaponStat()
++ void coreUpgrade(World,double)
++ void playerAttack(World)
++ String getName()
+}
+
+class MyGame.GameObject.Items.Equipment.HexEditor {
+- double hexEditorTimer
+- ItemRarity itemRarity
++ String getName()
++ String getDescription()
++ void applyBuff(World)
++ void updateEffect(double,World,Player)
++ ItemRarity getItemRarity()
++ void setItemRarity(ItemRarity)
+}
+
+
+class MyGame.GameObject.Weapon.Cores.BiocatalystCore {
++ String[] getWeaponStat()
++ void coreUpgrade(World,double)
++ void playerAttack(World)
++ String getName()
+}
+
+class MyGame.GameObject.Weapon.Cores.CryptoCore {
++ String[] getWeaponStat()
++ void coreUpgrade(World,double)
++ void playerAttack(World)
++ String getName()
+}
+
+class MyGame.GameObject.Items.Equipment.MagnetRing {
+- ItemRarity itemRarity
++ String getName()
++ String getDescription()
++ void applyBuff(World)
++ void updateEffect(double,World,Player)
++ ItemRarity getItemRarity()
++ void setItemRarity(ItemRarity)
+}
+
+
+class MyGame.GameObject.Skill.Slash {
+- double posX
+- double posY
+- double posZ
+- double angle
+- double timer
+- double MAX_TIMER
+- boolean slashHit
+- int currentFrame
+- double animationTimer
++ void update(double)
++ void updateSkill(double,World)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
++ boolean isFinished()
++ boolean fade()
++ double opacity()
++ double getPosX()
++ void setPosX(double)
++ double getPosY()
++ void setPosY(double)
++ double getAngle()
++ void setAngle(double)
++ double getTimer()
++ void setTimer(double)
++ double getMAX_TIMER()
++ boolean isSlashHit()
++ void setSlashHit(boolean)
++ double getPosZ()
++ int getCurrentFrame()
++ void setCurrentFrame(int)
++ double getAnimationTimer()
++ void setAnimationTimer(double)
++ void setPosZ(double)
+}
+
+
+class MyGame.GameObject.Items.Equipment.MutatedBrain {
+- double mutatedBrainTimer
+- ItemRarity itemRarity
++ String getName()
++ String getDescription()
++ void applyBuff(World)
++ void updateEffect(double,World,Player)
++ ItemRarity getItemRarity()
++ void setItemRarity(ItemRarity)
+}
+
+
+class MyGame.GameObject.Items.Equipment.ServoMotor {
+- ItemRarity itemRarity
++ String getName()
++ String getDescription()
++ void applyBuff(World)
++ void updateEffect(double,World,Player)
++ ItemRarity getItemRarity()
++ void setItemRarity(ItemRarity)
+}
+
+
+class MyGame.GameObject.Items.Equipment.TitaniumArmor {
+- ItemRarity itemRarity
++ String getName()
++ String getDescription()
++ void applyBuff(World)
++ void updateEffect(double,World,Player)
++ ItemRarity getItemRarity()
++ void setItemRarity(ItemRarity)
+}
+
+
+class MyGame.GameObject.Items.Equipment.TungstenPlating {
+- ItemRarity itemRarity
++ String getName()
++ String getDescription()
++ void applyBuff(World)
++ void updateEffect(double,World,Player)
++ ItemRarity getItemRarity()
++ void setItemRarity(ItemRarity)
+}
+
+
+class MyGame.GameObject.Items.Equipment.ParasiticGas {
+- double parasiticGasTimer
+- ItemRarity itemRarity
++ String getName()
++ String getDescription()
++ void applyBuff(World)
++ void updateEffect(double,World,Player)
++ ItemRarity getItemRarity()
++ void setItemRarity(ItemRarity)
+}
+
+
+class MyGame.GameObject.Weapon.Cores.FractalCore {
++ String[] getWeaponStat()
++ void coreUpgrade(World,double)
++ void applyCoreEffect(Weapon,double)
++ void playerAttack(World)
++ String getName()
+}
+
+interface MyGame.Interface.Item {
+~ String getName()
+~ String getDescription()
+~ void applyBuff(World)
+~ void updateEffect(double,World,Player)
+~ ItemRarity getItemRarity()
+~ void setItemRarity(ItemRarity)
+}
+
+class MyGame.Game.GameLauncher {
++ {static} void main(String[])
+}
+
+class MyGame.Game.GameEngine {
+- Main.GameState currentGameState
+- Scene scene
+- World world
+- Controller controller
+- Camera camera
+- GraphicsContext gc
+- Canvas canvas
+- ImageView healthFillView
+- ImageView overHealFillView
+- Label healthLabel
+- ImageView staminaFillView
+- Label staminaLabel
+- ImageView expFillView
+- Label levelLabel
+- VBox chestUIPopup
+- Label itemName
+- Label itemRarityLabel
+- Label itemDescribe
+- Button chestContinueButton
+- Button chestSkipButton
+- Label killcountlabel
+- ImageView killIcon
+- Label coinCountLabel
+- ImageView coinIcon
+- Label timeSurvivedLabel
+- VBox topLeftWeaponHang
+- boolean chestDelayActive
+- Runnable levelUpCallBack
+- boolean isLevelUpCallBack
+- Runnable gameOverCallBack
+- GameAssets assets
+- List<PlayerTrail> playerTrails
+- double trailTimer
+- double currentCrystalX
+- double currentCrystalY
+- double currentCrystalNoZ
+- double crackedPosX
+- double crackedPosY
+- ImagePattern pattern
+- Image fireBg
+- int currentFireBg
+- double fireBgAnimationTimer
+~ ColorAdjust black
+~ ColorAdjust hitFlash
+~ ColorAdjust hitPlayer
+~ ColorAdjust maxColor
+~ ColorAdjust rainbow
+- int lastCoinCount
+- int lastKillCount
+- int lastsecond
+- MediaPlayer bgmPlayer
+- int currentSongIndex
+- String[] playlist
+- double currentDeltaTime
++ AnimationTimer loop
++ void start()
++ void stop()
++ void renderGame(double)
++ void updateLeftPanelUI()
+- void popAnimation(Node)
++ void setGameLoop()
+- void playNextSong()
+- void renderList(List<? extends Renderable>,GraphicsContext,double,double,double,double,double)
++ void setWorld(World)
++ World getWorld()
++ Camera getCamera()
++ void setCurrentGameState(Main.GameState)
++ void setControl(Scene,World,Camera)
++ void setLevelUpCallBack(Runnable)
++ void setGameOverCallBack(Runnable)
++ void setLevelUpCallBack(boolean)
++ GameAssets getAssets()
++ Image getPlayerMech()
++ Image getEnemyMech()
++ Image getChargerMech()
++ Image getBossMech()
++ Image getPropsImage()
++ Image getCrystal()
++ Image getGemImage()
++ Image getArrowImage()
++ Image getBoomerangImage()
++ Image getRockImage()
++ Image getLightningImage()
++ Image getLightningImage2()
++ Image getSlashImage()
++ Image getCrossSlashImage()
++ Image getJumpingSlashImage()
++ Image getSwordImage()
++ Image getAuraImage()
++ Image getExplosionImage()
++ Image getBlackholeImage()
++ Image getGlitchImage()
++ Image getEnteringImage()
++ Image getCrackedImage()
++ List<PlayerTrail> getPlayerTrails()
++ double getTrailTimer()
++ void setTrailTimer(double)
++ double getDeltaTime()
++ Effect getHitPlayer()
++ Effect getHitFlash()
+}
+
+
+class MyGame.GameObject.Weapon.Cores.SomaticCore {
++ String[] getWeaponStat()
++ void coreUpgrade(World,double)
++ void playerAttack(World)
++ String getName()
+}
+
+class MyGame.GameObject.Items.Equipment.DataFragment {
+- ItemRarity itemRarity
++ String getName()
++ String getDescription()
++ void applyBuff(World)
++ void updateEffect(double,World,Player)
++ ItemRarity getItemRarity()
++ void setItemRarity(ItemRarity)
+}
+
+
+class MyGame.Game.Controller {
+- boolean up
+- boolean down
+- boolean right
+- boolean left
+- int totalPressed
++ void control(Scene,World,Camera)
++ void resetInput()
++ void playerMovement(Player,World)
+}
+
+
+class MyGame.GameObject.Weapon.Cores.DataCore {
++ String[] getWeaponStat()
++ void coreUpgrade(World,double)
++ void playerAttack(World)
++ String getName()
+}
+
+class MyGame.GameObject.Items.Equipment.FinalWeapon {
+- double finalWeaponTimer
+- ItemRarity itemRarity
++ String getName()
++ String getDescription()
++ void applyBuff(World)
++ void updateEffect(double,World,Player)
++ ItemRarity getItemRarity()
++ void setItemRarity(ItemRarity)
+}
+
+
+class MyGame.GameObject.Weapon.OrbitRock {
+- double RADIUS
+- double rockAmount
+- int rockCount
+- double angle
+- double respawnTime
+- double timer
+- double opacity
+- List<Rock> rocks
++ void update(double,World)
++ String[] getWeaponStat()
++ void playerAttack(World)
++ String getName()
++ double getRADIUS()
++ double getRockAmount()
++ void setRockAmount(double)
++ double getAngle()
++ void setAngle(double)
++ List<Rock> getRocks()
++ void setRocks(List<Rock>)
++ double getRockCount()
++ void setRockCount(double)
++ double getRespawnTime()
++ double getTimer()
++ void setTimer(double)
++ double getOpacity()
++ void setRockCount(int)
++ void setRespawnTime(double)
++ void setOpacity(double)
+}
+
+
+class MyGame.GameObject.Weapon.Cores.ResonanceCore {
++ String[] getWeaponStat()
++ void coreUpgrade(World,double)
++ void applyCoreEffect(Weapon,double)
++ void playerAttack(World)
++ String getName()
+}
+
+class MyGame.GameObject.Items.PowerUp.EnergyDrink {
+- int drinkType
++ void update(double)
++ void onCollect(Player,World)
++ int getDrinkType()
++ void setDrinkType(int)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
 }
 
 
@@ -1438,6 +1716,7 @@ class MyGame.GameObject.Items.Equipment.PhantomDrive {
 + String getName()
 + String getDescription()
 + void applyBuff(World)
++ void updateEffect(double,World,Player)
 + ItemRarity getItemRarity()
 + void setItemRarity(ItemRarity)
 }
@@ -1447,8 +1726,10 @@ class MyGame.GameObject.Weapon.Aura {
 - double radius
 - double timer
 - double TICK_RATE
-+ void update(double)
-+ boolean inArea()
+- int currentFrame
+- double animationTimer
++ void update(double,World)
++ boolean inArea(World)
 + String[] getWeaponStat()
 + void playerAttack(World)
 + double getTICK_RATE()
@@ -1456,65 +1737,16 @@ class MyGame.GameObject.Weapon.Aura {
 + void setTimer(double)
 + double getRadius()
 + void setRadius(double)
++ int getCurrentFrame()
++ void setCurrentFrame(int)
++ double getAnimationTimer()
++ void setAnimationTimer(double)
 + String getName()
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
 }
 
 
-class MyGame.GameObject.Items.Equipment.Doomsday {
-- ItemRarity itemRarity
-+ String getName()
-+ String getDescription()
-+ void applyBuff(World)
-+ ItemRarity getItemRarity()
-+ void setItemRarity(ItemRarity)
-}
-
-
-class MyGame.GameObject.Weapon.Cores.KineticCore {
-+ String[] getWeaponStat()
-+ void coreUpgrade(World,double)
-+ void playerAttack(World)
-+ String getName()
-}
-
-interface MyGame.GameObject.Items.Item {
-~ String getName()
-~ String getDescription()
-~ void applyBuff(World)
-~ ItemRarity getItemRarity()
-~ void setItemRarity(ItemRarity)
-}
-
-class MyGame.GameLauncher {
-+ {static} void main(String[])
-}
-
-class MyGame.GameObject.Projectile.LightningEffect {
-- List<double[]> strikePoints
-- double timer
-- double MAX_TIMER
-+ void update(double)
-+ boolean isFade()
-+ double opacity()
-+ void setStrikePoints(List<double[]>)
-+ double getTimer()
-+ void setTimer(double)
-+ double getMAX_TIMER()
-+ List<double[]> getStrikePoints()
-}
-
-
-class MyGame.GameObject.Items.Equipment.AdrenalSyringe {
-- ItemRarity itemRarity
-+ String getName()
-+ String getDescription()
-+ void applyBuff(World)
-+ ItemRarity getItemRarity()
-+ void setItemRarity(ItemRarity)
-}
-
-
-class MyGame.Camera {
+class MyGame.Game.Camera {
 - double posX
 - double posY
 - double Width
@@ -1531,59 +1763,164 @@ class MyGame.Camera {
 }
 
 
+class MyGame.GameObject.Items.Equipment.Doomsday {
+- double doomsdayTimer
+- int doomsdayLastStat
+- ItemRarity itemRarity
++ String getName()
++ String getDescription()
++ void applyBuff(World)
++ void updateEffect(double,World,Player)
++ ItemRarity getItemRarity()
++ void setItemRarity(ItemRarity)
+}
 
 
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.MagneticRepulsor
+class MyGame.GameObject.Items.ItemManager {
++ {static} Item openingChest(World)
++ {static} ItemRarity chestGachaRarity(Player)
+}
+
+abstract class MyGame.GameObject.Projectile.Projectile {
++ {abstract}void updateProj(double,World)
++ {abstract}boolean isDone()
++ {abstract}void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
+}
+
+class MyGame.GameObject.Weapon.Cores.KineticCore {
++ String[] getWeaponStat()
++ void coreUpgrade(World,double)
++ void playerAttack(World)
++ String getName()
+}
+
+class MyGame.GameObject.Player.PlayerTrail {
++ double worldPosX
++ double worldPosY
++ double sourcePosX
++ double sourcePosY
++ double frameWidth
++ double frameHeight
++ boolean isFlipped
++ double opacity
++ double rotation
+}
+
+class MyGame.GameObject.Projectile.LightningEffect {
+- List<double[]> strikePoints
+- double timer
+- double MAX_TIMER
+- int currentFrame
+- int currentFrame_2
+- double animationTimer
+- double animationTimer2
++ void update(double)
++ void updateProj(double,World)
++ boolean isDone()
++ boolean isFade()
++ double opacity()
++ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ void setStrikePoints(List<double[]>)
++ double getTimer()
++ void setTimer(double)
++ double getMAX_TIMER()
++ int getCurrentFrame()
++ void setCurrentFrame(int)
++ double getAnimationTimer()
++ void setAnimationTimer(double)
++ List<double[]> getStrikePoints()
++ int getCurrentFrame_2()
++ void setCurrentFrame_2(int)
+}
+
+
+class MyGame.GameObject.Items.Equipment.AdrenalSyringe {
+- double adrenalTimer
+- boolean adrenalActive
+- ItemRarity itemRarity
++ String getName()
++ String getDescription()
++ void applyBuff(World)
++ void updateEffect(double,World,Player)
++ ItemRarity getItemRarity()
++ void setItemRarity(ItemRarity)
+}
+
+
+
+
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.MagneticRepulsor
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.VectorCore
-javafx.application.Application <|-- MyGame.Main
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.NecroticHeart
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.DeepestVoid
+MyGame.GameObject.GameObject <|-- MyGame.GameObject.Projectile.Explosion
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.NecroticHeart
+javafx.application.Application <|-- MyGame.Game.Main
+MyGame.Interface.ActiveSkill <|.. MyGame.GameObject.Skill.Ultimate
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.DeepestVoid
 MyGame.GameObject.GameObject <|-- MyGame.GameObject.Enemies.Enemy
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.NeuroAmplifier
+MyGame.GameObject.Enemies.Enemy <|-- MyGame.GameObject.Enemies.Charger
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.NeuroAmplifier
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.OverClockCore
+MyGame.GameObject.Weapon.Renderable <|.. MyGame.GameObject.Weapon.Weapon
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.OverHeatCore
-MyGame.GameObject.GameObject <|-- MyGame.GameObject.Chest
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.EngineOverload
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.EngineOverload
+MyGame.Interface.Renderable <|-- MyGame.Interface.ActiveSkill
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.SurgeCore
+MyGame.Interface.Renderable <|.. MyGame.GameObject.GameObject
+MyGame.GameObject.GameObject <|-- MyGame.GameObject.Obstacle
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.EntropyCore
+MyGame.Interface.ActiveSkill <|.. MyGame.GameObject.Skill.CrossSlash
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Sword
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.PlasmaCore
+MyGame.Interface.ActiveSkill <|.. MyGame.GameObject.Skill.JumpingSlash
+MyGame.Interface.Collectable <|.. MyGame.GameObject.Items.Collectable.Chest
+MyGame.Interface.Renderable <|.. MyGame.GameObject.Items.Collectable.Chest
+MyGame.GameObject.GameObject <|-- MyGame.GameObject.Items.Collectable.Chest
+MyGame.GameObject.Projectile.Projectile <|-- MyGame.GameObject.Projectile.Rock
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Bow
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.SoulHarvester
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.PowerUp.Steak
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.SoulHarvester
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.PowerUp.Steak
+MyGame.Interface.Collectable <|.. MyGame.GameObject.Items.PowerUp.Steak
+MyGame.Interface.Renderable <|.. MyGame.GameObject.Items.PowerUp.Steak
 MyGame.GameObject.GameObject <|-- MyGame.GameObject.Items.PowerUp.Steak
 MyGame.GameObject.GameObject <|-- MyGame.GameObject.DamageText
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.BoomerangWeapon
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.ChaosCore
+MyGame.GameObject.GameObject <|-- MyGame.GameObject.Player.Player
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.LightningWeapon
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.MatrixCore
-MyGame.GameObject.GameObject <|-- MyGame.GameObject.Projectile.Arrow
+MyGame.GameObject.Projectile.Projectile <|-- MyGame.GameObject.Projectile.Arrow
 MyGame.GameObject.Enemies.Enemy <|-- MyGame.GameObject.Enemies.Boss
-MyGame.GameObject.GameObject <|-- MyGame.GameObject.Projectile.Boomerang
+MyGame.GameObject.Projectile.Projectile <|-- MyGame.GameObject.Projectile.Boomerang
+MyGame.Interface.Collectable <|.. MyGame.GameObject.Items.Collectable.Experience
+MyGame.Interface.Renderable <|.. MyGame.GameObject.Items.Collectable.Experience
+MyGame.GameObject.GameObject <|-- MyGame.GameObject.Items.Collectable.Experience
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.SiphonCore
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.DynamoCore
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.HexEditor
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.HexEditor
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.BiocatalystCore
-MyGame.GameObject.GameObject <|-- MyGame.GameObject.Experience
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.CryptoCore
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.MagnetRing
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.MutatedBrain
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.ServoMotor
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.TitaniumArmor
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.TungstenPlating
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.ParasiticGas
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.MagnetRing
+MyGame.Interface.ActiveSkill <|.. MyGame.GameObject.Skill.Slash
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.MutatedBrain
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.ServoMotor
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.TitaniumArmor
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.TungstenPlating
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.ParasiticGas
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.FractalCore
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.SomaticCore
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.DataFragment
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.DataFragment
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.DataCore
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.FinalWeapon
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.FinalWeapon
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.OrbitRock
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.ResonanceCore
+MyGame.Interface.Collectable <|.. MyGame.GameObject.Items.PowerUp.EnergyDrink
+MyGame.Interface.Renderable <|.. MyGame.GameObject.Items.PowerUp.EnergyDrink
 MyGame.GameObject.GameObject <|-- MyGame.GameObject.Items.PowerUp.EnergyDrink
-MyGame.GameObject.GameObject <|-- MyGame.GameObject.Player
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.PhantomDrive
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.PhantomDrive
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Aura
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.Doomsday
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.Doomsday
+MyGame.GameObject.GameObject <|-- MyGame.GameObject.Projectile.Projectile
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.KineticCore
-MyGame.GameObject.Items.Item <|.. MyGame.GameObject.Items.Equipment.AdrenalSyringe
+MyGame.GameObject.Projectile.Projectile <|-- MyGame.GameObject.Projectile.LightningEffect
+MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.AdrenalSyringe
 @enduml

@@ -1,6 +1,6 @@
-package MyGame.GameObject;
+package MyGame.GameObject.Enemies;
 
-import MyGame.GameObject.Enemies.Enemy;
+import MyGame.GameObject.GameObject;
 
 import java.util.Comparator;
 import java.util.List;

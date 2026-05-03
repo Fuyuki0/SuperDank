@@ -1,6 +1,4 @@
-package MyGame;
-
-import javafx.geometry.Pos;
+package MyGame.GameObject.Player;
 
 public class PlayerTrail {
     public double worldPosX;
@@ -11,8 +9,9 @@ public class PlayerTrail {
     public double frameHeight;
     public boolean isFlipped;
     public double opacity;
+    public double rotation;
 
-    public PlayerTrail(double PosX, double PosY, double sourceX, double sourceY, double frameWidth, double frameHeight, boolean isFlipped) {
+    public PlayerTrail(double PosX, double PosY, double sourceX, double sourceY, double frameWidth, double frameHeight, boolean isFlipped, double rotation) {
         this.worldPosX = PosX;
         this.worldPosY = PosY;
         this.sourcePosX = sourceX;
@@ -21,6 +20,7 @@ public class PlayerTrail {
         this.frameHeight = frameHeight;
         this.isFlipped = isFlipped;
         this.opacity = 0.5;
+        this.rotation = rotation;
     }
 
 }

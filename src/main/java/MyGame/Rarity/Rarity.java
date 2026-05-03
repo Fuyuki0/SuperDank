@@ -1,4 +1,4 @@
-package MyGame;
+package MyGame.Rarity;
 
 
 import javafx.scene.paint.Color;

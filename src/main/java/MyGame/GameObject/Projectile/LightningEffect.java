@@ -1,8 +1,7 @@
 package MyGame.GameObject.Projectile;
 
-import MyGame.GameEngine;
-import MyGame.World;
-import javafx.scene.canvas.GraphicsContext;
+import MyGame.Game.GameEngine;
+import MyGame.Game.World;
 
 import java.util.List;
 
@@ -62,7 +61,7 @@ public class LightningEffect extends Projectile {
     }
 
     @Override
-    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, GameEngine engine) {
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
         double frameWidth = 128;
         double frameHeight = 128;
         double sourceY = 0;
@@ -97,7 +96,7 @@ public class LightningEffect extends Projectile {
             gc.save();
             gc.translate(endX, endY);
             gc.drawImage(
-                    engine.getLightningImage_2(),
+                    engine.getLightningImage2(),
                     sourceX, sourceY, frameWidth, frameHeight,
                     -(frameWidth * scaleLightning / 2.0), -(frameHeight *scaleLightning / 2.0), frameWidth * scaleLightning, frameHeight * scaleLightning
             );

@@ -2,7 +2,7 @@ package MyGame.GameObject.Weapon.Cores;
 
 import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
-import MyGame.World;
+import MyGame.Game.World;
 
 public class VectorCore extends Weapon {
     public VectorCore() {

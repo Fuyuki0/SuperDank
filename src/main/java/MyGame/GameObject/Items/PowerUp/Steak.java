@@ -1,12 +1,17 @@
 package MyGame.GameObject.Items.PowerUp;
 
 import MyGame.GameObject.GameObject;
-import MyGame.GameObject.Items.Item;
-import MyGame.GameObject.Items.ItemRarity;
-import MyGame.GameObject.Player;
-import MyGame.World;
+import MyGame.Interface.Item;
+import MyGame.Rarity.ItemRarity;
+import MyGame.GameObject.Player.Player;
+import MyGame.Interface.Collectable;
+import MyGame.Interface.Renderable;
+import MyGame.Game.GameEngine;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import MyGame.Game.World;
 
-public class Steak extends GameObject implements Item {
+public class Steak extends GameObject implements Item, Collectable, Renderable {
 
     private int healAmount;
     public Steak(double PosX, double PosY) {
@@ -38,6 +43,14 @@ public class Steak extends GameObject implements Item {
 
     public void update(double deltaTime) {}
 
+    @Override
+    public void onCollect(Player player, World world) {
+        if (player.getMaxHealth() > player.getCurrentHealth()) {
+            player.setCurrentHealth(player.getCurrentHealth() + this.getHealAmount());
+        }
+    }
+
+
     public int getHealAmount() {
         return healAmount;
     }
@@ -53,5 +66,29 @@ public class Steak extends GameObject implements Item {
     }
     public void setItemRarity(ItemRarity itemRarity) {
         this.itemRarity = itemRarity;
+    }
+
+    @Override
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        if (posX - cameraPosX > -margin && posX - cameraPosX < screenWidth + margin && posY - cameraPosY > -margin && posY - cameraPosY < screenHeight + margin) {
+            gc.setFill(Color.rgb(0, 0, 0, 0.4));
+            double shadowWidth = 45;
+            double shadowHeight = 15;
+            gc.fillOval(posX - cameraPosX - (shadowWidth / 2.0), posY - cameraPosY - (shadowHeight / 2.0) + 30, shadowWidth, shadowHeight);
+
+            double hoverY = Math.sin(System.currentTimeMillis() / 400.0) * 5;
+            gc.save();
+            gc.translate(posX - cameraPosX, posY - cameraPosY - hoverY);
+            double frameWidth = 44;
+            double frameHeight = 40;
+            double sourceX = 324;
+            double sourceY = 204;
+            gc.drawImage(
+                    engine.getPropsImage(),
+                    sourceX, sourceY, frameWidth, frameHeight,
+                    -(frameWidth / 2), -(frameHeight / 2), frameWidth, frameHeight
+            );
+            gc.restore();
+        }
     }
 }

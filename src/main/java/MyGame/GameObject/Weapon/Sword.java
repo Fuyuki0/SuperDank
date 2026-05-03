@@ -1,9 +1,10 @@
 package MyGame.GameObject.Weapon;
 
+import MyGame.Game.GameEngine;
 import MyGame.GameObject.Enemies.Enemy;
-import MyGame.GameObject.Player;
-import MyGame.GameObject.SoundManager;
-import MyGame.World;
+import MyGame.GameObject.Player.Player;
+import MyGame.Game.SoundManager;
+import MyGame.Game.World;
 
 public class Sword extends Weapon {
 
@@ -90,5 +91,27 @@ public class Sword extends Weapon {
 
     public String getName() {
         return "Swinger";
+    }
+
+    @Override
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        if (this.isAttacking() && (!engine.getWorld().getPlayer().isJumping())) {
+            double frameWidth = 288.0;
+            double frameHeight = 288.0;
+            double scaleSword = 2.0 + (this.getBonusSize() / 100.0) * 2.0;
+            double sourceX =  0 + frameWidth * this.getCurrentFrame();
+            double sourceY =  0;
+            Player player = engine.getWorld().getPlayer();
+            gc.save();
+            gc.translate(player.getPosX() - cameraPosX, player.getPosY() - cameraPosY - player.getPosZ() - 40);
+            gc.rotate(Math.toDegrees(Math.atan2(player.getFaceToY(), player.getFaceToX())));
+            gc.translate(100, 0);
+            gc.drawImage(
+                    engine.getSwordImage(),
+                    sourceX, sourceY, frameWidth, frameHeight,
+                    -(frameWidth * scaleSword / 2.0), -(frameHeight * scaleSword / 2.0), frameWidth * scaleSword, frameHeight * scaleSword
+            );
+            gc.restore();
+        }
     }
 }

@@ -1,23 +1,24 @@
-package MyGame;
+package MyGame.Game;
 
 import MyGame.GameObject.Enemies.Boss;
 import MyGame.GameObject.Enemies.Charger;
 import MyGame.GameObject.Enemies.Enemy;
-import MyGame.GameObject.Explosion;
+import MyGame.GameObject.Projectile.Explosion;
 import MyGame.GameObject.Items.Equipment.*;
-import MyGame.GameObject.Player;
+import MyGame.GameObject.Player.Player;
 import MyGame.GameObject.Projectile.*;
 import MyGame.GameObject.Skill.CrossSlash;
 import MyGame.GameObject.Skill.JumpingSlash;
 import MyGame.GameObject.Skill.Slash;
-import MyGame.GameObject.SoundManager;
 import MyGame.GameObject.Weapon.*;
 import MyGame.GameObject.Weapon.Cores.*;
+import MyGame.Rarity.Rarity;
 import javafx.animation.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -33,6 +34,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.*;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
@@ -40,13 +42,13 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
-import static MyGame.GameEngine.*;
+import static MyGame.Game.GameAssets.*;
 
 
 public class Main extends Application {
 
-    public static final int SCREEN_WIDTH = 1920;
-    public static final int SCREEN_HEIGHT = 1200;
+    public static double SCREEN_WIDTH = 1920;
+    public static double SCREEN_HEIGHT = 1200;
 
     public enum GameState {Menu, Play, Setting}
     public GameState currentState = GameState.Menu;
@@ -106,7 +108,7 @@ public class Main extends Application {
                 button.setStyle(button.getStyle().replace("-fx-background-color: #8c3b3b;", "-fx-background-color: #2b2b2b;"));
             }
         });
-        button.setFont(BOLD_30);
+        button.setFont(GameAssets.BOLD_30);
         return button;
     }
 
@@ -454,8 +456,8 @@ public class Main extends Application {
             if (engine.getEnemyMech() != null) gc.drawImage(engine.getEnemyMech(), offX, offY);
             if (engine.getChargerMech() != null) gc.drawImage(engine.getChargerMech(), offX, offY);
             if (engine.getBossMech() != null) gc.drawImage(engine.getBossMech(), offX, offY);
-            if (engine.getTile() != null) gc.drawImage(engine.getTile(), offX, offY);
-            if (engine.getProps() != null) gc.drawImage(engine.getProps(), offX, offY);
+            if (engine.getAssets().tile != null) gc.drawImage(engine.getAssets().tile, offX, offY);
+            if (engine.getPropsImage() != null) gc.drawImage(engine.getPropsImage(), offX, offY);
             if (engine.getCrystal() != null) gc.drawImage(engine.getCrystal(), offX, offY);
             if (engine.getEnteringImage() != null) gc.drawImage(engine.getEnteringImage(), offX, offY);
             if (engine.getCrackedImage() != null) gc.drawImage(engine.getCrackedImage(), offX, offY);
@@ -467,7 +469,7 @@ public class Main extends Application {
             if (engine.getBoomerangImage() != null) gc.drawImage(engine.getBoomerangImage(), offX, offY);
             if (engine.getRockImage() != null) gc.drawImage(engine.getRockImage(), offX, offY);
             if (engine.getLightningImage() != null) gc.drawImage(engine.getLightningImage(), offX, offY);
-            if (engine.getLightningImage_2() != null) gc.drawImage(engine.getLightningImage_2(), offX, offY);
+            if (engine.getLightningImage2() != null) gc.drawImage(engine.getLightningImage2(), offX, offY);
             if (engine.getAuraImage() != null) gc.drawImage(engine.getAuraImage(), offX, offY);
             if (engine.getExplosionImage() != null) gc.drawImage(engine.getExplosionImage(), offX, offY);
             if (engine.getBlackholeImage() != null) gc.drawImage(engine.getBlackholeImage(), offX, offY);
@@ -485,7 +487,9 @@ public class Main extends Application {
 
     public void start(Stage primaryStage) {
 
-
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+        SCREEN_WIDTH = screenBounds.getWidth();
+        SCREEN_HEIGHT = screenBounds.getHeight();
 
         // world here
         World world = new World();
@@ -504,17 +508,17 @@ public class Main extends Application {
         // UI ------------------------
 
 
-        Image healthFillImg = new Image(getClass().getResource("/HealthBarFill.png").toExternalForm());
+        Image healthFillImg = new Image(getClass().getResource("/UI/HealthBarFill.png").toExternalForm());
         ImageView healthFillView = new ImageView(healthFillImg);
         healthFillView.setFitWidth(450);
         healthFillView.setFitHeight(16);
 
-        Image overHealFillImg = new Image(getClass().getResource("/OverhealBarFill.png").toExternalForm());
+        Image overHealFillImg = new Image(getClass().getResource("/UI/OverhealBarFill.png").toExternalForm());
         ImageView overHealFillView = new ImageView(overHealFillImg);
         overHealFillView.setFitWidth(450);
         overHealFillView.setFitHeight(16);
 
-        Image healthBgImg = new Image(getClass().getResource("/HealthBar.png").toExternalForm());
+        Image healthBgImg = new Image(getClass().getResource("/UI/HealthBar.png").toExternalForm());
         ImageView healthBgView = new ImageView(healthBgImg);
         healthBgView.setFitWidth(495);
         healthBgView.setFitHeight(26);
@@ -532,14 +536,14 @@ public class Main extends Application {
         healthBottomCenterUI.getChildren().addAll(customHealthBar, healthLabel);
         StackPane.setAlignment(healthLabel, Pos.CENTER);
 
-        Image StaminaFillImg = new Image(getClass().getResource("/StaminaBarFill.png").toExternalForm());
+        Image StaminaFillImg = new Image(getClass().getResource("/UI/StaminaBarFill.png").toExternalForm());
         ImageView staminaFillView = new ImageView(StaminaFillImg);
         staminaFillView.setFitWidth(430);
         staminaFillView.setFitHeight(13);
         staminaFillView.setTranslateX(28);
         staminaFillView.setTranslateY(3);
 
-        Image StaminaBgImg = new Image(getClass().getResource("/StaminaBar.png").toExternalForm());
+        Image StaminaBgImg = new Image(getClass().getResource("/UI/StaminaBar.png").toExternalForm());
         ImageView StaminaBgView = new ImageView(StaminaBgImg);
         StaminaBgView.setFitWidth(490);
         StaminaBgView.setFitHeight(26);
@@ -567,11 +571,11 @@ public class Main extends Application {
         uiLayer.setBottom(BottomCenterUI);
 
 
-        Image expBgImg = new Image(getClass().getResource("/ExpBar.png").toExternalForm());
+        Image expBgImg = new Image(getClass().getResource("/UI/ExpBar.png").toExternalForm());
         ImageView expBgView = new ImageView(expBgImg);
         expBgView.setFitWidth(1980);
         expBgView.setFitHeight(40);
-        Image expFillImg = new Image(getClass().getResource("/ExpBarFill.png").toExternalForm());
+        Image expFillImg = new Image(getClass().getResource("/UI/ExpBarFill.png").toExternalForm());
         ImageView expFillView = new ImageView(expFillImg);
         expFillView.setFitWidth(1920);
         expFillView.setFitHeight(30);
@@ -647,7 +651,7 @@ public class Main extends Application {
         Label coinCountLabel = new Label("0");
         coinCountLabel.setTextFill(Color.WHITE);
         coinCountLabel.setFont(FONT_30);
-        Image coinImg = new Image(getClass().getResource("/coin.png").toExternalForm());
+        Image coinImg = new Image(getClass().getResource("/UI/coin.png").toExternalForm());
         ImageView coinIcon = new ImageView(coinImg);
         coinIcon.setFitWidth(50);
         coinIcon.setFitHeight(50);
@@ -657,7 +661,7 @@ public class Main extends Application {
         Label killCountLabel = new Label("0");
         killCountLabel.setTextFill(Color.WHITE);
         killCountLabel.setFont(FONT_30);
-        Image killImg = new Image(getClass().getResource("/skull.png").toExternalForm());
+        Image killImg = new Image(getClass().getResource("/Sprite/skull.png").toExternalForm());
         ImageView killIcon = new ImageView(killImg);
         killIcon.setFitWidth(50);
         killIcon.setFitHeight(50);

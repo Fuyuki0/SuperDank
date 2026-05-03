@@ -2,7 +2,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import MyGame.GameObject.Player;
+import MyGame.GameObject.Player.Player;
 import MyGame.GameObject.Enemies.Enemy;
 import MyGame.GameObject.Enemies.Charger;
 import MyGame.GameObject.Enemies.Boss;

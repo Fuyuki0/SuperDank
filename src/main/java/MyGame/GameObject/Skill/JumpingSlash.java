@@ -1,12 +1,16 @@
 package MyGame.GameObject.Skill;
 
+import MyGame.Game.GameEngine;
 import MyGame.GameObject.Enemies.Enemy;
-import MyGame.GameObject.Player;
+import MyGame.GameObject.Player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JumpingSlash {
+import MyGame.Interface.ActiveSkill;
+import MyGame.Game.World;
+
+public class JumpingSlash implements ActiveSkill {
     private double PosX;
     private double PosY;
     private double PosZ;
@@ -40,8 +44,52 @@ public class JumpingSlash {
         }
     }
 
-    public boolean fade() {
+    @Override
+    public void updateSkill(double deltaTime, World world) {
+        update(deltaTime);
+        for (Enemy enemy : world.getEnemies()) {
+            if (!getEnemyList().contains(enemy)) {
+                double distanceX = enemy.getPosX() - player.getPosX();
+                double distanceY = enemy.getPosY() - player.getPosY();
+                double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+                if (distance < 300) {
+                    enemy.takeDamageAndEffectPlayer(player, 80 * (1 + player.getStatDamage() / 100), world.getDamageTexts(), false);
+                    enemy.smoothHitboxContactPushOut(-enemy.getFaceToX() * 300, -enemy.getFaceToY() * 300, 0.2);
+                    getEnemyList().add(enemy);
+                    player.setSlashCooldown(player.getSlashCooldown() - 0.01);
+                }
+            }
+        }
+        player.setCanJumpingSlashOnce(false);
+    }
+
+    @Override
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        double frameWidth = 288;
+        double frameHeight = 288;
+        double scaleJumpingSlash = 1.3;
+
+        double sourceX = frameWidth * getCurrentFrame();
+        double sourceY = frameHeight;
+
+        gc.save();
+        gc.setGlobalAlpha(opacity());
+        gc.translate(getPosX() - cameraPosX, getPosY() - cameraPosY - getPosZ() + 50);
+        gc.drawImage(
+                engine.getJumpingSlashImage(),
+                sourceX, sourceY, frameWidth, frameHeight,
+                -(frameWidth * scaleJumpingSlash / 2.0), -(frameHeight * scaleJumpingSlash / 2.0), frameWidth * scaleJumpingSlash, frameHeight * scaleJumpingSlash
+        );
+        gc.restore();
+    }
+
+    @Override
+    public boolean isFinished() {
         return timer <= 0;
+    }
+
+    public boolean fade() {
+        return isFinished();
     }
 
     public double opacity() {
@@ -115,4 +163,5 @@ public class JumpingSlash {
     public void setPosZ(double posZ) {
         PosZ = posZ;
     }
+
 }

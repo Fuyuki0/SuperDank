@@ -1,9 +1,8 @@
 package MyGame.GameObject.Projectile;
 
-import MyGame.GameEngine;
+import MyGame.Game.GameEngine;
 import MyGame.GameObject.GameObject;
-import MyGame.World;
-import javafx.scene.canvas.GraphicsContext;
+import MyGame.Game.World;
 
 import java.util.List;
 
@@ -23,5 +22,5 @@ public abstract class Projectile extends GameObject {
 
     public abstract void updateProj(double deltaTime, World world);
     public abstract boolean isDone();
-    public abstract void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, GameEngine engine);
+    public abstract void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine);
 }

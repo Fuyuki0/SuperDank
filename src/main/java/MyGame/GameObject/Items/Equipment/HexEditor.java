@@ -1,13 +1,13 @@
 package MyGame.GameObject.Items.Equipment;
 
-import MyGame.GameObject.Experience;
-import MyGame.GameObject.Items.Item;
-import MyGame.GameObject.Items.ItemRarity;
-import MyGame.GameObject.Player;
-import MyGame.World;
+import MyGame.GameObject.Items.Collectable.Experience;
+import MyGame.Interface.Item;
+import MyGame.Rarity.ItemRarity;
+import MyGame.GameObject.Player.Player;
+import MyGame.Game.World;
 
-import static MyGame.Main.SCREEN_HEIGHT;
-import static MyGame.Main.SCREEN_WIDTH;
+import static MyGame.Game.Main.SCREEN_HEIGHT;
+import static MyGame.Game.Main.SCREEN_WIDTH;
 
 public class HexEditor implements Item {
     private double hexEditorTimer = 10.0;

@@ -2,8 +2,10 @@ package MyGame.GameObject.Items;
 
 import MyGame.GameObject.Items.Equipment.*;
 import MyGame.GameObject.Items.PowerUp.Steak;
-import MyGame.GameObject.Player;
-import MyGame.World;
+import MyGame.GameObject.Player.Player;
+import MyGame.Interface.Item;
+import MyGame.Rarity.ItemRarity;
+import MyGame.Game.World;
 
 import java.util.ArrayList;
 import java.util.List;

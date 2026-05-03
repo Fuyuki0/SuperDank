@@ -1,7 +1,8 @@
-package MyGame.GameObject.Items;
+package MyGame.Interface;
 
-import MyGame.GameObject.Player;
-import MyGame.World;
+import MyGame.Rarity.ItemRarity;
+import MyGame.GameObject.Player.Player;
+import MyGame.Game.World;
 
 public interface Item {
     String getName();

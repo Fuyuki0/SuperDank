@@ -1,13 +1,10 @@
 package MyGame.GameObject.Projectile;
 
-import MyGame.GameEngine;
+import MyGame.Game.GameEngine;
 import MyGame.GameObject.Enemies.Enemy;
-import MyGame.GameObject.SoundManager;
+import MyGame.Game.SoundManager;
 import MyGame.GameObject.Weapon.OrbitRock;
-import MyGame.World;
-import javafx.scene.canvas.GraphicsContext;
-
-import java.util.List;
+import MyGame.Game.World;
 
 
 public class Rock extends Projectile {
@@ -105,7 +102,7 @@ public class Rock extends Projectile {
     }
 
     @Override
-    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, GameEngine engine) {
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
         OrbitRock orbitRock = engine.getWorld().getOrbitRock();
         if (orbitRock == null) {
             return;

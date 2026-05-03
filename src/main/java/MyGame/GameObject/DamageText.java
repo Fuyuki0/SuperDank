@@ -1,7 +1,8 @@
 package MyGame.GameObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import MyGame.Game.GameEngine;
+
+import static MyGame.Game.GameAssets.FONT_30;
 
 public class DamageText extends GameObject{
 
@@ -39,6 +40,21 @@ public class DamageText extends GameObject{
 
     public boolean isFade() {
         return timer <= 0;
+    }
+
+    @Override
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        gc.setFont(FONT_30);
+        gc.setGlobalAlpha(this.getDamageTextOpacity());
+        gc.setStroke(javafx.scene.paint.Color.BLACK);
+        gc.setLineWidth(2);
+        gc.strokeText(this.getText(), this.getPosX() - cameraPosX, this.getPosY() - cameraPosY);
+        if (!this.isCrit())
+            gc.setFill(javafx.scene.paint.Color.WHITE);
+        else
+            gc.setFill(javafx.scene.paint.Color.ORANGE);
+        gc.fillText(this.getText(), this.getPosX() - cameraPosX, this.getPosY() - cameraPosY);
+        gc.setGlobalAlpha(1);
     }
 
     @Override

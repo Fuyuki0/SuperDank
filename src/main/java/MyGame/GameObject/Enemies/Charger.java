@@ -1,14 +1,8 @@
 package MyGame.GameObject.Enemies;
 
-import MyGame.GameObject.Player;
-import MyGame.GameObject.Weapon.Cores.ChaosCore;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Effect;
-import javafx.scene.image.Image;
+import MyGame.Game.GameEngine;
+import MyGame.GameObject.Player.Player;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Charger extends Enemy {
     public Charger(double posX, double posY, Player player) {
@@ -36,7 +30,12 @@ public class Charger extends Enemy {
     }
 
     @Override
-    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double margin, double screenWidth, double screenHeight, Effect hitFlash, Image enemyMech, Image chargerMech, Image bossMech) {
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        javafx.scene.effect.Effect hitFlash = engine.getHitFlash();
+        javafx.scene.image.Image enemyMech = engine.getEnemyMech();
+        javafx.scene.image.Image chargerMech = engine.getChargerMech();
+        javafx.scene.image.Image bossMech = engine.getBossMech();
+        
         gc.setFill(Color.rgb(0, 0, 0, 0.4));
         double shadowWidth = 40;
         double shadowHeight = 15;

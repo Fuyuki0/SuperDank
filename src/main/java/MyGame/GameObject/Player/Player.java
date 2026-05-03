@@ -1,10 +1,9 @@
-package MyGame.GameObject;
+package MyGame.GameObject.Player;
 
-import MyGame.GameEngine;
-import MyGame.World;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Effect;
-import javafx.scene.image.Image;
+import MyGame.Game.GameEngine;
+import MyGame.GameObject.GameObject;
+import MyGame.Game.SoundManager;
+import MyGame.Game.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +101,29 @@ public class Player extends GameObject {
     private int currentFrame = 0;
     private double animationTimer = 0.0;
     private int checkSetFrame = 0;
-    public enum MovementState {Idle, Run, Dash, JumpUp, JumpDown, Skill, SkillJump, Skill2, UltimateUp, UltimateDown};
-    private MovementState currentMovementState = MovementState.Run;
+    public enum MovementState {
+        Idle(0, 0.15, 6),
+        Run(1, 0.08, 5),
+        Dash(2, 0.10, 2),
+        JumpUp(3, 0.06, 1),
+        JumpDown(3, 0.06, 1),
+        Skill(4, 0.04, 3),
+        SkillJump(4, 0.12, 1),
+        Skill2(4, 0.04, 3),
+        UltimateUp(5, 0.02, 1),
+        UltimateDown(5, 0.02, 1);
+
+        public final int checkSetFrame;
+        public final double frameDuration;
+        public final int maxFrames;
+
+        MovementState(int checkSetFrame, double frameDuration, int maxFrames) {
+            this.checkSetFrame = checkSetFrame;
+            this.frameDuration = frameDuration;
+            this.maxFrames = maxFrames;
+        }
+    }
+    private MovementState currentMovementState;
     private double flashTimer = 0;
 
     // gamestart
@@ -292,95 +312,26 @@ public class Player extends GameObject {
 
     public void updateAnimation(double deltaTime) {
         animationTimer += deltaTime;
-        if (currentMovementState == MovementState.Run) {
-            if (checkSetFrame != 1) {
-                checkSetFrame = 1;
+        if (checkSetFrame != currentMovementState.checkSetFrame) {
+            checkSetFrame = currentMovementState.checkSetFrame;
+            currentFrame = 0;
+        }
+        if (animationTimer > currentMovementState.frameDuration) {
+            currentFrame++;
+            if (currentFrame >= currentMovementState.maxFrames) {
                 currentFrame = 0;
             }
-            if (animationTimer > 0.08) {
-                currentFrame++;
-                if (currentFrame >= 5) {
-                    currentFrame = 0;
-                }
-                animationTimer = 0;
-            }
-        } else if (currentMovementState == MovementState.Dash) {
-            if (checkSetFrame != 2) {
-                checkSetFrame = 2;
-                currentFrame = 0;
-            }
-            if (animationTimer > 0.10) {
-                currentFrame++;
-                if (currentFrame >= 2) {
-                    currentFrame = 0;
-                }
-                animationTimer = 0;
-            }
-        } else if (currentMovementState == MovementState.JumpUp || currentMovementState == MovementState.JumpDown){
-            if (checkSetFrame != 3) {
-                checkSetFrame = 3;
-                currentFrame = 0;
-            }
-            if (animationTimer > 0.06) {
-                currentFrame++;
-                if (currentFrame >= 1) {
-                    currentFrame = 0;
-                }
-                animationTimer = 0;
-            }
-        } else if (currentMovementState == MovementState.Skill) {
-            if (checkSetFrame != 4) {
-                checkSetFrame = 4;
-                currentFrame = 0;
-            }
-            if (animationTimer > 0.04) {
-                currentFrame++;
-                if (currentFrame >= 3) {
-                    currentFrame = 0;
-                }
-                animationTimer = 0;
-            }
-        } else if (currentMovementState == MovementState.SkillJump) {
-            if (checkSetFrame != 4) {
-                checkSetFrame = 4;
-                currentFrame = 0;
-            }
-            if (animationTimer > 0.12) {
-                currentFrame++;
-                if (currentFrame >= 1) {
-                    currentFrame = 0;
-                }
-                animationTimer = 0;
-            }
-        } else if (currentMovementState == MovementState.UltimateUp || currentMovementState == MovementState.UltimateDown) {
-            if (checkSetFrame != 5) {
-                checkSetFrame = 5;
-                currentFrame = 0;
-            }
-            if (animationTimer > 0.02) {
-                currentFrame++;
-                if (currentFrame >= 1) {
-                    currentFrame = 0;
-                }
-                animationTimer = 0;
-            }
-        } else {
-            if (checkSetFrame != 0) {
-                checkSetFrame = 0;
-                currentFrame = 0;
-            }
-            if (animationTimer > 0.15) {
-                currentFrame++;
-                if (currentFrame >= 4) {
-                    currentFrame = 0;
-                }
-                animationTimer = 0;
-            }
+            animationTimer = 0;
         }
     }
 
-    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, Image playerMech, Effect hitPlayer) {
-
+    @Override
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        javafx.scene.image.Image playerMech = engine.getPlayerMech();
+        javafx.scene.effect.Effect hitPlayer = engine.getHitPlayer();
+        java.util.List<PlayerTrail> playerTrails = engine.getPlayerTrails();
+        double deltaTime = engine.getDeltaTime();
+        double trailTimer = engine.getTrailTimer();
         double offsetX = 10;
         double offsetY = 20;
         double scalePlayer = 1.5;
@@ -388,8 +339,8 @@ public class Player extends GameObject {
         double drawPlayerY = this.getPosY() - cameraPosY - this.getPosZ() - offsetY;
         double frameWidth = 80;
         double frameHeight = 80;
-        double sourceX = 0;
-        double sourceY = 0;
+        double sourceX;
+        double sourceY;
         if (this.getCurrentMovementState() == Player.MovementState.Run) {
             double idleStartX = 0;
             double idleStartY = 80;
@@ -423,20 +374,6 @@ public class Player extends GameObject {
             double idleStartY = 200;
             sourceX = idleStartX + (this.getCurrentFrame() * frameWidth);
             sourceY = idleStartY;
-        } else if (this.getCurrentMovementState() == Player.MovementState.UltimateUp) {
-            frameWidth = 120;
-            frameHeight = 120;
-            double idleStartX = 280;
-            double idleStartY = 200;
-            sourceX = idleStartX;
-            sourceY = idleStartY;
-        } else if (this.getCurrentMovementState() == Player.MovementState.UltimateDown) {
-            frameWidth = 120;
-            frameHeight = 120;
-            double idleStartX = 400;
-            double idleStartY = 200;
-            sourceX = idleStartX;
-            sourceY = idleStartY;
         } else {
             double walkStartX = 0;
             double walkStartY = 0;
@@ -444,8 +381,95 @@ public class Player extends GameObject {
             sourceY = walkStartY;
         }
 
-        boolean isFlipped = this.getFaceToX() <= -0.1;
+        boolean isFlipped = this.getFaceToX() < 0;
 
+        for (int i = playerTrails.size() - 1; i >= 0; i--) {
+            PlayerTrail trail = playerTrails.get(i);
+            trail.opacity -= deltaTime;
+            if (trail.opacity <= 0) {
+                playerTrails.remove(i);
+            } else {
+                gc.save();
+                gc.setGlobalAlpha(trail.opacity);
+                gc.translate(trail.worldPosX - cameraPosX - offsetX, trail.worldPosY - cameraPosY - offsetY);
+                if (trail.isFlipped) {
+                    gc.scale(-1, 1);
+                }
+                if (trail.rotation != 0) {
+                    gc.rotate(trail.rotation);
+                }
+                gc.drawImage(
+                        playerMech,
+                        trail.sourcePosX, trail.sourcePosY, trail.frameWidth, trail.frameHeight,
+                        -(trail.frameWidth * scalePlayer / 2.0), -(trail.frameHeight * scalePlayer / 2.0), trail.frameWidth * scalePlayer, trail.frameHeight * scalePlayer
+                );
+                gc.restore();
+            }
+        }
+        
+        double currentXOffset = 0;
+        if (isFlipped) {
+            if (this.getCurrentMovementState() == Player.MovementState.Skill) {
+                currentXOffset = -60;
+            } else if (this.getCurrentMovementState() == Player.MovementState.SkillJump) {
+                currentXOffset = 10;
+            } else {
+                currentXOffset = 22;
+            }
+        } else {
+            if (this.getCurrentMovementState() == Player.MovementState.Skill) {
+                currentXOffset = 60;
+            } else if (this.getCurrentMovementState() == Player.MovementState.SkillJump) {
+                currentXOffset = -10;
+            } else {
+                currentXOffset = 0;
+            }
+        }
+
+        double currentRotation = 0;
+        if (this.getSlashCooldown() > this.getSlashMaxCooldown() - 0.13 && this.getCurrentMovementState() == Player.MovementState.SkillJump) {
+            currentRotation = 360 * (this.getSlashMaxCooldown() - this.getSlashCooldown()) / 0.13;
+        }
+
+        if (this.getCheckSetFrame() > 0) {
+            trailTimer += deltaTime;
+            engine.setTrailTimer(trailTimer);
+            if (this.getCurrentMovementState() == Player.MovementState.Run) {
+                if (trailTimer >= 0.2) {
+                    playerTrails.add(new PlayerTrail(
+                            this.getPosX() + currentXOffset, this.getPosY() - this.getPosZ(),
+                            sourceX, sourceY, frameWidth, frameHeight, isFlipped, currentRotation
+                    ));
+                    engine.setTrailTimer(0);
+                }
+            } else if (this.getCurrentMovementState() == Player.MovementState.Dash || this.getCurrentMovementState() == Player.MovementState.JumpUp || this.getCurrentMovementState() == Player.MovementState.JumpDown) {
+                if (trailTimer >= 0.05) {
+                    playerTrails.add(new PlayerTrail(
+                            this.getPosX() + currentXOffset, this.getPosY() - this.getPosZ(),
+                            sourceX, sourceY, frameWidth, frameHeight, isFlipped, currentRotation
+                    ));
+                    engine.setTrailTimer(0);
+                }
+            } else if (this.getCurrentMovementState() == Player.MovementState.Skill) {
+                if (trailTimer >= 0.03) {
+                    playerTrails.add(new PlayerTrail(
+                            this.getPosX() + currentXOffset, this.getPosY() - this.getPosZ(),
+                            sourceX, sourceY, frameWidth, frameHeight, isFlipped, currentRotation
+                    ));
+                    engine.setTrailTimer(0);
+                }
+            } else if (this.getCurrentMovementState() == Player.MovementState.SkillJump) {
+                if (trailTimer >= 0.01) {
+                    playerTrails.add(new PlayerTrail(
+                            this.getPosX() + currentXOffset, this.getPosY() - this.getPosZ(),
+                            sourceX, sourceY, frameWidth, frameHeight, isFlipped, currentRotation
+                    ));
+                    engine.setTrailTimer(0);
+                }
+            } else {
+                engine.setTrailTimer(0);
+            }
+        }
         if (isFlipped) {
             gc.save();
             if (this.getCurrentMovementState() == Player.MovementState.Skill) {
@@ -473,7 +497,7 @@ public class Player extends GameObject {
             gc.rotate(360 * (this.getSlashMaxCooldown() - this.getSlashCooldown()) / 0.13);
         }
 
-        if (flashTimer > 0) {
+        if (this.getFlashTimer() > 0) {
             gc.setEffect(hitPlayer);
         }
 
@@ -483,6 +507,7 @@ public class Player extends GameObject {
                 -(frameWidth * scalePlayer / 2.0), -(frameHeight * scalePlayer / 2.0), frameWidth * scalePlayer, frameHeight * scalePlayer
         );
         gc.restore();
+
     }
 
     @Override
@@ -796,100 +821,28 @@ public class Player extends GameObject {
         return faceToX;
     }
 
-    public void setFaceToX(double faceToX) {
-        this.faceToX = faceToX;
-    }
-
     public double getFaceToY() {
         return faceToY;
-    }
-
-    public void setFaceToY(double faceToY) {
-        this.faceToY = faceToY;
-    }
-
-    public double getCurrentAngle() {
-        return currentAngle;
-    }
-
-    public void setCurrentAngle(double currentAngle) {
-        this.currentAngle = currentAngle;
     }
 
     public double getMAX_SPEED() {
         return MAX_SPEED;
     }
 
-    public double getACCELERATION() {
-        return ACCELERATION;
-    }
-
-    public double getFRICTION() {
-        return FRICTION;
-    }
-
-    public double getDirectionToX() {
-        return directionToX;
-    }
-
-    public void setDirectionToX(double directionToX) {
-        this.directionToX = directionToX;
-    }
-
-    public double getDirectionToY() {
-        return directionToY;
-    }
-
-    public void setDirectionToY(double directionToY) {
-        this.directionToY = directionToY;
-    }
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
-    }
-
-    public int getExpToLevel() {
-        return expToLevel;
-    }
-
-    public void setExpToLevel(int expToLevel) {
-        this.expToLevel = expToLevel;
-    }
-
     public int getPlayerLevel() {
         return playerLevel;
-    }
-
-    public void setPlayerLevel(int playerLevel) {
-        this.playerLevel = playerLevel;
     }
 
     public int getEnemiesKilled() {
         return enemiesKilled;
     }
 
-    public void setEnemiesKilled(int enemiesKilled) {
-        this.enemiesKilled = enemiesKilled;
-    }
-
     public double getSpeedMultiplier() {
         return speedMultiplier;
     }
 
-    public void setSpeedMultiplier(double speedMultiplier) {
-        this.speedMultiplier = speedMultiplier;
-    }
-
     public double getExpMultiplier() {
         return expMultiplier;
-    }
-
-    public void setExpMultiplier(double expMultiplier) {
-        this.expMultiplier = expMultiplier;
     }
 
     public double getCurrentOverHeal() {
@@ -914,52 +867,16 @@ public class Player extends GameObject {
         return lifeSteal;
     }
 
-    public void setLifeSteal(int lifeSteal) {
-        this.lifeSteal = lifeSteal;
-    }
-
     public double getRegeneration() {
         return regeneration;
-    }
-
-    public void setRegeneration(double regeneration) {
-        this.regeneration = regeneration;
     }
 
     public double getMAP_LIMIT() {
         return MAP_LIMIT;
     }
 
-    public double getDASH_COOLDOWN() {
-        return DASH_COOLDOWN;
-    }
-
-    public double getDASH_DURATION() {
-        return DASH_DURATION;
-    }
-
-    public double getDASH_SPEED() {
-        return DASH_SPEED;
-    }
-
     public double getDashTimer() {
         return dashTimer;
-    }
-
-    public void setDashTimer(double dashTimer) {
-        this.dashTimer = dashTimer;
-    }
-
-    public double getDashCooldown() {
-        return dashCooldown;
-    }
-
-    public void setDashCooldown(double dashCooldown) {
-        this.dashCooldown = dashCooldown;
-    }
-
-    public void setLifeSteal(double lifeSteal) {
-        this.lifeSteal = lifeSteal;
     }
 
     public double getMaxStamina() {
@@ -980,24 +897,12 @@ public class Player extends GameObject {
         else this.currentStamina = Math.max(currentStamina, 0);
     }
 
-    public double getGRAVITY() {
-        return GRAVITY;
-    }
-
-    public double getJUMP_SPEED() {
-        return JUMP_SPEED;
-    }
-
     public double getPosZ() {
         return posZ;
     }
 
     public void setPosZ(double posZ) {
         this.posZ = posZ;
-    }
-
-    public double getVelocityZ() {
-        return velocityZ;
     }
 
     public void setVelocityZ(double velocityZ) {
@@ -1010,26 +915,6 @@ public class Player extends GameObject {
 
     public void setJumping(boolean jumping) {
         isJumping = jumping;
-    }
-
-    public double getStaminaTimer() {
-        return staminaTimer;
-    }
-
-    public void setStaminaTimer(double staminaTimer) {
-        this.staminaTimer = staminaTimer;
-    }
-
-    public double getJumpTimer() {
-        return jumpTimer;
-    }
-
-    public void setJumpTimer(double jumpTimer) {
-        this.jumpTimer = jumpTimer;
-    }
-
-    public double getJUMP_COOLDOWN() {
-        return JUMP_COOLDOWN;
     }
 
     public double getSlashMaxCooldown() {
@@ -1050,26 +935,6 @@ public class Player extends GameObject {
 
     public void setCoin(int coin) {
         this.coin = Math.max(coin, 0);
-    }
-
-    public double getRegenerationTimer() {
-        return regenerationTimer;
-    }
-
-    public void setRegenerationTimer(double regenerationTimer) {
-        this.regenerationTimer = regenerationTimer;
-    }
-
-    public double getSmoothDash() {
-        return smoothDash;
-    }
-
-    public void setSmoothDash(double smoothDash) {
-        this.smoothDash = smoothDash;
-    }
-
-    public void setJumpingSlashing(boolean jumpingSlashing) {
-        isJumpingSlashing = jumpingSlashing;
     }
 
     public boolean isCanJumpingSlashOnce() {
@@ -1232,10 +1097,6 @@ public class Player extends GameObject {
         return pendingBlackHoles;
     }
 
-    public void setPendingBlackHoles(List<double[]> pendingBlackHoles) {
-        this.pendingBlackHoles = pendingBlackHoles;
-    }
-
     public boolean isHasFinalWeapon() {
         return hasFinalWeapon;
     }
@@ -1264,26 +1125,9 @@ public class Player extends GameObject {
         return currentFrame;
     }
 
-    public void setCurrentFrame(int currentFrame) {
-        this.currentFrame = currentFrame;
-    }
-
-    public double getAnimationTimer() {
-        return animationTimer;
-    }
-
-    public void setAnimationTimer(double animationTimer) {
-        this.animationTimer = animationTimer;
-    }
-
     public int getCheckSetFrame() {
         return checkSetFrame;
     }
-
-    public void setCheckSetFrame(int checkSetFrame) {
-        this.checkSetFrame = checkSetFrame;
-    }
-
     public void setShielded(boolean shielded) {
         this.shielded = shielded;
     }
@@ -1294,10 +1138,6 @@ public class Player extends GameObject {
 
     public double getGameStartTimer() {
         return gameStartTimer;
-    }
-
-    public void setGameStartTimer(double gameStartTimer) {
-        this.gameStartTimer = gameStartTimer;
     }
 
     public double getFlashTimer() {

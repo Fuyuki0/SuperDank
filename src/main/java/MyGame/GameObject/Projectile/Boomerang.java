@@ -1,9 +1,8 @@
 package MyGame.GameObject.Projectile;
 
-import MyGame.GameEngine;
+import MyGame.Game.GameEngine;
 import MyGame.GameObject.Enemies.Enemy;
-import MyGame.World;
-import javafx.scene.canvas.GraphicsContext;
+import MyGame.Game.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,7 +109,7 @@ public class Boomerang extends Projectile {
     }
 
     @Override
-    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, GameEngine engine) {
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
         double frameWidth = 349;
         double frameHeight = 349;
         double sourceX = 0;

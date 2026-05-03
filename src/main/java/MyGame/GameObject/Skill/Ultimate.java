@@ -1,16 +1,19 @@
 package MyGame.GameObject.Skill;
 
+import MyGame.Game.GameEngine;
 import MyGame.GameObject.Enemies.Enemy;
-import MyGame.GameObject.Player;
-import MyGame.GameObject.SoundManager;
-import MyGame.World;
+import MyGame.GameObject.Player.Player;
+import MyGame.Game.SoundManager;
+import MyGame.Interface.ActiveSkill;
+import MyGame.Game.World;
 
-public class Ultimate {
+public class Ultimate implements ActiveSkill {
     private double ultimateTimer = 0;
 
     public Ultimate() {}
 
-    public void update(Double deltaTime, World world) {
+    @Override
+    public void updateSkill(double deltaTime, World world) {
         Player player = world.getPlayer();
         ultimateTimer += deltaTime;
         player.setJumping(false);
@@ -69,9 +72,54 @@ public class Ultimate {
         } else if (ultimateTimer >= 3 && ultimateTimer < 3.5){
             SoundManager.ultimatePlayer.stop();
             world.setUltimateSoundCheck(0);
-        } else {
-            return;
         }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return ultimateTimer >= 3.5;
+    }
+
+    @Override
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        World world = engine.getWorld();
+        Player player = world.getPlayer();
+
+        gc.save();
+        gc.setFill(javafx.scene.paint.Color.rgb(0, 0, 0, 0.3));
+        gc.fillRect(0, 0, screenWidth, screenHeight);
+        if (ultimateTimer < 2.0) {
+            gc.setStroke(javafx.scene.paint.Color.rgb(150, 0, 90, 0.4));
+            gc.setLineWidth(15);
+            double radius = 1200 - (ultimateTimer / 1.5) * 1200;
+            gc.strokeOval(player.getPosX() - cameraPosX - radius, player.getPosY() - cameraPosY - radius, radius * 2, radius * 2);
+        }
+
+        if (ultimateTimer >= 2.0) {
+            if (ultimateTimer < 2.1) {
+                gc.setFill(javafx.scene.paint.Color.rgb(255, 255, 255, 0.9));
+                gc.fillRect(0, 0, screenWidth, screenHeight);
+            }
+        }
+        gc.restore();
+
+        if (ultimateTimer > 2.0 && ultimateTimer < 2.3) {
+            double frameWidth = 128 * 5;
+            double frameHeight = 256 * 5;
+            double sourceX = world.getCurrentEnteringFrame() * frameWidth;
+            double sourceY = 0;
+            double scaleEnter = 1;
+            gc.save();
+            gc.setGlobalAlpha(0.3);
+            gc.translate(player.getPosX() - cameraPosX, player.getPosY() - cameraPosY - 500);
+            gc.drawImage(
+                    engine.getEnteringImage(),
+                    sourceX, sourceY, frameWidth, frameHeight,
+                    -(frameWidth / 2) * scaleEnter, -(frameHeight / 2) * scaleEnter, frameWidth * scaleEnter, frameHeight * scaleEnter
+            );
+            gc.restore();
+        }
+        gc.setGlobalAlpha(1);
     }
 
     public double getUltimateTimer() {

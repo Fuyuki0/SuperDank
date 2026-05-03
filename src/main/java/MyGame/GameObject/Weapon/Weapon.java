@@ -1,9 +1,10 @@
 package MyGame.GameObject.Weapon;
 
-import MyGame.Rarity;
-import MyGame.World;
+import MyGame.Game.GameEngine;
+import MyGame.Rarity.Rarity;
+import MyGame.Game.World;
 
-public abstract class Weapon {
+public abstract class Weapon implements MyGame.Interface.Renderable {
     protected double cooldown;
     protected double timer;
 
@@ -110,6 +111,11 @@ public abstract class Weapon {
 
     protected abstract void playerAttack(World world);
     public abstract String getName();
+
+    @Override
+    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        // By default, weapons don't render themselves unless overridden
+    }
 
 
     public double getCooldown() {

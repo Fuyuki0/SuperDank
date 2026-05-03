@@ -2,10 +2,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import MyGame.GameObject.Items.Item;
+import MyGame.Interface.Item;
 import MyGame.GameObject.Items.ItemManager;
-import MyGame.GameObject.Player;
-import MyGame.World;
+import MyGame.GameObject.Player.Player;
+import MyGame.Game.World;
 
 public class ItemManagerTest {
 
