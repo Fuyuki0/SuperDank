@@ -44,7 +44,6 @@ import java.util.List;
 
 import static MyGame.Game.GameAssets.*;
 
-
 /**
  * The bootstrap class for the JavaFX application.
  */
@@ -53,7 +52,10 @@ public class Main extends Application {
     public static double SCREEN_WIDTH = 1920;
     public static double SCREEN_HEIGHT = 1200;
 
-    public enum GameState {Menu, Play, Setting}
+    public enum GameState {
+        Menu, Play, Setting
+    }
+
     public GameState currentState = GameState.Menu;
 
     // useable
@@ -82,6 +84,7 @@ public class Main extends Application {
     private Weapon winningWeapon;
     private Weapon randomWeapon;
 
+    private boolean enableCores = false;
 
     private Button createCustomButton(String text) {
         Button button = new Button(text);
@@ -89,26 +92,29 @@ public class Main extends Application {
         button.setPrefHeight(100);
         button.setStyle(
                 "-fx-background-color: #2b2b2b;" +
-                "-fx-text-fill: white;" +
-                "-fx-border-color: #E66420;" +
-                "-fx-border-width: 3px;"
-        );
+                        "-fx-text-fill: white;" +
+                        "-fx-border-color: #E66420;" +
+                        "-fx-border-width: 3px;");
 
         button.focusedProperty().addListener((observable, oldValue, isFocused) -> {
             if (isFocused) {
-                button.setStyle(button.getStyle().replace("-fx-background-color: #2b2b2b;", "-fx-background-color: #8c3b3b;"));
+                button.setStyle(
+                        button.getStyle().replace("-fx-background-color: #2b2b2b;", "-fx-background-color: #8c3b3b;"));
             } else {
-                button.setStyle(button.getStyle().replace("-fx-background-color: #8c3b3b;", "-fx-background-color: #2b2b2b;"));
+                button.setStyle(
+                        button.getStyle().replace("-fx-background-color: #8c3b3b;", "-fx-background-color: #2b2b2b;"));
             }
         });
         button.setOnMouseEntered(mouseEvent -> {
             if (!button.isFocused()) {
-                button.setStyle(button.getStyle().replace("-fx-background-color: #2b2b2b;", "-fx-background-color: #8c3b3b;"));
+                button.setStyle(
+                        button.getStyle().replace("-fx-background-color: #2b2b2b;", "-fx-background-color: #8c3b3b;"));
             }
         });
         button.setOnMouseExited(mouseEvent -> {
             if (!button.isFocused()) {
-                button.setStyle(button.getStyle().replace("-fx-background-color: #8c3b3b;", "-fx-background-color: #2b2b2b;"));
+                button.setStyle(
+                        button.getStyle().replace("-fx-background-color: #8c3b3b;", "-fx-background-color: #2b2b2b;"));
             }
         });
         button.setFont(GameAssets.BOLD_30);
@@ -122,7 +128,7 @@ public class Main extends Application {
             refreshButton.setFont(FONT_20);
             refreshButton.setDisable(false);
         } else {
-            refreshButton.setText("Refresh (" + refreshCost +" Coins)");
+            refreshButton.setText("Refresh (" + refreshCost + " Coins)");
             refreshButton.setFont(FONT_20);
             if (player != null && player.getCoin() < refreshCost) {
                 refreshButton.setDisable(true);
@@ -135,12 +141,18 @@ public class Main extends Application {
     private Rarity gachaRarity(Player player) {
         double luck = player.getLuck();
         double roll = Math.random() * 100 + luck;
-        if (roll <= 40) return Rarity.Common;
-        if (roll <= 64) return Rarity.Uncommon;
-        if (roll <= 82) return Rarity.Rare;
-        if (roll <= 92) return Rarity.Epic;
-        if (roll <= 97) return Rarity.Legendary;
-        if (roll <= 99.5) return Rarity.Abysmal;
+        if (roll <= 40)
+            return Rarity.Common;
+        if (roll <= 64)
+            return Rarity.Uncommon;
+        if (roll <= 82)
+            return Rarity.Rare;
+        if (roll <= 92)
+            return Rarity.Epic;
+        if (roll <= 97)
+            return Rarity.Legendary;
+        if (roll <= 99.5)
+            return Rarity.Abysmal;
         return Rarity.Divine;
     }
 
@@ -161,13 +173,20 @@ public class Main extends Application {
 
         int statSlot = 0;
         Rarity rarity = weapon.getRarity();
-        if      (rarity == Rarity.Common)    statSlot = 1;
-        else if (rarity == Rarity.Uncommon)  statSlot = 1;
-        else if (rarity == Rarity.Rare)      statSlot = 2;
-        else if (rarity == Rarity.Epic)      statSlot = 2;
-        else if (rarity == Rarity.Legendary) statSlot = 3;
-        else if (rarity == Rarity.Abysmal)   statSlot = 3;
-        else if (rarity == Rarity.Divine)    statSlot = 5;
+        if (rarity == Rarity.Common)
+            statSlot = 1;
+        else if (rarity == Rarity.Uncommon)
+            statSlot = 1;
+        else if (rarity == Rarity.Rare)
+            statSlot = 2;
+        else if (rarity == Rarity.Epic)
+            statSlot = 2;
+        else if (rarity == Rarity.Legendary)
+            statSlot = 3;
+        else if (rarity == Rarity.Abysmal)
+            statSlot = 3;
+        else if (rarity == Rarity.Divine)
+            statSlot = 5;
 
         String[] statNames = weapon.getWeaponStat();
 
@@ -178,12 +197,30 @@ public class Main extends Application {
             String statName = statNames[(int) (Math.random() * statNames.length)];
             double bonusAmount = 0;
             switch (statName) {
-                case "Damage" ->     {bonusAmount = 8 * rarity.getMultiplyBonusWeapon(); weapon.addBonusDamage(bonusAmount);}
-                case "Atk Speed" ->  {bonusAmount = 2 * rarity.getMultiplyBonusWeapon(); weapon.addBonusAttackSpeed(bonusAmount);}
-                case "Crit Rate" ->  {bonusAmount = 3 * rarity.getMultiplyBonusWeapon(); weapon.addBonusCritRate(bonusAmount);}
-                case "Crit Dmg" ->   {bonusAmount = 15 * rarity.getMultiplyBonusWeapon(); weapon.addBonusCritDmg(bonusAmount);}
-                case "Size" ->       {bonusAmount = 10 * rarity.getMultiplyBonusWeapon(); weapon.addBonusSize(bonusAmount);}
-                case "Proj Count" -> {bonusAmount = 1 * rarity.getMultiplyBonusWeapon(); weapon.addBonusProjCount(bonusAmount);}
+                case "Damage" -> {
+                    bonusAmount = 8 * rarity.getMultiplyBonusWeapon();
+                    weapon.addBonusDamage(bonusAmount);
+                }
+                case "Atk Speed" -> {
+                    bonusAmount = 2 * rarity.getMultiplyBonusWeapon();
+                    weapon.addBonusAttackSpeed(bonusAmount);
+                }
+                case "Crit Rate" -> {
+                    bonusAmount = 3 * rarity.getMultiplyBonusWeapon();
+                    weapon.addBonusCritRate(bonusAmount);
+                }
+                case "Crit Dmg" -> {
+                    bonusAmount = 15 * rarity.getMultiplyBonusWeapon();
+                    weapon.addBonusCritDmg(bonusAmount);
+                }
+                case "Size" -> {
+                    bonusAmount = 10 * rarity.getMultiplyBonusWeapon();
+                    weapon.addBonusSize(bonusAmount);
+                }
+                case "Proj Count" -> {
+                    bonusAmount = 1 * rarity.getMultiplyBonusWeapon();
+                    weapon.addBonusProjCount(bonusAmount);
+                }
             }
             Label statlabel;
             if (!weapon.isCore()) {
@@ -193,7 +230,7 @@ public class Main extends Application {
                     statlabel = new Label("+ " + String.format("%.1f", bonusAmount) + " " + statName);
                 }
             } else {
-                bonusAmount = weapon.getAmount() * rarity.getMultiplyBonusCore() ;
+                bonusAmount = weapon.getAmount() * rarity.getMultiplyBonusCore();
                 if (weapon.getAmountType() == Weapon.AmountType.Multiplier) {
                     statlabel = new Label("+ " + String.format("%.1f", bonusAmount * 100) + " % " + statName);
                 } else {
@@ -227,22 +264,24 @@ public class Main extends Application {
             possibleWeapon.add(new Aura());
             possibleWeapon.add(new LightningWeapon());
 
-            //possibleWeapon.add(new BiocatalystCore());
-            //possibleWeapon.add(new ChaosCore());
-            //possibleWeapon.add(new CryptoCore());
-            //possibleWeapon.add(new DataCore());
-            //possibleWeapon.add(new DynamoCore());
-            //possibleWeapon.add(new EntropyCore());
-            //possibleWeapon.add(new FractalCore());
-            //possibleWeapon.add(new KineticCore());
-            //possibleWeapon.add(new OverClockCore());
-            //possibleWeapon.add(new OverHeatCore());
-            //possibleWeapon.add(new PlasmaCore());
-            //possibleWeapon.add(new ResonanceCore());
-            //possibleWeapon.add(new SiphonCore());
-            //possibleWeapon.add(new SomaticCore());
-            //possibleWeapon.add(new SurgeCore());
-            //possibleWeapon.add(new VectorCore());
+            if (enableCores) {
+                possibleWeapon.add(new BiocatalystCore());
+                possibleWeapon.add(new ChaosCore());
+                possibleWeapon.add(new CryptoCore());
+                possibleWeapon.add(new DataCore());
+                possibleWeapon.add(new DynamoCore());
+                possibleWeapon.add(new EntropyCore());
+                possibleWeapon.add(new FractalCore());
+                possibleWeapon.add(new KineticCore());
+                possibleWeapon.add(new OverClockCore());
+                possibleWeapon.add(new OverHeatCore());
+                possibleWeapon.add(new PlasmaCore());
+                possibleWeapon.add(new ResonanceCore());
+                possibleWeapon.add(new SiphonCore());
+                possibleWeapon.add(new SomaticCore());
+                possibleWeapon.add(new SurgeCore());
+                possibleWeapon.add(new VectorCore());
+            }
 
             List<Weapon> weaponPool = new ArrayList<>();
             for (Weapon weapon : possibleWeapon) {
@@ -272,8 +311,10 @@ public class Main extends Application {
             } else {
                 randomRarity = gachaRarity(world.getPlayer());
                 int nextLevel = currentLevel + 1;
-                if (nextLevel == 20) displayText = "MAX " + randomWeapon.getName();
-                else displayText = "Lvl " + nextLevel + " " + randomWeapon.getName();
+                if (nextLevel == 20)
+                    displayText = "MAX " + randomWeapon.getName();
+                else
+                    displayText = "Lvl " + nextLevel + " " + randomWeapon.getName();
                 if (i == winningIndex) {
                     randomWeapon.setLevel(nextLevel);
                     this.winningWeapon = randomWeapon;
@@ -314,7 +355,7 @@ public class Main extends Application {
         gambaPopup.setVisible(true);
         acceptRouletteButton.setDisable(true);
         int winningShuffle = 40;
-        double itemOnCenter = 10 + (winningShuffle * (200 + 15) ) + 100;
+        double itemOnCenter = 10 + (winningShuffle * (200 + 15)) + 100;
         double targetPosX = 700 - itemOnCenter;
         targetPosX += (Math.random() * 100) - 50;
         itemBox.setCache(true);
@@ -377,7 +418,6 @@ public class Main extends Application {
         acceptRouletteButton.setStyle(acceptRouletteButton.getStyle() + "-fx-border-color: #E66420;");
         return spinningAnimation;
     }
-
 
     public void warmUpEngine(GraphicsContext gc, GameEngine engine) {
         Player player = new Player(0, 0);
@@ -449,34 +489,55 @@ public class Main extends Application {
             new MutatedBrain();
             new FinalWeapon();
 
-
             gc.save();
             gc.setGlobalAlpha(0.001);
             double offX = -10000;
             double offY = -10000;
 
-            if (engine.getPlayerMech() != null) gc.drawImage(engine.getPlayerMech(), offX, offY);
-            if (engine.getEnemyMech() != null) gc.drawImage(engine.getEnemyMech(), offX, offY);
-            if (engine.getChargerMech() != null) gc.drawImage(engine.getChargerMech(), offX, offY);
-            if (engine.getBossMech() != null) gc.drawImage(engine.getBossMech(), offX, offY);
-            if (engine.getAssets().tile != null) gc.drawImage(engine.getAssets().tile, offX, offY);
-            if (engine.getPropsImage() != null) gc.drawImage(engine.getPropsImage(), offX, offY);
-            if (engine.getCrystal() != null) gc.drawImage(engine.getCrystal(), offX, offY);
-            if (engine.getEnteringImage() != null) gc.drawImage(engine.getEnteringImage(), offX, offY);
-            if (engine.getCrackedImage() != null) gc.drawImage(engine.getCrackedImage(), offX, offY);
-            if (engine.getArrowImage() != null) gc.drawImage(engine.getArrowImage(), offX, offY);
-            if (engine.getSlashImage() != null) gc.drawImage(engine.getSlashImage(), offX, offY);
-            if (engine.getCrossSlashImage() != null) gc.drawImage(engine.getCrossSlashImage(), offX, offY);
-            if (engine.getJumpingSlashImage() != null) gc.drawImage(engine.getJumpingSlashImage(), offX, offY);
-            if (engine.getSwordImage() != null) gc.drawImage(engine.getSwordImage(), offX, offY);
-            if (engine.getBoomerangImage() != null) gc.drawImage(engine.getBoomerangImage(), offX, offY);
-            if (engine.getRockImage() != null) gc.drawImage(engine.getRockImage(), offX, offY);
-            if (engine.getLightningImage() != null) gc.drawImage(engine.getLightningImage(), offX, offY);
-            if (engine.getLightningImage2() != null) gc.drawImage(engine.getLightningImage2(), offX, offY);
-            if (engine.getAuraImage() != null) gc.drawImage(engine.getAuraImage(), offX, offY);
-            if (engine.getExplosionImage() != null) gc.drawImage(engine.getExplosionImage(), offX, offY);
-            if (engine.getBlackholeImage() != null) gc.drawImage(engine.getBlackholeImage(), offX, offY);
-            if (engine.getGlitchImage() != null) gc.drawImage(engine.getGlitchImage(), offX, offY);
+            if (engine.getPlayerMech() != null)
+                gc.drawImage(engine.getPlayerMech(), offX, offY);
+            if (engine.getEnemyMech() != null)
+                gc.drawImage(engine.getEnemyMech(), offX, offY);
+            if (engine.getChargerMech() != null)
+                gc.drawImage(engine.getChargerMech(), offX, offY);
+            if (engine.getBossMech() != null)
+                gc.drawImage(engine.getBossMech(), offX, offY);
+            if (engine.getAssets().tile != null)
+                gc.drawImage(engine.getAssets().tile, offX, offY);
+            if (engine.getPropsImage() != null)
+                gc.drawImage(engine.getPropsImage(), offX, offY);
+            if (engine.getCrystal() != null)
+                gc.drawImage(engine.getCrystal(), offX, offY);
+            if (engine.getEnteringImage() != null)
+                gc.drawImage(engine.getEnteringImage(), offX, offY);
+            if (engine.getCrackedImage() != null)
+                gc.drawImage(engine.getCrackedImage(), offX, offY);
+            if (engine.getArrowImage() != null)
+                gc.drawImage(engine.getArrowImage(), offX, offY);
+            if (engine.getSlashImage() != null)
+                gc.drawImage(engine.getSlashImage(), offX, offY);
+            if (engine.getCrossSlashImage() != null)
+                gc.drawImage(engine.getCrossSlashImage(), offX, offY);
+            if (engine.getJumpingSlashImage() != null)
+                gc.drawImage(engine.getJumpingSlashImage(), offX, offY);
+            if (engine.getSwordImage() != null)
+                gc.drawImage(engine.getSwordImage(), offX, offY);
+            if (engine.getBoomerangImage() != null)
+                gc.drawImage(engine.getBoomerangImage(), offX, offY);
+            if (engine.getRockImage() != null)
+                gc.drawImage(engine.getRockImage(), offX, offY);
+            if (engine.getLightningImage() != null)
+                gc.drawImage(engine.getLightningImage(), offX, offY);
+            if (engine.getLightningImage2() != null)
+                gc.drawImage(engine.getLightningImage2(), offX, offY);
+            if (engine.getAuraImage() != null)
+                gc.drawImage(engine.getAuraImage(), offX, offY);
+            if (engine.getExplosionImage() != null)
+                gc.drawImage(engine.getExplosionImage(), offX, offY);
+            if (engine.getBlackholeImage() != null)
+                gc.drawImage(engine.getBlackholeImage(), offX, offY);
+            if (engine.getGlitchImage() != null)
+                gc.drawImage(engine.getGlitchImage(), offX, offY);
 
             gc.restore();
             gc.setGlobalAlpha(1.0);
@@ -497,7 +558,6 @@ public class Main extends Application {
         // world here
         World world = new World();
 
-
         StackPane root = new StackPane();
         Canvas canvas = new Canvas(SCREEN_WIDTH, SCREEN_HEIGHT);
         uiLayer = new BorderPane();
@@ -505,11 +565,9 @@ public class Main extends Application {
         uiLayer.setVisible(false);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-
         // ========== Play ============
 
         // UI ------------------------
-
 
         Image healthFillImg = new Image(getClass().getResource("/UI/HealthBarFill.png").toExternalForm());
         ImageView healthFillView = new ImageView(healthFillImg);
@@ -573,7 +631,6 @@ public class Main extends Application {
                 staminaBottomCenterUI);
         uiLayer.setBottom(BottomCenterUI);
 
-
         Image expBgImg = new Image(getClass().getResource("/UI/ExpBar.png").toExternalForm());
         ImageView expBgView = new ImageView(expBgImg);
         expBgView.setFitWidth(1980);
@@ -593,8 +650,7 @@ public class Main extends Application {
         StackPane levelTopCenterUI = new StackPane();
         levelTopCenterUI.getChildren().addAll(
                 customExpBar,
-                levelLabel
-        );
+                levelLabel);
         StackPane.setAlignment(levelLabel, Pos.CENTER);
         uiLayer.setTop(levelTopCenterUI);
 
@@ -602,13 +658,12 @@ public class Main extends Application {
         chestUIPopup.setAlignment(Pos.CENTER);
         chestUIPopup.setStyle(
                 "-fx-background-color: #2e2e2e; " +
-                "-fx-padding: 50;" +
-                "-fx-background-radius: 20;" +
-                "-fx-border-width: 4px;" +
-                "-fx-border-radius: 20;" +
-                "-fx-background-radius: 20;" +
-                "-fx-effect: dropshadow(gaussian, rgba(255, 200, 0, 0.4), 40, 0, 0, 0);"
-        );
+                        "-fx-padding: 50;" +
+                        "-fx-background-radius: 20;" +
+                        "-fx-border-width: 4px;" +
+                        "-fx-border-radius: 20;" +
+                        "-fx-background-radius: 20;" +
+                        "-fx-effect: dropshadow(gaussian, rgba(255, 200, 0, 0.4), 40, 0, 0, 0);");
         chestUIPopup.setMaxSize((double) (SCREEN_WIDTH * 4) / 7, 900);
         chestUIPopup.setVisible(false);
 
@@ -616,7 +671,6 @@ public class Main extends Application {
         chestUITitle.setTextFill(Color.GOLD);
         chestUITitle.setFont(BOLD_80);
         chestUITitle.setStyle("-fx-effect: dropshadow(gaussian, black, 40, 0, 0, 0);");
-
 
         Label itemName = new Label("");
         itemName.setTextFill(Color.WHITE);
@@ -648,8 +702,7 @@ public class Main extends Application {
                 itemRarityLabel,
                 itemDescribe,
                 new Region(),
-                chestButtonBox
-        );
+                chestButtonBox);
 
         Label coinCountLabel = new Label("0");
         coinCountLabel.setTextFill(Color.WHITE);
@@ -678,7 +731,7 @@ public class Main extends Application {
         StackPane UtilUIPane = new StackPane(timeSurvivedLabel, killCountLabel, coinCountLabel);
         StackPane.setAlignment(timeSurvivedLabel, Pos.CENTER);
         StackPane.setAlignment(killCountLabel, Pos.CENTER);
-        StackPane.setMargin(killCountLabel, new Insets(0, 0, 0,  SCREEN_WIDTH / 3.0 + 10));
+        StackPane.setMargin(killCountLabel, new Insets(0, 0, 0, SCREEN_WIDTH / 3.0 + 10));
         StackPane.setAlignment(coinCountLabel, Pos.CENTER);
         StackPane.setMargin(coinCountLabel, new Insets(0, SCREEN_WIDTH / 3.0, 0, 0));
 
@@ -701,18 +754,18 @@ public class Main extends Application {
                 staminaFillView, staminaLabel, expFillView, levelLabel,
 
                 chestUIPopup, itemName, itemRarityLabel, itemDescribe, chestContinueButton, chestSkipButton,
-                killCountLabel, killIcon, coinCountLabel, coinIcon, timeSurvivedLabel, topLeftWeaponHang
-        );
+                killCountLabel, killIcon, coinCountLabel, coinIcon, timeSurvivedLabel, topLeftWeaponHang);
 
-        //  ========= new skip handle (space to jump block) ==========
-
+        // ========= new skip handle (space to jump block) ==========
 
         // input bleed fix
         scene.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
             if (gambaPopup.isVisible() && keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER) {
                 if (acceptRouletteButton.isDisable()) {
-                    if (spinningAnimation != null) spinningAnimation.stop();
-                    if (pauseTransition != null) pauseTransition.stop();
+                    if (spinningAnimation != null)
+                        spinningAnimation.stop();
+                    if (pauseTransition != null)
+                        pauseTransition.stop();
                     if (pauseTransition != null && pauseTransition.getOnFinished() != null)
                         pauseTransition.getOnFinished().handle(null);
                 } else {
@@ -726,7 +779,8 @@ public class Main extends Application {
                 }
                 keyEvent.consume();
             }
-            if (chestUIPopup.isVisible() && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
+            if (chestUIPopup.isVisible()
+                    && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
                 if (!chestContinueButton.isDisabled()) {
                     if (chestSkipButton.isFocused()) {
                         chestSkipButton.fire();
@@ -747,15 +801,16 @@ public class Main extends Application {
         scene.addEventFilter(MouseEvent.MOUSE_PRESSED, mouseEvent -> {
             if (gambaPopup.isVisible() && mouseEvent.getButton() == MouseButton.PRIMARY) {
                 if (acceptRouletteButton.isDisable()) {
-                    if (spinningAnimation != null) spinningAnimation.stop();
-                    if (pauseTransition != null) pauseTransition.stop();
+                    if (spinningAnimation != null)
+                        spinningAnimation.stop();
+                    if (pauseTransition != null)
+                        pauseTransition.stop();
                     if (pauseTransition != null && pauseTransition.getOnFinished() != null)
                         pauseTransition.getOnFinished().handle(null);
                     mouseEvent.consume();
                 }
             }
         });
-
 
         // UI keyboard
         scene.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
@@ -765,7 +820,8 @@ public class Main extends Application {
                 if (code == KeyCode.H || code == KeyCode.LEFT || (code == KeyCode.TAB && keyEvent.isShiftDown())) {
                     chestSkipButton.requestFocus();
                     keyEvent.consume();
-                } else if (code == KeyCode.L || code == KeyCode.RIGHT || (code == KeyCode.TAB && !keyEvent.isShiftDown())) {
+                } else if (code == KeyCode.L || code == KeyCode.RIGHT
+                        || (code == KeyCode.TAB && !keyEvent.isShiftDown())) {
                     chestContinueButton.requestFocus();
                     keyEvent.consume();
                 }
@@ -777,18 +833,23 @@ public class Main extends Application {
                 }
                 if (code == KeyCode.H || code == KeyCode.LEFT || (code == KeyCode.TAB && keyEvent.isShiftDown())) {
                     if (acceptRouletteButton.isFocused()) {
-                        if (!refreshButton.isDisabled()) refreshButton.requestFocus();
-                        else skipButton.requestFocus();
+                        if (!refreshButton.isDisabled())
+                            refreshButton.requestFocus();
+                        else
+                            skipButton.requestFocus();
                     } else if (refreshButton.isFocused()) {
                         skipButton.requestFocus();
                     } else if (skipButton.isFocused()) {
                         acceptRouletteButton.requestFocus();
                     }
                     keyEvent.consume();
-                } else if (code == KeyCode.L || code == KeyCode.RIGHT || (code == KeyCode.TAB && !keyEvent.isShiftDown())) {
+                } else if (code == KeyCode.L || code == KeyCode.RIGHT
+                        || (code == KeyCode.TAB && !keyEvent.isShiftDown())) {
                     if (skipButton.isFocused()) {
-                        if (!refreshButton.isDisabled()) refreshButton.requestFocus();
-                        else acceptRouletteButton.requestFocus();
+                        if (!refreshButton.isDisabled())
+                            refreshButton.requestFocus();
+                        else
+                            acceptRouletteButton.requestFocus();
                     } else if (refreshButton.isFocused()) {
                         acceptRouletteButton.requestFocus();
                     } else if (acceptRouletteButton.isFocused()) {
@@ -804,7 +865,7 @@ public class Main extends Application {
                     } else
                         returnMainMenuButton.requestFocus();
                     keyEvent.consume();
-                } else if (code == KeyCode.K || code == KeyCode.UP || (code == KeyCode.TAB && keyEvent.isShiftDown())){
+                } else if (code == KeyCode.K || code == KeyCode.UP || (code == KeyCode.TAB && keyEvent.isShiftDown())) {
                     if (continueGameButton.isFocused()) {
                         returnMainMenuButton.requestFocus();
                     } else
@@ -813,7 +874,6 @@ public class Main extends Application {
                 }
             }
         });
-
 
         // fix controller
         chestContinueButton.setOnAction(actionEvent -> {
@@ -830,7 +890,6 @@ public class Main extends Application {
             canvas.requestFocus();
         });
 
-
         // run animation before level up >)
         engine.setLevelUpCallBack(() -> {
             triggerPopupLevelUp(engine);
@@ -838,12 +897,7 @@ public class Main extends Application {
 
         engine.start();
 
-
-
         // ----------------------------
-
-
-
 
         // roulette gamba popup
         gambaPopup = new VBox(20);
@@ -872,9 +926,7 @@ public class Main extends Application {
 
         rouletteWindow.getChildren().addAll(
                 itemBox,
-                centerLine
-        );
-
+                centerLine);
 
         // getButton
         acceptRouletteButton = createCustomButton("CONTINUE!");
@@ -899,18 +951,20 @@ public class Main extends Application {
 
                 Label newWeaponLabel = new Label("Lvl 1 - " + winningWeapon.getName());
                 newWeaponLabel.setId(winningWeapon.getName());
-                if (!winningWeapon.isCore()) 
+                if (!winningWeapon.isCore())
                     newWeaponLabel.setTextFill(Color.WHITE);
                 else
                     newWeaponLabel.setTextFill(Color.LIGHTBLUE);
                 newWeaponLabel.setFont(FONT_20);
-                newWeaponLabel.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5; -fx-background-radius: 5;");
+                newWeaponLabel.setStyle(
+                        "-fx-background-color: rgba(0, 0, 0, 0.5); -fx-padding: 5; -fx-background-radius: 5;");
                 topLeftWeaponHang.getChildren().add(newWeaponLabel);
             } else {
                 engine.getWorld().upgradeExistWeapon(winningWeapon, winningWeapon.getRarity());
                 for (Node node : topLeftWeaponHang.getChildren()) {
                     if (node.getId() != null && node.getId().equals(winningWeapon.getName())) {
-                        ((Label) node).setText("Lvl " + engine.getWorld().getWeaponLevel(winningWeapon.getType()) + " - " + winningWeapon.getName());
+                        ((Label) node).setText("Lvl " + engine.getWorld().getWeaponLevel(winningWeapon.getType())
+                                + " - " + winningWeapon.getName());
                     }
                 }
             }
@@ -928,11 +982,14 @@ public class Main extends Application {
                 freeRefresh--;
             } else if (player.getCoin() >= refreshCost) {
                 player.setCoin(player.getCoin() - refreshCost);
-                refreshCost = (int)(refreshCost * 1.5);
-            } else return;
+                refreshCost = (int) (refreshCost * 1.5);
+            } else
+                return;
 
-            if (spinningAnimation != null) spinningAnimation.stop();
-            if (pauseTransition != null) pauseTransition.stop();
+            if (spinningAnimation != null)
+                spinningAnimation.stop();
+            if (pauseTransition != null)
+                pauseTransition.stop();
             itemBox.setTranslateX(0);
             holdDynamicStat.setVisible(false);
             holdDynamicStat.setManaged(false);
@@ -946,8 +1003,10 @@ public class Main extends Application {
         skipButton.setFont(FONT_20);
         skipButton.setPrefWidth(350);
         skipButton.setOnAction(actionEvent -> {
-            if (spinningAnimation != null) spinningAnimation.stop();
-            if (pauseTransition != null) pauseTransition.stop();
+            if (spinningAnimation != null)
+                spinningAnimation.stop();
+            if (pauseTransition != null)
+                pauseTransition.stop();
             gambaPopup.setVisible(false);
             itemBox.setTranslateX(0);
             holdDynamicStat.setVisible(false);
@@ -965,8 +1024,7 @@ public class Main extends Application {
         rouletteButtonLayout.getChildren().addAll(
                 skipButton,
                 refreshButton,
-                acceptRouletteButton
-        );
+                acceptRouletteButton);
 
         holdDynamicRoulette = new StackPane();
         holdDynamicRoulette.setPrefHeight(600);
@@ -978,15 +1036,13 @@ public class Main extends Application {
         holdDynamicStat.setFillWidth(false);
         holdDynamicRoulette.getChildren().addAll(
                 rouletteWindow,
-                holdDynamicStat
-        );
+                holdDynamicStat);
         gambaPopup.getChildren().clear();
 
         gambaPopup.getChildren().addAll(
                 gambaTitle,
                 holdDynamicRoulette,
-                rouletteButtonLayout
-        );
+                rouletteButtonLayout);
 
         // load weapon font css
         rouletteDatabase(world);
@@ -994,11 +1050,7 @@ public class Main extends Application {
         gambaPopup.layout();
         itemBox.getChildren().clear();
 
-
-
-
         // ========= GAME OVER ==========
-
 
         VBox gameOverPopup = new VBox(30);
         gameOverPopup.setAlignment(Pos.CENTER);
@@ -1028,8 +1080,7 @@ public class Main extends Application {
         gameOverPopup.getChildren().addAll(
                 deadTitle,
                 deadStatLabel,
-                returnToMenuButton
-        );
+                returnToMenuButton);
 
         engine.setGameOverCallBack(() -> {
             int totalTimeSurvived = (int) engine.getWorld().getTimeSurvived();
@@ -1039,24 +1090,17 @@ public class Main extends Application {
 
             deadStatLabel.setText(
                     "Time Survived: " + timeString + "\n\n" +
-                    "Enimies Killed: " + engine.getWorld().getPlayer().getEnemiesKilled() + "\n\n" +
-                    "Player Level: " + engine.getWorld().getPlayer().getPlayerLevel() + "\n\n" +
-                    "Coin Gained: " + engine.getWorld().getPlayer().getCoin()
-            );
+                            "Enimies Killed: " + engine.getWorld().getPlayer().getEnemiesKilled() + "\n\n" +
+                            "Player Level: " + engine.getWorld().getPlayer().getPlayerLevel() + "\n\n" +
+                            "Coin Gained: " + engine.getWorld().getPlayer().getCoin());
             gameOverPopup.setVisible(true);
         });
-
 
         root.getChildren().addAll(
                 canvas,
                 uiLayer,
                 chestUIPopup,
-                gambaPopup
-        );
-
-
-
-
+                gambaPopup);
 
         // =========== Menu ============
 
@@ -1087,7 +1131,41 @@ public class Main extends Application {
         Button exitButton = createCustomButton("QUIT");
         exitButton.setOnAction(actionEvent -> Platform.exit());
         exitButton.setTranslateY(140);
-        mainMenu.getChildren().addAll(titleLabel, playButton, exitButton);
+
+        Button coresToggleButton = new Button();
+        coresToggleButton.setTranslateY(140);
+        coresToggleButton.setPrefWidth(300);
+        coresToggleButton.setPrefHeight(60);
+        Runnable updateCoresButton = () -> {
+            if (enableCores) {
+                coresToggleButton.setText("[✓]  Enable Weapons/Cores");
+                coresToggleButton.setFont(FONT_16);
+                coresToggleButton.setTextAlignment(TextAlignment.LEFT);
+                coresToggleButton.setStyle(
+                        "-fx-background-color: #2b2b2b;" +
+                                "-fx-text-fill: #E66420;" +
+                                "-fx-border-color: #E66420;" +
+                                "-fx-border-width: 2px;"
+                );
+            } else {
+                coresToggleButton.setText("[ ]  Enable Weapons");
+                coresToggleButton.setFont(FONT_16);
+                coresToggleButton.setTextAlignment(TextAlignment.LEFT);
+                coresToggleButton.setStyle(
+                        "-fx-background-color: #2b2b2b;" +
+                                "-fx-text-fill: #888888;" +
+                                "-fx-border-color: #555555;" +
+                                "-fx-border-width: 2px;"
+                );
+            }
+        };
+        updateCoresButton.run();
+        coresToggleButton.setOnAction(e -> {
+            enableCores = !enableCores;
+            updateCoresButton.run();
+        });
+
+        mainMenu.getChildren().addAll(titleLabel, playButton, coresToggleButton, exitButton);
 
         scene.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
             KeyCode code = keyEvent.getCode();
@@ -1174,10 +1252,8 @@ public class Main extends Application {
 
         root.getChildren().addAll(mainMenu, settingMenu);
 
-
         // gameOver add here
         root.getChildren().add(gameOverPopup);
-
 
         // window setup
         primaryStage.initStyle(StageStyle.UNDECORATED);
@@ -1189,7 +1265,8 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         primaryStage.setOnCloseRequest(windowEvent -> {
-            if (engine != null) engine.stop();
+            if (engine != null)
+                engine.stop();
             System.exit(0);
         });
     }

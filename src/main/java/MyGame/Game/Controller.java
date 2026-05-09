@@ -24,25 +24,38 @@ public class Controller {
         scene.setOnKeyPressed(keyEvent -> {
             KeyCode code = keyEvent.getCode();
             if (!world.isGameStop()) {
-                if (code == KeyCode.W) up = true;
-                if (code == KeyCode.S) down = true;
-                if (code == KeyCode.D) right = true;
-                if (code == KeyCode.A) left = true;
-                if (code == KeyCode.SHIFT) world.getPlayer().dash();
-                if (code == KeyCode.SPACE) world.getPlayer().jump();
+                if (code == KeyCode.W)
+                    up = true;
+                if (code == KeyCode.S)
+                    down = true;
+                if (code == KeyCode.D)
+                    right = true;
+                if (code == KeyCode.A)
+                    left = true;
+                if (code == KeyCode.SHIFT)
+                    world.getPlayer().dash();
+                if (code == KeyCode.SPACE)
+                    world.getPlayer().jump();
             }
         });
 
         scene.setOnKeyReleased(keyEvent -> {
             KeyCode code = keyEvent.getCode();
-            if (code == KeyCode.W) up = false;
-            if (code == KeyCode.S) down = false;
-            if (code == KeyCode.D) right = false;
-            if (code == KeyCode.A) left = false;
+            if (code == KeyCode.W)
+                up = false;
+            if (code == KeyCode.S)
+                down = false;
+            if (code == KeyCode.D)
+                right = false;
+            if (code == KeyCode.A)
+                left = false;
             if (!world.isGameStop()) {
-                if (code == KeyCode.J) world.triggerSlash();
-                if (code == KeyCode.E) world.triggerCrossSlash();
-                if (code == KeyCode.K) world.triggerCrossSlash();
+                if (code == KeyCode.J)
+                    world.triggerSlash();
+                if (code == KeyCode.E)
+                    world.triggerCrossSlash();
+                if (code == KeyCode.K)
+                    world.triggerCrossSlash();
                 if (code == KeyCode.R) {
                     if (!world.isGameStop()) {
                         world.triggerUltimate();
@@ -67,33 +80,34 @@ public class Controller {
             double mouseX = mouseEvent.getSceneX();
             double mouseY = mouseEvent.getSceneY();
 
-            if (!world.isGameStop()) {
-                if (code == MouseButton.SECONDARY) {
-                    double controllerPosX = mouseEvent.getSceneX() + camera.getPosX();
-                    double controllerPosY = mouseEvent.getSceneY() + camera.getPosY();
-                    world.getPlayer().dash(controllerPosX, controllerPosY);
-                }
-                if (code == MouseButton.PRIMARY) {
-                    double controllerPosX = mouseEvent.getSceneX() + camera.getPosX();
-                    double controllerPosY = mouseEvent.getSceneY() + camera.getPosY();
-                    if (!world.isGameStop())
-                        world.triggerSlash(controllerPosX, controllerPosY);
-                }
-            }
-
             // map
             double miniMapWidth = 220;
             double miniMapHeight = 220;
-            if (world.isShowMiniMap()
-            && mouseX >= SCREEN_WIDTH - miniMapWidth - 42
-            && mouseX <= SCREEN_WIDTH - 42
-            && mouseY >= 60 - 20
-            && mouseY <= miniMapHeight + 60 - 20
-            ) {
+            boolean onMiniMap = world.isShowMiniMap()
+                    && mouseX >= SCREEN_WIDTH - miniMapWidth - 42
+                    && mouseX <= SCREEN_WIDTH - 42
+                    && mouseY >= 60 - 20
+                    && mouseY <= miniMapHeight + 60 - 20;
+
+            if (onMiniMap) {
                 world.setShowMiniMap(false);
-            } else {
-                if (!(mouseX >= SCREEN_WIDTH)){
-                    world.setShowMiniMap(true);
+                return;
+            }
+
+            if (!(mouseX >= SCREEN_WIDTH)) {
+                world.setShowMiniMap(true);
+            }
+
+            if (!world.isGameStop()) {
+                if (code == MouseButton.SECONDARY) {
+                    double controllerPosX = mouseX + camera.getPosX();
+                    double controllerPosY = mouseY + camera.getPosY();
+                    world.getPlayer().dash(controllerPosX, controllerPosY);
+                }
+                if (code == MouseButton.PRIMARY) {
+                    double controllerPosX = mouseX + camera.getPosX();
+                    double controllerPosY = mouseY + camera.getPosY();
+                    world.triggerSlash(controllerPosX, controllerPosY);
                 }
             }
         });
@@ -132,10 +146,13 @@ public class Controller {
                 x -= 1;
                 totalPressed++;
             }
-            if (totalPressed == 0 && player.getSlashCooldown() < player.getSlashMaxCooldown() - 0.13 && player.getCrossSlashCooldown() < 8 - 0.13) {
+            if (totalPressed == 0 && player.getSlashCooldown() < player.getSlashMaxCooldown() - 0.13
+                    && player.getCrossSlashCooldown() < 8 - 0.13) {
                 player.setCurrentMovementState(Player.MovementState.Idle);
             }
-            if (totalPressed > 0 && player.getDashTimer() <= 0 && player.getSlashCooldown() < player.getSlashMaxCooldown() - 0.13 && player.getCrossSlashCooldown() < 8 - 0.13) {
+            if (totalPressed > 0 && player.getDashTimer() <= 0
+                    && player.getSlashCooldown() < player.getSlashMaxCooldown() - 0.13
+                    && player.getCrossSlashCooldown() < 8 - 0.13) {
                 player.setCurrentMovementState(Player.MovementState.Run);
             }
             if (totalPressed > 1) {

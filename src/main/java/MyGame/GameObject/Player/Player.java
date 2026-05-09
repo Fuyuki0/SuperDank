@@ -378,6 +378,20 @@ public class Player extends GameObject {
             double idleStartY = 200;
             sourceX = idleStartX + (this.getCurrentFrame() * frameWidth);
             sourceY = idleStartY;
+        } else if (this.getCurrentMovementState() == Player.MovementState.UltimateUp) {
+            frameWidth = 120;
+            frameHeight = 120;
+            double idleStartX = 280;
+            double idleStartY = 200;
+            sourceX = idleStartX;
+            sourceY = idleStartY;
+        } else if (this.getCurrentMovementState() == Player.MovementState.UltimateDown) {
+            frameWidth = 120;
+            frameHeight = 120;
+            double idleStartX = 400;
+            double idleStartY = 200;
+            sourceX = idleStartX;
+            sourceY = idleStartY;
         } else {
             double walkStartX = 0;
             double walkStartY = 0;
