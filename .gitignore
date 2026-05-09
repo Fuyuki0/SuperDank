@@ -50,3 +50,4 @@ docs/
 *.jar
 !SuperDank_Manual.html
 *.puml
+*.py

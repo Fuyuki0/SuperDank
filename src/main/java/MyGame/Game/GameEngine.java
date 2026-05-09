@@ -1414,4 +1414,27 @@ public class GameEngine {
         return hitFlash;
     }
 
+    public int getLastCoinCount() {
+        return lastCoinCount;
+    }
+
+    public void setLastCoinCount(int lastCoinCount) {
+        this.lastCoinCount = lastCoinCount;
+    }
+
+    public int getLastKillCount() {
+        return lastKillCount;
+    }
+
+    public void setLastKillCount(int lastKillCount) {
+        this.lastKillCount = lastKillCount;
+    }
+
+    public int getLastsecond() {
+        return lastsecond;
+    }
+
+    public void setLastsecond(int lastsecond) {
+        this.lastsecond = lastsecond;
+    }
 }

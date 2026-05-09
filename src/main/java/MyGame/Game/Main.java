@@ -1106,8 +1106,15 @@ public class Main extends Application {
                 returnToMenuButton);
 
         scene.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if (gambaPopup.isVisible() && keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER) {
+            if (engine.getWorld().getPlayer().getCurrentHealth() <= 0 && keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER) {
                 returnToMenuButton.fire();
+                keyEvent.consume();
+            }
+        });
+
+        scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
+            if (engine.getWorld().getPlayer().getCurrentHealth() <= 0 && keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER) {
+                keyEvent.consume();
             }
         });
 
@@ -1147,15 +1154,37 @@ public class Main extends Application {
         titleLabel.setStyle(" -fx-text-fill: #E66420; -fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);");
         Button playButton = createCustomButton("START THE DANK!");
         playButton.setTranslateY(140);
+
+        // ========== refresh every state ===========
         playButton.setOnAction(actionEvent -> {
-            playButton.setText("LOADING ASSETS...");
-            playButton.setDisable(true);
-            PauseTransition loading = new PauseTransition(Duration.seconds(0.1));
-            loading.setOnFinished(pauseTransition -> {
-                warmUpEngine(gc, engine);
-                currentState = GameState.Play;
-            });
-            loading.play();
+            warmUpEngine(gc, engine);
+            currentState = GameState.Play;
+            mainMenu.setVisible(false);
+            uiLayer.setVisible(true);
+            topLeftWeaponHang.getChildren().clear();
+
+            freeRefresh = 3;
+            refreshCost = 30;
+
+            engine.setCurrentGameState(currentState);
+            engine.setWorld(new World());
+            engine.setControl(scene, engine.getWorld(), engine.getCamera());
+            SoundManager.enteringPlayer.stop();
+            SoundManager.ultimatePlayer.stop();
+            engine.getWorld().getPlayer().setPosZ(7500);
+            engine.getWorld().setEntering(true);
+            engine.getWorld().setTimeSurvived(0);
+            engine.getWorld().setEnteringSoundCheck(0);
+            engine.getWorld().setTimeSurvived(0);
+            coinCountLabel.setText("0");
+            killCountLabel.setText("0");
+            engine.setLastCoinCount(0);
+            engine.setLastKillCount(0);
+            engine.setLastsecond(0);
+
+            engine.setLevelUpCallBack(false);
+            chestUIPopup.setVisible(false);
+            gambaPopup.setVisible(false);
         });
         Button exitButton = createCustomButton("QUIT");
         exitButton.setOnAction(actionEvent -> Platform.exit());
@@ -1290,35 +1319,6 @@ public class Main extends Application {
         });
         settingMenu.getChildren().addAll(pauseLabel, continueGameButton, returnMainMenuButton);
 
-        // ========== refresh every state ===========
-        playButton.setOnAction(actionEvent -> {
-            currentState = GameState.Play;
-            mainMenu.setVisible(false);
-            uiLayer.setVisible(true);
-            topLeftWeaponHang.getChildren().clear();
-
-            freeRefresh = 3;
-            refreshCost = 30;
-
-            engine.setCurrentGameState(currentState);
-            engine.setWorld(new World());
-            engine.getWorld().setPlayer(new Player(0, 0));
-            engine.setControl(scene, engine.getWorld(), engine.getCamera());
-            SoundManager.enteringPlayer.stop();
-            SoundManager.ultimatePlayer.stop();
-            engine.getWorld().getPlayer().setPosZ(7500);
-            engine.getWorld().setEntering(true);
-            engine.getWorld().setEnteringSoundCheck(0);
-            engine.getWorld().setTimeSurvived(0);
-            engine.getWorld().getPlayer().setCoin(0);
-            engine.getWorld().getPlayer().setEnemiesKilled(0);
-
-            engine.setLevelUpCallBack(false);
-            chestUIPopup.setVisible(false);
-            gambaPopup.setVisible(false);
-        });
-
-        // ----------------------------
 
         root.getChildren().addAll(mainMenu, settingMenu);
 
