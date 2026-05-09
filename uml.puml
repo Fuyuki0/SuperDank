@@ -22,7 +22,7 @@ class MyGame.GameObject.Weapon.Cores.VectorCore {
 class MyGame.GameObject.Projectile.Explosion {
 - double MAX_TIMER
 - double timer
-+ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
 + void update(double)
 + boolean isFade()
 + double opacity()
@@ -126,6 +126,7 @@ class MyGame.Game.Main {
 - PauseTransition pauseTransition
 - Weapon winningWeapon
 - Weapon randomWeapon
+- boolean enableCores
 - Button createCustomButton(String)
 + void refreshButtonState(Player)
 - Rarity gachaRarity(Player)
@@ -171,8 +172,6 @@ class MyGame.GameObject.Enemies.CompareEnemies {
 - List<Enemy> object_2
 - Comparator<GameObject> objectComparator
 + void useComparator(List<Enemy>)
-+ List<Enemy> getObject_2()
-+ void setObject_2(List<Enemy>)
 }
 
 
@@ -202,7 +201,7 @@ class MyGame.GameObject.Enemies.Enemy {
 + void updateKnockBack(double)
 + void update(double)
 + void updateAnimation(double)
-+ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
 # void pushObject(GameObject,double,double)
 + void addMaxHealth(double)
 + Player getPlayer()
@@ -248,7 +247,7 @@ class MyGame.GameObject.Enemies.Enemy {
 
 class MyGame.GameObject.Enemies.Charger {
 + void update(double)
-+ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
 + boolean isCharger()
 }
 
@@ -397,6 +396,7 @@ class MyGame.Game.World {
 - double timeSurvived
 - List<DamageText> damageTexts
 - double difficultyMultiplier
+- double chaosCoreBonus
 - double adrenalCooldown
 - List<Explosion> explosions
 - List<double[]> blackHoles
@@ -487,6 +487,8 @@ class MyGame.Game.World {
 + void setItemList(List<Item>)
 + double getDifficultyMultiplier()
 + void setDifficultyMultiplier(double)
++ double getChaosCoreBonus()
++ void setChaosCoreBonus(double)
 + List<Obstacle> getObstacles()
 + void setObstacles(List<Obstacle>)
 + LightningWeapon getLightningWeapon()
@@ -580,6 +582,7 @@ class MyGame.Game.GameAssets {
 + {static} Font BOLD_35
 + {static} Font BOLD_80
 + {static} Font BOLD_100
++ {static} Font BOLD_150
 + Image playerMech
 + Image enemyMech
 + Image chargerMech
@@ -794,7 +797,7 @@ class MyGame.GameObject.Projectile.Rock {
 + double spawn()
 + boolean isBroken()
 + void hitEnemy()
-+ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
 + String type()
 + int getPierceCount()
 + void setPierceCount(int)
@@ -975,7 +978,7 @@ class MyGame.GameObject.Player.Player {
 + void update(double)
 + void update(double,World)
 + void updateAnimation(double)
-+ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
 # void pushObject(GameObject,double,double)
 + void setVelocity(double,double)
 + double updateVelocity(double,double,double)
@@ -1046,6 +1049,7 @@ class MyGame.GameObject.Player.Player {
 + void setMaxStamina(double)
 + double getCurrentStamina()
 + void setCurrentStamina(double)
++ void setEnemiesKilled(int)
 + double getPosZ()
 + void setPosZ(double)
 + void setVelocityZ(double)
@@ -1177,7 +1181,7 @@ class MyGame.GameObject.Projectile.Arrow {
 + void updateAnimation(double)
 + boolean isFade()
 + double opacity()
-+ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
 + double getFaceToY()
 + void setFaceToY(double)
 + double getFaceToX()
@@ -1222,7 +1226,7 @@ class MyGame.GameObject.Enemies.Boss {
 + void update(double,Player,double)
 + void telegraphAttack(Player)
 + void attack(double,Player,double)
-+ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
 + boolean isBoss()
 + BossState getCurrentState()
 + void setCurrentState(BossState)
@@ -1282,7 +1286,7 @@ class MyGame.GameObject.Projectile.Boomerang {
 + void update(double)
 + void updateProj(double,World)
 + boolean isDone()
-+ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
 + double getFaceToY()
 + void setFaceToY(double)
 + double getFaceToX()
@@ -1504,10 +1508,6 @@ interface MyGame.Interface.Item {
 ~ void setItemRarity(ItemRarity)
 }
 
-class MyGame.Game.GameLauncher {
-+ {static} void main(String[])
-}
-
 class MyGame.Game.GameEngine {
 - Main.GameState currentGameState
 - Scene scene
@@ -1609,6 +1609,12 @@ class MyGame.Game.GameEngine {
 + double getDeltaTime()
 + Effect getHitPlayer()
 + Effect getHitFlash()
++ int getLastCoinCount()
++ void setLastCoinCount(int)
++ int getLastKillCount()
++ void setLastKillCount(int)
++ int getLastsecond()
++ void setLastsecond(int)
 }
 
 
@@ -1784,7 +1790,7 @@ class MyGame.GameObject.Items.ItemManager {
 abstract class MyGame.GameObject.Projectile.Projectile {
 + {abstract}void updateProj(double,World)
 + {abstract}boolean isDone()
-+ {abstract}void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ {abstract}void draw(GraphicsContext,double,double,double,double,double,GameEngine)
 }
 
 class MyGame.GameObject.Weapon.Cores.KineticCore {
@@ -1806,6 +1812,10 @@ class MyGame.GameObject.Player.PlayerTrail {
 + double rotation
 }
 
+class MyGame.GameLauncher {
++ {static} void main(String[])
+}
+
 class MyGame.GameObject.Projectile.LightningEffect {
 - List<double[]> strikePoints
 - double timer
@@ -1819,7 +1829,7 @@ class MyGame.GameObject.Projectile.LightningEffect {
 + boolean isDone()
 + boolean isFade()
 + double opacity()
-+ void draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,GameEngine)
++ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
 + void setStrikePoints(List<double[]>)
 + double getTimer()
 + void setTimer(double)
@@ -1860,7 +1870,7 @@ MyGame.GameObject.GameObject <|-- MyGame.GameObject.Enemies.Enemy
 MyGame.GameObject.Enemies.Enemy <|-- MyGame.GameObject.Enemies.Charger
 MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.NeuroAmplifier
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.OverClockCore
-MyGame.GameObject.Weapon.Renderable <|.. MyGame.GameObject.Weapon.Weapon
+MyGame.Interface.Renderable <|.. MyGame.GameObject.Weapon.Weapon
 MyGame.GameObject.Weapon.Weapon <|-- MyGame.GameObject.Weapon.Cores.OverHeatCore
 MyGame.Interface.Item <|.. MyGame.GameObject.Items.Equipment.EngineOverload
 MyGame.Interface.Renderable <|-- MyGame.Interface.ActiveSkill
