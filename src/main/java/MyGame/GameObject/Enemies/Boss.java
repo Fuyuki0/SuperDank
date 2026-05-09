@@ -115,8 +115,27 @@ public class Boss extends Enemy{
                     double distanceY = player.getPosY() - attackTargetPosY;
                     double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
                     if (distance <= 350) {
-                        if (player.getCurrentHealth() >= 0 && !player.isJumping() && !player.isShielded())
-                            doDamage(player, 500);
+                        if (player.getCurrentHealth() >= 0 && !player.isJumping() && !player.isShielded()) {
+                            double amount = 500;
+                            if (player.getCurrentOverHeal() > 0) {
+                                double overHeal = player.getCurrentOverHeal();
+                                double overDamage = 0;
+                                if (amount > overHeal) {
+                                    overDamage = amount - overHeal;
+                                    player.setCurrentOverHeal(0);
+                                    player.setCurrentHealth(player.getCurrentHealth() - overDamage);
+                                } else {
+                                    overDamage = overHeal - amount;
+                                    player.setCurrentOverHeal(overDamage);
+                                }
+                                if (player.getCurrentOverHeal() < 0) player.setCurrentOverHeal(0);
+                            } else {
+                                double health = player.getCurrentHealth();
+                                player.setCurrentHealth(health - amount);
+                                if (player.getCurrentHealth() < 0) player.setCurrentHealth(0);
+                            }
+                            player.setFlashTimer(0.05);
+                        }
                     }
                     remainingCircles--;
                     if (remainingCircles > 0) {
@@ -140,8 +159,27 @@ public class Boss extends Enemy{
                         double attackAngleToPlayer = Math.toDegrees(Math.atan2(distanceY, distanceX));
                         double angleDiff = Math.abs(attackAngleToPlayer - attackAngle);
                         if (angleDiff > 180) angleDiff = 360 - angleDiff;
-                        if (angleDiff <= 45 && !player.isJumping() && !player.isShielded())
-                            doDamage(player, 400);
+                        if (angleDiff <= 45 && !player.isJumping() && !player.isShielded()) {
+                            double amount = 400;
+                            if (player.getCurrentOverHeal() > 0) {
+                                double overHeal = player.getCurrentOverHeal();
+                                double overDamage = 0;
+                                if (amount > overHeal) {
+                                    overDamage = amount - overHeal;
+                                    player.setCurrentOverHeal(0);
+                                    player.setCurrentHealth(player.getCurrentHealth() - overDamage);
+                                } else {
+                                    overDamage = overHeal - amount;
+                                    player.setCurrentOverHeal(overDamage);
+                                }
+                                if (player.getCurrentOverHeal() < 0) player.setCurrentOverHeal(0);
+                            } else {
+                                double health = player.getCurrentHealth();
+                                player.setCurrentHealth(health - amount);
+                                if (player.getCurrentHealth() < 0) player.setCurrentHealth(0);
+                            }
+                            player.setFlashTimer(0.05);
+                        }
                     }
                     stateTimer = 0;
                     currentState = BossState.ACTIVE;

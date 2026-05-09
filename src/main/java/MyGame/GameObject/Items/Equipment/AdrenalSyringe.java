@@ -48,7 +48,7 @@ public class AdrenalSyringe implements Item {
             adrenalTimer -= deltaTime;
             if (adrenalTimer <= 0) {
                 adrenalActive = false;
-                adrenalCooldown = 60;
+                world.setAdrenalCooldown(60);
                 player.addLifeSteal(-0.5);
                 for (Weapon weapon : weaponList)
                     weapon.setBonusAttackSpeed(weapon.getBonusAttackSpeed() - 50);
