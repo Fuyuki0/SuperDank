@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import MyGame.Game.World;
 
 /**
- * A power-up item that restores a large amount of health.
+ * A power-up item that restores a large amount of health, the picture shows a banana.
  */
 public class Steak extends GameObject implements Item, Collectable, Renderable {
 
@@ -28,12 +28,12 @@ public class Steak extends GameObject implements Item, Collectable, Renderable {
 
     @Override
     public String getName() {
-        return "Steak";
+        return "Banana";
     }
 
     @Override
     public String getDescription() {
-        return "Steak get store in your inventory turn into 300 Overheal!";
+        return "Banana get store in your inventory turn into 300 Overheal!";
     }
 
     @Override

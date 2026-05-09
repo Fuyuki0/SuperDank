@@ -28,6 +28,7 @@ public class GameAssets {
     public static final Font BOLD_35  = loadFont(35,  true);
     public static final Font BOLD_80  = loadFont(80,  true);
     public static final Font BOLD_100 = loadFont(100, true);
+    public static final Font BOLD_150 = loadFont(150, true);
 
     // sprite
     public final Image playerMech;

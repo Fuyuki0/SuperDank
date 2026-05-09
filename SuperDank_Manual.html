@@ -128,7 +128,7 @@
     <li>JavaFX SDK: <a href="https://gluonhq.com/products/javafx/">GluonHQ</a></li>
   </ul>
 
-  <h3>Windows (Optimized)</h3>
+  <h3>Window</h3>
   <div class="code-block">java -Xms2G -Xmx2G -XX:+UseG1GC -XX:MaxGCPauseMillis=5 -XX:G1ReservePercent=20 ^
     -Dglass.win.uiScale=1 ^
     -Dprism.allowhidpi=true ^
@@ -147,7 +147,9 @@
   <p class="note">The JAR file is located in <code>SuperDank/build/libs/</code>. Place the JavaFX SDK folder next to the
     JAR.</p>
 
-  <h2>3. Controls</h2>
+  <h2>3. Controls & Gameplay</h2>
+
+  <h3>In-Game Controls</h3>
   <table>
     <tr>
       <th>Action</th>
@@ -194,6 +196,67 @@
       <td colspan="2">Mouse Cursor Position</td>
     </tr>
   </table>
+
+  <h3>UI & Menu Navigation</h3>
+  <table>
+    <tr>
+      <th>Action</th>
+      <th>Primary Key</th>
+      <th>Alternate Key</th>
+    </tr>
+    <tr>
+      <td>Open Pause Menu</td>
+      <td>ESC</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Navigate Up</td>
+      <td>UP ARROW</td>
+      <td>TAB / K</td>
+    </tr>
+    <tr>
+      <td>Navigate Down</td>
+      <td>DOWN ARROW</td>
+      <td>SHIFT+TAB / J</td>
+    </tr>
+    <tr>
+      <td>Navigate Right</td>
+      <td>RIGHT ARROW</td>
+      <td>TAB / L</td>
+    </tr>
+    <tr>
+      <td>Navigate Left</td>
+      <td>LEFT ARROW</td>
+      <td>SHIFT+TAB / H</td>
+    </tr>
+    <tr>
+      <td>Apply / Select Option</td>
+      <td>SPACEBAR</td>
+      <td>LEFT CLICK</td>
+    </tr>
+  </table>
+
+  <h3>Gameplay</h3>
+  <ul>
+    <li><strong>Objective:</strong> Survive as long as possible! The game gets progressively harder as time passes.</li>
+    <li><strong>Progression:</strong> Kill enemies to collect EXP and level up. Upon leveling up, you'll enter the
+      Roulette to receive weapons or Cores. You can skip or refresh the roulette using Coins (cost increases with each
+      refresh).</li>
+    <li><strong>Loot & Items:</strong> Chests drop items of up to 5 rarities, each with different effects. Enemies also
+      drop chests, powerups, and bananas when killed.
+      <ul>
+        <li><strong style="color: #F5EE27;">Banana:</strong> Heals a player.</li>
+        <li><strong style="color: #0f3460;">Blue Powerup:</strong> Grants a temporary Shield.</li>
+        <li><strong style="color: #d35400;">Yellow Powerup:</strong> Boosts Movement and Attack Speed.</li>
+        <li><strong style="color: #8e44ad;">Purple Powerup:</strong> Magnet (pulls all EXP and Coins to you instantly).
+        </li>
+      </ul>
+    </li>
+    <li><strong>Map & Stats:</strong> Press <code>TAB</code> to toggle the minimap. Click the minimap (top-left) to view
+      the expanded map and your detailed player stats. Click it again or press <code>TAB</code> to close.</li>
+    <li><strong>Customization:</strong> From the main menu, use the toggle button to choose between 'Weapons Only' or
+      'Weapons & Cores' to customize your preferred gameplay experience.</li>
+  </ul>
 
   <h2>4. Player Base Stats</h2>
   <p>Stats extracted from <code>Player.java</code>:</p>
@@ -799,7 +862,7 @@
     </tr>
     <tr>
       <td>6</td>
-      <td>Steak</td>
+      <td>Banana</td>
       <td>—</td>
       <td>—</td>
       <td>—</td>
@@ -815,7 +878,7 @@
       <th>Effect</th>
     </tr>
     <tr>
-      <td>Steak</td>
+      <td>Banana</td>
       <td>Drop</td>
       <td>Restores a large amount of health on pickup.</td>
     </tr>
@@ -1147,7 +1210,7 @@
           <td>Berserker kill only.</td>
         </tr>
         <tr>
-          <td>Steak</td>
+          <td>Banana</td>
           <td>1.0%</td>
           <td>Berserker kill only.</td>
         </tr>
@@ -1549,25 +1612,29 @@
         separately.</p>
 
       <h3>13.0 UML Diagrams</h3>
-      
+
       <div style="text-align: center; margin: 20px 0;">
         <p><em>Diagram A: Engine Layer (Main, GameEngine, World, Camera, Controller, GameAssets)</em></p>
-        <img src="src/main/resources/UML/uml_engine.svg" alt="Engine Layer UML Diagram" style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;">
+        <img src="src/main/resources/UML/uml_engine.svg" alt="Engine Layer UML Diagram"
+          style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;">
       </div>
-      
+
       <div style="text-align: center; margin: 20px 0;">
         <p><em>Diagram B: GameObject Hierarchy — all entities, enemies, projectiles, items and weapons</em></p>
-        <img src="src/main/resources/UML/uml_gameobject.svg" alt="GameObject Hierarchy UML Diagram" style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;">
+        <img src="src/main/resources/UML/uml_gameobject.svg" alt="GameObject Hierarchy UML Diagram"
+          style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;">
       </div>
-      
+
       <div style="text-align: center; margin: 20px 0;">
         <p><em>Diagram C: Interface</em></p>
-        <img src="src/main/resources/UML/interface.svg" alt="Weapon and Cores UML Diagram" style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;">
+        <img src="src/main/resources/UML/interface.svg" alt="Weapon and Cores UML Diagram"
+          style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;">
       </div>
-      
+
       <div style="text-align: center; margin: 20px 0;">
         <p><em>All Diagram</em></p>
-        <img src="src/main/resources/UML/uml.svg" alt="Items and Collectables UML Diagram" style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;">
+        <img src="src/main/resources/UML/uml.svg" alt="Items and Collectables UML Diagram"
+          style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;">
       </div>
 
       <p><em>Open image in new tab for view.</em></p>

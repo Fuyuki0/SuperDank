@@ -1115,10 +1115,12 @@ public class Main extends Application {
         mainMenu.setVisible(true);
         Label titleLabel = new Label();
         titleLabel.setText("SUPERDANK");
-        titleLabel.setFont(BOLD_100);
+        titleLabel.setFont(BOLD_150);
         titleLabel.setStyle(" -fx-text-fill: #E66420; -fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);");
         Button playButton = createCustomButton("START THE DANK!");
         playButton.setTranslateY(140);
+        playButton.setPrefWidth(600);
+        playButton.setPrefHeight(120);
         playButton.setOnAction(actionEvent -> {
             playButton.setText("LOADING ASSETS...");
             playButton.setDisable(true);
@@ -1149,7 +1151,7 @@ public class Main extends Application {
                                 "-fx-border-width: 2px;"
                 );
             } else {
-                coresToggleButton.setText("[ ]  Enable Weapons");
+                coresToggleButton.setText("[ ]  Enable Only Weapons ");
                 coresToggleButton.setFont(FONT_16);
                 coresToggleButton.setTextAlignment(TextAlignment.LEFT);
                 coresToggleButton.setStyle(
