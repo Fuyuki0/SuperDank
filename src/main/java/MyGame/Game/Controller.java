@@ -94,8 +94,9 @@ public class Controller {
                 return;
             }
 
-            if (!(mouseX >= SCREEN_WIDTH)) {
+            if (!(mouseX >= SCREEN_WIDTH) && !world.isShowMiniMap()) {
                 world.setShowMiniMap(true);
+                return;
             }
 
             if (!world.isGameStop()) {

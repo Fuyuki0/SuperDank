@@ -527,7 +527,6 @@ public class GameEngine {
 
         renderList(world.getActiveSkills(), gc, cameraPosX, cameraPosY, screenWidth, screenHeight, 0);
 
-
         // Mutated brain rainbow effect @>
         double rainbowTimer = world.getRainbowTimer();
         if (rainbowTimer > 0) {
