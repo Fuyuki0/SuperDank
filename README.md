@@ -8,10 +8,23 @@
 
 How to start:
 > jar file in SuperDank/build/libs/
-- Linux
-  `java --module-path "javafx-sdk-<version>/lib" --add-modules javafx.controls,javafx.graphics -jar SuperDank-1.jar`
+- Linux 
+
+  `java -Xms2G -Xmx2G -XX:+UseG1GC -XX:MaxGCPauseMillis=5 -XX:G1ReservePercent=20 
+  -Dprism.forceGPU=true 
+  -Dprism.order=es2 
+  --module-path "path/to/javafx-sdk/lib" 
+  --add-modules javafx.controls,javafx.graphics,javafx.fxml,javafx.media 
+  -jar path/to/SuperDank-1.jar`
 - Window
-  `java --module-path "javafx-sdk-<version>\lib" --add-modules javafx.controls,javafx.graphics -jar SuperDank-1.jar`
+
+  `java -Xms2G -Xmx2G -XX:+UseG1GC -XX:MaxGCPauseMillis=5 -XX:G1ReservePercent=20 
+    -Dglass.win.uiScale=1 
+    -Dprism.allowhidpi=true 
+    -Dprism.forceGPU=true 
+    --module-path "path\to\javafx-sdk-26.0.1\lib" 
+    --add-modules javafx.controls,javafx.graphics,javafx.fxml,javafx.media 
+    -jar "path\to\SuperDank-1.jar`
 > Make sure to put javafx-sdk inside where the jar file is.
 
 Download java at [Oracle](https://www.oracle.com/java/technologies/javase/jdk24-archive-downloads.html)
