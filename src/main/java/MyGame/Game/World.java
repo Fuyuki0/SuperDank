@@ -627,6 +627,13 @@ public class World {
                 currentExplosionFrame = 0;
             explosionAnimationTimer = 0;
         }
+        // damage texts
+        for (int i = damageTexts.size() - 1; i >= 0; i--) {
+            DamageText text = damageTexts.get(i);
+            text.update(deltaTime);
+            if (text.isFade()) damageTexts.remove(i);
+        }
+
         for (int i = explosions.size() - 1; i >= 0; i--) {
             Explosion ex = explosions.get(i);
             ex.update(deltaTime);
