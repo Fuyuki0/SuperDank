@@ -271,6 +271,8 @@ public class GameEngine {
         gc.setLineWidth(10);
         gc.strokeRect(-mapLimit - cameraPosX, -mapLimit - cameraPosY, mapLimit * 2, mapLimit * 2);
 
+        renderList(world.getObstacles(), gc, cameraPosX, cameraPosY, screenWidth, screenHeight, margin);
+
         // craked for ultimate
         if (world.isUltimateActive()) {
             if (world.getUltimate().getUltimateTimer() >= 2) {
@@ -524,6 +526,7 @@ public class GameEngine {
         }
 
         renderList(world.getActiveSkills(), gc, cameraPosX, cameraPosY, screenWidth, screenHeight, 0);
+
 
         // Mutated brain rainbow effect @>
         double rainbowTimer = world.getRainbowTimer();

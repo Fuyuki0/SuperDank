@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 /**
  * Represents an obstacle in the game world that entities might collide with.
  */
-public class Obstacle extends GameObject{
+public class Obstacle extends GameObject {
     private double width;
     private double height;
 
@@ -18,7 +18,8 @@ public class Obstacle extends GameObject{
     }
 
     @Override
-    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight,
+            double margin, GameEngine engine) {
         gc.setFill(Color.rgb(50, 50, 50));
         gc.setStroke(Color.rgb(30, 30, 30));
         gc.setLineWidth(5);
@@ -27,11 +28,11 @@ public class Obstacle extends GameObject{
             if (obstacle.getPosX() - cameraPosX > -margin
                     && obstacle.getPosX() - cameraPosX < screenWidth + margin
                     && obstacle.getPosY() - cameraPosY > -margin
-                    && obstacle.getPosY() - cameraPosY < screenHeight + margin
-            ) {
+                    && obstacle.getPosY() - cameraPosY < screenHeight + margin) {
                 double obstaclePosX = obstacle.getPosX() - cameraPosX;
                 double obstaclePosY = obstacle.getPosY() - cameraPosY;
-                if (obstaclePosX + obstacle.getWidth() > 0 && obstaclePosX < screenWidth && obstaclePosY + obstacle.getHeight() > 0 && obstaclePosY < screenHeight) {
+                if (obstaclePosX + obstacle.getWidth() > 0 && obstaclePosX < screenWidth
+                        && obstaclePosY + obstacle.getHeight() > 0 && obstaclePosY < screenHeight) {
                     gc.fillRect(obstaclePosX, obstaclePosY, obstacle.getWidth(), obstacle.getHeight());
                     gc.strokeRect(obstaclePosX, obstaclePosY, obstacle.getWidth(), obstacle.getHeight());
                 }
@@ -39,8 +40,8 @@ public class Obstacle extends GameObject{
         }
     }
 
-
-    public void update(double deltaTime) {}
+    public void update(double deltaTime) {
+    }
 
     public double getWidth() {
         return width;
