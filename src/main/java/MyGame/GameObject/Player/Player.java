@@ -915,6 +915,10 @@ public class Player extends GameObject {
         else this.currentStamina = Math.max(currentStamina, 0);
     }
 
+    public void setEnemiesKilled(int enemiesKilled) {
+        this.enemiesKilled = enemiesKilled;
+    }
+
     public double getPosZ() {
         return posZ;
     }

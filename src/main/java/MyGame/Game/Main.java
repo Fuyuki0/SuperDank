@@ -135,10 +135,12 @@ public class Main extends Application {
         } else {
             refreshButton.setText("Refresh (" + refreshCost + " Coins)");
             refreshButton.setFont(FONT_20);
-            if (player != null && player.getCoin() < refreshCost) {
-                refreshButton.setDisable(true);
-            } else {
-                refreshButton.setDisable(false);
+            if (rouletteWindow.isVisible()) {
+                if (player != null && player.getCoin() < refreshCost) {
+                    refreshButton.setDisable(true);
+                } else {
+                    refreshButton.setDisable(false);
+                }
             }
         }
     }
@@ -1103,6 +1105,12 @@ public class Main extends Application {
                 deadStatLabel,
                 returnToMenuButton);
 
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if (gambaPopup.isVisible() && keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER) {
+                returnToMenuButton.fire();
+            }
+        });
+
         engine.setGameOverCallBack(() -> {
             int totalTimeSurvived = (int) engine.getWorld().getTimeSurvived();
             int getMinute = totalTimeSurvived / 60;
@@ -1294,6 +1302,7 @@ public class Main extends Application {
 
             engine.setCurrentGameState(currentState);
             engine.setWorld(new World());
+            engine.getWorld().setPlayer(new Player(0, 0));
             engine.setControl(scene, engine.getWorld(), engine.getCamera());
             SoundManager.enteringPlayer.stop();
             SoundManager.ultimatePlayer.stop();
@@ -1301,6 +1310,8 @@ public class Main extends Application {
             engine.getWorld().setEntering(true);
             engine.getWorld().setEnteringSoundCheck(0);
             engine.getWorld().setTimeSurvived(0);
+            engine.getWorld().getPlayer().setCoin(0);
+            engine.getWorld().getPlayer().setEnemiesKilled(0);
 
             engine.setLevelUpCallBack(false);
             chestUIPopup.setVisible(false);
