@@ -34,6 +34,9 @@ public class Charger extends Enemy {
         if (flashTimer > 0) {
             flashTimer -= deltaTime;
         }
+        if (rockHitTime < 2) {
+            rockHitTime += deltaTime;
+        }
     }
 
     @Override
