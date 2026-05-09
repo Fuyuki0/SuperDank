@@ -768,7 +768,7 @@ public class Main extends Application {
 
         // input bleed fix
         scene.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if (gambaPopup.isVisible() && keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER) {
+            if (gambaPopup.isVisible() && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
                 if (acceptRouletteButton.isDisable()) {
                     if (spinningAnimation != null)
                         spinningAnimation.stop();
@@ -810,7 +810,7 @@ public class Main extends Application {
         });
 
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
-            if (gambaPopup.isVisible() && keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER) {
+            if (gambaPopup.isVisible() && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
                 keyEvent.consume();
             }
             if (chestUIPopup.isVisible() && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
@@ -1005,6 +1005,7 @@ public class Main extends Application {
                 freeRefresh--;
             } else if (player.getCoin() >= refreshCost) {
                 player.setCoin(player.getCoin() - refreshCost);
+                engine.setLastCoinCount(engine.getLastCoinCount() - refreshCost);
                 refreshCost = (int) (refreshCost * 1.5);
             } else
                 return;
@@ -1106,14 +1107,14 @@ public class Main extends Application {
                 returnToMenuButton);
 
         scene.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if (engine.getWorld().getPlayer().getCurrentHealth() <= 0 && keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER) {
+            if (engine.getWorld().getPlayer().getCurrentHealth() <= 0 && !gambaPopup.isVisible() && currentState != GameState.Setting && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
                 returnToMenuButton.fire();
                 keyEvent.consume();
             }
         });
 
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
-            if (engine.getWorld().getPlayer().getCurrentHealth() <= 0 && keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER) {
+            if (engine.getWorld().getPlayer().getCurrentHealth() <= 0 && !gambaPopup.isVisible() && currentState != GameState.Setting && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
                 keyEvent.consume();
             }
         });
@@ -1276,7 +1277,7 @@ public class Main extends Application {
         });
 
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
-            if (currentState == GameState.Menu && playButton.isVisible() && keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER) {
+            if (currentState == GameState.Menu && playButton.isVisible() && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
                 keyEvent.consume();
             }
         });
