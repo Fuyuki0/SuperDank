@@ -49,3 +49,4 @@ javadoc/
 docs/
 *.jar
 !SuperDank_Manual.html
+*puml
