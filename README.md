@@ -30,6 +30,6 @@ Download javafx-sdk at [GluonHQ](https://gluonhq.com/products/javafx/)
 
 ## Game Manual
 
-*For a **complete guide** and **javadoc** please open the **[Game Manual](SuperDank_Manual.html)** in web browser.*
+*For a **complete guide** and **javadoc** please open the **[Game Manual](https://htmlpreview.github.io/?https://github.com/Fuyuki0/SuperDank/blob/main/SuperDank_Manual.html)***
 
 ### Make sure to check it out!
