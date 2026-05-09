@@ -117,6 +117,11 @@ public class Main extends Application {
                         button.getStyle().replace("-fx-background-color: #8c3b3b;", "-fx-background-color: #2b2b2b;"));
             }
         });
+        button.setOnKeyPressed(event -> {
+            if (event.getCode() == javafx.scene.input.KeyCode.ENTER) {
+                button.fire();
+            }
+        });
         button.setFont(GameAssets.BOLD_30);
         return button;
     }
@@ -780,8 +785,7 @@ public class Main extends Application {
                 }
                 keyEvent.consume();
             }
-            if (chestUIPopup.isVisible()
-                    && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
+            if (chestUIPopup.isVisible() && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
                 if (!chestContinueButton.isDisabled()) {
                     if (chestSkipButton.isFocused()) {
                         chestSkipButton.fire();
@@ -791,10 +795,26 @@ public class Main extends Application {
                 }
                 keyEvent.consume();
             }
+            if (currentState == GameState.Setting && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
+                if (!returnMainMenuButton.isDisabled()) {
+                    if (continueGameButton.isFocused()) {
+                        continueGameButton.fire();
+                    } else {
+                        returnMainMenuButton.fire();
+                    }
+                }
+                keyEvent.consume();
+            }
         });
 
         scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
             if (gambaPopup.isVisible() && keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER) {
+                keyEvent.consume();
+            }
+            if (chestUIPopup.isVisible() && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
+                keyEvent.consume();
+            }
+            if (currentState == GameState.Setting && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
                 keyEvent.consume();
             }
         });
@@ -1119,7 +1139,6 @@ public class Main extends Application {
         titleLabel.setStyle(" -fx-text-fill: #E66420; -fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);");
         Button playButton = createCustomButton("START THE DANK!");
         playButton.setTranslateY(140);
-        playButton.setPrefHeight(120);
         playButton.setOnAction(actionEvent -> {
             playButton.setText("LOADING ASSETS...");
             playButton.setDisable(true);
@@ -1132,10 +1151,11 @@ public class Main extends Application {
         });
         Button exitButton = createCustomButton("QUIT");
         exitButton.setOnAction(actionEvent -> Platform.exit());
+        exitButton.setPrefWidth(300);
         exitButton.setTranslateY(140);
 
         Button coresToggleButton = createCustomButton("");
-        coresToggleButton.setTranslateY(140);
+        coresToggleButton.setTranslateY(150);
         coresToggleButton.setPrefWidth(300);
         coresToggleButton.setPrefHeight(60);
         Runnable updateCoresButton = () -> {
@@ -1169,9 +1189,22 @@ public class Main extends Application {
 
         mainMenu.getChildren().addAll(titleLabel, playButton, coresToggleButton, exitButton);
 
+
         scene.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
             KeyCode code = keyEvent.getCode();
-            if (playButton.isVisible()) {
+
+            if (currentState == GameState.Menu && playButton.isVisible() && (keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER)) {
+                if (playButton.isFocused() && !playButton.isDisabled()) {
+                    playButton.fire();
+                } else if (coresToggleButton.isFocused() && !coresToggleButton.isDisabled()) {
+                    coresToggleButton.fire();
+                } else if (exitButton.isFocused() && !exitButton.isDisable()) {
+                    exitButton.fire();
+                }
+                keyEvent.consume();
+            }
+
+            if (currentState == GameState.Menu && playButton.isVisible()) {
                 if (playButton.isDisable()) {
                     playButton.requestFocus();
                 }
@@ -1205,6 +1238,12 @@ public class Main extends Application {
             }
         });
 
+        scene.addEventFilter(KeyEvent.KEY_RELEASED, keyEvent -> {
+            if (currentState == GameState.Menu && playButton.isVisible() && keyEvent.getCode() == KeyCode.SPACE || keyEvent.getCode() == KeyCode.ENTER) {
+                keyEvent.consume();
+            }
+        });
+
 
         // ========= Setting ========= //
 
@@ -1232,7 +1271,7 @@ public class Main extends Application {
             uiLayer.setVisible(false);
         });
         scene.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.ESCAPE && !gambaPopup.isVisible() && !chestUIPopup.isVisible()) {
+            if (keyEvent.getCode() == KeyCode.ESCAPE && !gambaPopup.isVisible() && !chestUIPopup.isVisible() && currentState == GameState.Play) {
                 currentState = GameState.Setting;
                 engine.setCurrentGameState(currentState);
                 engine.getWorld().pauseGame();
