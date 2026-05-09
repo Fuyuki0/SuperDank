@@ -5,6 +5,8 @@ import MyGame.GameObject.GameObject;
 import MyGame.Game.SoundManager;
 import MyGame.Game.World;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Effect;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -331,9 +333,9 @@ public class Player extends GameObject {
 
     @Override
     public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
-        javafx.scene.image.Image playerMech = engine.getPlayerMech();
-        javafx.scene.effect.Effect hitPlayer = engine.getHitPlayer();
-        java.util.List<PlayerTrail> playerTrails = engine.getPlayerTrails();
+        Image playerMech = engine.getPlayerMech();
+        Effect hitPlayer = engine.getHitPlayer();
+        List<PlayerTrail> playerTrails = engine.getPlayerTrails();
         double deltaTime = engine.getDeltaTime();
         double trailTimer = engine.getTrailTimer();
         double offsetX = 10;

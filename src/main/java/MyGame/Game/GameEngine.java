@@ -202,13 +202,9 @@ public class GameEngine {
         // effects
         black.setBrightness(-1);
         hitFlash.setBrightness(1);
-        gc.save();
-        gc.save();
-        hitPlayer.setBrightness(1);
-        gc.restore();
+        hitPlayer.setBrightness(-0.5);
         hitPlayer.setHue(0.1);
         hitPlayer.setSaturation(5);
-        gc.restore();
         maxColor.setSaturation(1.5);
         double hue = (System.currentTimeMillis() % 2000) / 1000.0 - 1;
         rainbow.setHue(hue);
