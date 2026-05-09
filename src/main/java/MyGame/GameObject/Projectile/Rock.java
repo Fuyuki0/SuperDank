@@ -75,7 +75,7 @@ public class Rock extends Projectile {
             double distanceY = enemy.getPosY() - rockPosY;
             double distance = (distanceX * distanceX + distanceY * distanceY);
             double rockRadius = 40 * (1 + world.getOrbitRock().getBonusSize() / 100);
-            if ((distance < rockRadius * rockRadius) && !world.getPlayer().isJumping() && enemy.getRockHitTime() > 1) {
+            if ((distance < rockRadius * rockRadius) && !world.getPlayer().isJumping() && enemy.getRockHitTime() > 1 / (Math.max(1, world.getOrbitRock().getRockCount()) / 2) / ( 1 + world.getOrbitRock().getBonusAttackSpeed() / 100)) {
                 double damage = 20 * (1 + world.getOrbitRock().getBonusDamage() / 100);
                 enemy.takeDamageAndEffectPlayer(world.getPlayer(), damage, world.getDamageTexts(), false);
                 enemy.setRockHitTime(0);
