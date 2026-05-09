@@ -86,7 +86,6 @@ public class GameEngine {
 
     // font load
 
-
     // player help
     private List<PlayerTrail> playerTrails = new ArrayList<>();
     private double trailTimer = 0.0;
@@ -151,8 +150,7 @@ public class GameEngine {
             Label coinCountLabel,
             ImageView coinIcon,
             Label timeSurvivedLabel,
-            VBox topLeftWeaponHang
-    ) {
+            VBox topLeftWeaponHang) {
         this.scene = scene;
         this.world = world;
         this.controller = controller;
@@ -187,7 +185,8 @@ public class GameEngine {
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
                 Image randomTile = (Math.random() < 0.05) ? assets.tileCracked : assets.tileNormal;
-                hgc.drawImage(randomTile, x * assets.tileNormal.getWidth() * 2, y * assets.tileNormal.getHeight() * 2, assets.tileNormal.getWidth() * 2, assets.tileNormal.getHeight() * 2);
+                hgc.drawImage(randomTile, x * assets.tileNormal.getWidth() * 2, y * assets.tileNormal.getHeight() * 2,
+                        assets.tileNormal.getWidth() * 2, assets.tileNormal.getHeight() * 2);
             }
         }
         SnapshotParameters parameters = new SnapshotParameters();
@@ -215,7 +214,6 @@ public class GameEngine {
         rainbow.setHue(hue);
         rainbow.setSaturation(1.2);
 
-
     }
 
     public void start() {
@@ -224,9 +222,9 @@ public class GameEngine {
     }
 
     public void stop() {
-        if (loop != null) loop.stop();
+        if (loop != null)
+            loop.stop();
     }
-
 
     private double currentDeltaTime;
 
@@ -247,7 +245,6 @@ public class GameEngine {
         Player player = world.getPlayer();
         List<Enemy> enemies = world.getEnemies();
 
-
         if (world.getScreenShakeTimer() > 0) {
             cameraPosX += (Math.random() - 0.5) * world.getScreenShakeIntensity();
             cameraPosY += (Math.random() - 0.5) * world.getScreenShakeIntensity();
@@ -260,7 +257,7 @@ public class GameEngine {
 
         gc.save();
         double pulseBG = (Math.sin(System.currentTimeMillis() / 600.0) + 1) / 12.0;
-        gc.setFill(Color.rgb(80, 80, 200, Math.min(1,pulseBG)));
+        gc.setFill(Color.rgb(80, 80, 200, Math.min(1, pulseBG)));
         gc.fillRect(0, 0, screenWidth, screenHeight);
         gc.restore();
 
@@ -273,8 +270,6 @@ public class GameEngine {
         gc.setStroke(Color.PALEVIOLETRED);
         gc.setLineWidth(10);
         gc.strokeRect(-mapLimit - cameraPosX, -mapLimit - cameraPosY, mapLimit * 2, mapLimit * 2);
-
-
 
         // craked for ultimate
         if (world.isUltimateActive()) {
@@ -289,8 +284,8 @@ public class GameEngine {
                 gc.drawImage(
                         assets.crackedImage,
                         0, 0, frameWidth, frameHeight,
-                        -(frameWidth / 2) * scaleEnter, -(frameHeight / 2) * scaleEnter, frameWidth * scaleEnter, frameHeight * scaleEnter
-                );
+                        -(frameWidth / 2) * scaleEnter, -(frameHeight / 2) * scaleEnter, frameWidth * scaleEnter,
+                        frameHeight * scaleEnter);
                 gc.restore();
                 gc.setEffect(null);
             }
@@ -314,8 +309,8 @@ public class GameEngine {
             gc.drawImage(
                     assets.crackedImage,
                     sourceX, sourceY, frameWidth, frameHeight,
-                    -(frameWidth / 2) * scaleEnter, -(frameHeight / 2) * scaleEnter, frameWidth * scaleEnter, frameHeight * scaleEnter
-            );
+                    -(frameWidth / 2) * scaleEnter, -(frameHeight / 2) * scaleEnter, frameWidth * scaleEnter,
+                    frameHeight * scaleEnter);
             gc.restore();
         }
         gc.setEffect(null);
@@ -333,12 +328,11 @@ public class GameEngine {
             gc.drawImage(
                     assets.enteringImage,
                     sourceX, sourceY, frameWidth, frameHeight,
-                    -(frameWidth / 2) * scaleEnter, -(frameHeight / 2) * scaleEnter, frameWidth * scaleEnter, frameHeight * scaleEnter
-            );
+                    -(frameWidth / 2) * scaleEnter, -(frameHeight / 2) * scaleEnter, frameWidth * scaleEnter,
+                    frameHeight * scaleEnter);
             gc.restore();
         }
         gc.setGlobalAlpha(1);
-
 
         // aura
         Aura aura = world.getAura();
@@ -358,11 +352,10 @@ public class GameEngine {
             gc.drawImage(
                     assets.blackholeImage,
                     sourceX, sourceY, frameWidth, frameHeight,
-                    -(frameWidth / 2) * scaleBlackHole, -(frameHeight / 2) * scaleBlackHole, frameWidth * scaleBlackHole, frameHeight * scaleBlackHole
-            );
+                    -(frameWidth / 2) * scaleBlackHole, -(frameHeight / 2) * scaleBlackHole,
+                    frameWidth * scaleBlackHole, frameHeight * scaleBlackHole);
             gc.restore();
         }
-
 
         renderList(world.getExperience(), gc, cameraPosX, cameraPosY, screenWidth, screenHeight, margin);
         renderList(world.getChests(), gc, cameraPosX, cameraPosY, screenWidth, screenHeight, margin);
@@ -380,35 +373,35 @@ public class GameEngine {
         for (Enemy enemy : enemies) {
             if (enemy instanceof Boss boss) {
                 if (boss.getPosX() - cameraPosX < 0 ||
-                    boss.getPosX() - cameraPosX > screenWidth ||
-                    boss.getPosY() - cameraPosY < 0 ||
-                    boss.getPosY() - cameraPosY > screenHeight
-                ) {
+                        boss.getPosX() - cameraPosX > screenWidth ||
+                        boss.getPosY() - cameraPosY < 0 ||
+                        boss.getPosY() - cameraPosY > screenHeight) {
                     gc.save();
                     double bossPulse = (Math.sin(System.currentTimeMillis() / 150.0) + 1);
                     gc.setFill(Color.rgb(250, 0, 0, 0.50 + (bossPulse * 0.2)));
                     double paddingX = 60;
                     double paddingY = 100;
                     double pointToX = Math.max(paddingX, Math.min(screenWidth - paddingX, boss.getPosX() - cameraPosX));
-                    double pointToY = Math.max(paddingY, Math.min(screenHeight - paddingY, boss.getPosY() - cameraPosY));
+                    double pointToY = Math.max(paddingY,
+                            Math.min(screenHeight - paddingY, boss.getPosY() - cameraPosY));
                     gc.translate(pointToX, pointToY);
-                    double bossAngle = Math.toDegrees(Math.atan2(boss.getPosY() - cameraPosY - pointToY, boss.getPosX() - cameraPosX - pointToX));
+                    double bossAngle = Math.toDegrees(
+                            Math.atan2(boss.getPosY() - cameraPosY - pointToY, boss.getPosX() - cameraPosX - pointToX));
                     gc.rotate(bossAngle);
-                    double[] XPoint = {-30, 30, -30, -15};
-                    double[] YPoint = {30, 0, -30, 0};
+                    double[] XPoint = { -30, 30, -30, -15 };
+                    double[] YPoint = { 30, 0, -30, 0 };
                     gc.fillPolygon(XPoint, YPoint, 4);
                     gc.restore();
                 }
             }
         }
 
-
         // player
         gc.setFill(Color.rgb(0, 0, 0, 0.4));
         double shadowWidth = 80;
         double shadowHeight = 20;
-        gc.fillOval(player.getPosX() - cameraPosX - (shadowWidth / 2.0), player.getPosY() - cameraPosY - (shadowHeight / 2.0) + 30, shadowWidth, shadowHeight);
-
+        gc.fillOval(player.getPosX() - cameraPosX - (shadowWidth / 2.0),
+                player.getPosY() - cameraPosY - (shadowHeight / 2.0) + 30, shadowWidth, shadowHeight);
 
         // faceTo
         gc.setFill(Color.CYAN);
@@ -416,8 +409,8 @@ public class GameEngine {
         gc.translate(player.getPosX() - cameraPosX, player.getPosY() - cameraPosY - player.getPosZ());
         double playerAngle = Math.toDegrees(Math.atan2(player.getFaceToY(), player.getFaceToX()));
         gc.rotate(playerAngle);
-        double[] playerXPoint = {40, 60, 40, 45};
-        double[] playerYPoint = {10, 0, -10, 0};
+        double[] playerXPoint = { 40, 60, 40, 45 };
+        double[] playerYPoint = { 10, 0, -10, 0 };
         gc.setGlobalAlpha(0.5);
         gc.fillPolygon(playerXPoint, playerYPoint, 4);
         gc.restore();
@@ -440,36 +433,41 @@ public class GameEngine {
         gc.drawImage(
                 assets.crystal,
                 sourceX, sourceY, frameWidth, frameHeight,
-                -(frameWidth / 2), -(frameHeight / 2), frameWidth, frameHeight
-        );
+                -(frameWidth / 2), -(frameHeight / 2), frameWidth, frameHeight);
         gc.restore();
 
         gc.setFill(Color.rgb(0, 0, 0, 0.4));
         shadowWidth = 20;
         shadowHeight = 10;
-        gc.fillOval(currentCrystalX - cameraPosX - (shadowWidth / 2.0), currentCrystalNoZ - cameraPosY - (shadowHeight / 2.0) + 100, shadowWidth, shadowHeight);
+        gc.fillOval(currentCrystalX - cameraPosX - (shadowWidth / 2.0),
+                currentCrystalNoZ - cameraPosY - (shadowHeight / 2.0) + 100, shadowWidth, shadowHeight);
 
         // frame player
         player.draw(gc, cameraPosX, cameraPosY, screenWidth, screenHeight, margin, this);
 
-
         // hp bar
-        //gc.setFill(Color.LIGHTGRAY);
-        //gc.fillRect(player.getPosX() - cameraPosX - 40, player.getPosY() - cameraPosY + 52 - player.getPosZ(), 80, 8);
-        //if (!player.hasCurrentHeal()) {
-        //    gc.setFill(Color.DARKRED);
-        //    gc.fillRect(player.getPosX() - cameraPosX - 40, player.getPosY() - cameraPosY + 52 - player.getPosZ(), 80 * player.healthRatio(), 8);
-        //} else {
-        //    gc.setFill(Color.DARKRED);
-        //    gc.fillRect(player.getPosX() - cameraPosX - 40, player.getPosY() - cameraPosY + 52 - player.getPosZ(), 80 * player.healthOverHealRatio(), 8);
-        //    gc.setFill(Color.YELLOW);
-        //    gc.fillRect(player.getPosX() - cameraPosX - 40 + (80 * player.healthOverHealRatio()), player.getPosY() - cameraPosY + 52 - player.getPosZ(), 80 * player.overHealRatio(), 8);
-        //}
-        //gc.setFill(Color.LIGHTGRAY);
-        //gc.fillRect(player.getPosX() - cameraPosX - 40, player.getPosY() - cameraPosY + 62 - player.getPosZ(), 80, 5);
-        //gc.setFill(Color.DARKCYAN);
-        //gc.fillRect(player.getPosX() - cameraPosX - 40, player.getPosY() - cameraPosY + 62 - player.getPosZ(), 80 * player.staminaRatio(), 5);
-
+        // gc.setFill(Color.LIGHTGRAY);
+        // gc.fillRect(player.getPosX() - cameraPosX - 40, player.getPosY() - cameraPosY
+        // + 52 - player.getPosZ(), 80, 8);
+        // if (!player.hasCurrentHeal()) {
+        // gc.setFill(Color.DARKRED);
+        // gc.fillRect(player.getPosX() - cameraPosX - 40, player.getPosY() - cameraPosY
+        // + 52 - player.getPosZ(), 80 * player.healthRatio(), 8);
+        // } else {
+        // gc.setFill(Color.DARKRED);
+        // gc.fillRect(player.getPosX() - cameraPosX - 40, player.getPosY() - cameraPosY
+        // + 52 - player.getPosZ(), 80 * player.healthOverHealRatio(), 8);
+        // gc.setFill(Color.YELLOW);
+        // gc.fillRect(player.getPosX() - cameraPosX - 40 + (80 *
+        // player.healthOverHealRatio()), player.getPosY() - cameraPosY + 52 -
+        // player.getPosZ(), 80 * player.overHealRatio(), 8);
+        // }
+        // gc.setFill(Color.LIGHTGRAY);
+        // gc.fillRect(player.getPosX() - cameraPosX - 40, player.getPosY() - cameraPosY
+        // + 62 - player.getPosZ(), 80, 5);
+        // gc.setFill(Color.DARKCYAN);
+        // gc.fillRect(player.getPosX() - cameraPosX - 40, player.getPosY() - cameraPosY
+        // + 62 - player.getPosZ(), 80 * player.staminaRatio(), 5);
 
         // player powerup
         double pulse = (Math.sin(System.currentTimeMillis() / 100.0) + 1) / 2.0;
@@ -478,8 +476,10 @@ public class GameEngine {
             gc.setFill(Color.rgb(0, 255, 255, 0.3 + (pulse * 0.2)));
             gc.setStroke(Color.CYAN);
             gc.setLineWidth(4);
-            gc.fillOval(player.getPosX() - cameraPosX - 50, player.getPosY() - cameraPosY - 50 - player.getPosZ(), 100, 100);
-            gc.strokeOval(player.getPosX() - cameraPosX - 50, player.getPosY() - cameraPosY - 50 - player.getPosZ(), 100, 100);
+            gc.fillOval(player.getPosX() - cameraPosX - 50, player.getPosY() - cameraPosY - 50 - player.getPosZ(), 100,
+                    100);
+            gc.strokeOval(player.getPosX() - cameraPosX - 50, player.getPosY() - cameraPosY - 50 - player.getPosZ(),
+                    100, 100);
             gc.restore();
         }
         if (world.getDrinkSpeedTimer() > 0) { // speed
@@ -487,8 +487,10 @@ public class GameEngine {
             gc.setFill(Color.rgb(255, 255, 0, 0.2 + (pulse * 0.1)));
             gc.setStroke(Color.YELLOW);
             gc.setLineWidth(2);
-            gc.fillOval(player.getPosX() - cameraPosX - 50, player.getPosY() - cameraPosY - 50 - player.getPosZ(), 100, 100);
-            gc.strokeOval(player.getPosX() - cameraPosX - 50, player.getPosY() - cameraPosY - 50 - player.getPosZ(), 100, 100);
+            gc.fillOval(player.getPosX() - cameraPosX - 50, player.getPosY() - cameraPosY - 50 - player.getPosZ(), 100,
+                    100);
+            gc.strokeOval(player.getPosX() - cameraPosX - 50, player.getPosY() - cameraPosY - 50 - player.getPosZ(),
+                    100, 100);
             gc.restore();
         }
         if (world.getDrinkMagnetTimer() > 0) { // magnet
@@ -496,8 +498,10 @@ public class GameEngine {
             gc.setFill(Color.rgb(255, 0, 255, 0.1 + (pulse * 0.1)));
             gc.setStroke(Color.MAGENTA);
             gc.setLineWidth(2);
-            gc.fillOval(player.getPosX() - cameraPosX - 50, player.getPosY() - cameraPosY - 50 - player.getPosZ(), 100, 100);
-            gc.strokeOval(player.getPosX() - cameraPosX - 50, player.getPosY() - cameraPosY - 50 - player.getPosZ(), 100, 100);
+            gc.fillOval(player.getPosX() - cameraPosX - 50, player.getPosY() - cameraPosY - 50 - player.getPosZ(), 100,
+                    100);
+            gc.strokeOval(player.getPosX() - cameraPosX - 50, player.getPosY() - cameraPosY - 50 - player.getPosZ(),
+                    100, 100);
             gc.restore();
         }
 
@@ -539,7 +543,8 @@ public class GameEngine {
             double radius = progress * 400;
             gc.setStroke(Color.CYAN);
             gc.setLineWidth(15 * (1.0 - progress));
-            gc.strokeOval(player.getPosX() - cameraPosX - radius, player.getPosY() - cameraPosY - radius, radius * 2, radius * 2);
+            gc.strokeOval(player.getPosX() - cameraPosX - radius, player.getPosY() - cameraPosY - radius, radius * 2,
+                    radius * 2);
             gc.restore();
         }
         double gasTimer = world.getGasVisualTimer();
@@ -562,7 +567,7 @@ public class GameEngine {
         if (player.isHasFinalWeapon()) {
             gc.save();
             gc.setGlobalAlpha(0.25);
-            for(int i = 0; i < 8; i++) {
+            for (int i = 0; i < 8; i++) {
                 gc.setFill(Color.hsb(Math.random() * 360, 1.0, 1.0));
                 gc.setGlobalAlpha(0.05);
                 gc.fillRect(0, Math.random() * screenHeight, screenWidth, 5 + Math.random() * 25);
@@ -585,22 +590,20 @@ public class GameEngine {
                 gc.drawImage(
                         assets.glitchImage,
                         sourceX, sourceY, frameWidth, frameHeight,
-                        -(frameWidth * scaleGlitch / 2.0), -(frameHeight * scaleGlitch / 2.0), frameWidth * scaleGlitch, frameHeight * scaleGlitch
-                );
+                        -(frameWidth * scaleGlitch / 2.0), -(frameHeight * scaleGlitch / 2.0), frameWidth * scaleGlitch,
+                        frameHeight * scaleGlitch);
                 gc.restore();
             }
             gc.restore();
             gc.setGlobalAlpha(1.0);
         }
 
-
         // ultimate
         if (world.isUltimateActive()) {
             world.getUltimate().draw(gc, cameraPosX, cameraPosY, screenWidth, screenHeight, 0, this);
         }
 
-
-        //========== Skill ============
+        // ========== Skill ============
         double skillSize = 120;
         double spacing = 40;
 
@@ -647,10 +650,11 @@ public class GameEngine {
             gc.strokeOval(skillPosX, skillPosY, skillSize, skillSize);
             gc.setFill(Color.WHITE);
             gc.setFont(FONT_15);
-            if (i == 0) gc.fillText("[SHIFT / R-Click]", skillPosX - 15, skillPosY - 10);
-            else if (i == 1) gc.fillText("[SPACE]", skillPosX + 25, skillPosY - 10);
+            if (i == 0)
+                gc.fillText("[SHIFT / R-Click]", skillPosX - 15, skillPosY - 10);
+            else if (i == 1)
+                gc.fillText("[SPACE]", skillPosX + 25, skillPosY - 10);
         }
-
 
         for (int i = 0; i < 3; i++) {
             double skillPosX = startPosX + ((skillSize + spacing) * i);
@@ -701,11 +705,13 @@ public class GameEngine {
             gc.strokeOval(skillPosX, startPosY, skillSize, skillSize);
             gc.setFill(Color.WHITE);
             gc.setFont(FONT_15);
-            if (i == 0) gc.fillText("[L-Click / J]", skillPosX + 5, startPosY - 10);
-            else if (i == 1) gc.fillText("[E / K]", skillPosX + 5, startPosY - 10);
-            else gc.fillText("[R / L]", skillPosX + 5, startPosY - 10);
+            if (i == 0)
+                gc.fillText("[L-Click / J]", skillPosX + 5, startPosY - 10);
+            else if (i == 1)
+                gc.fillText("[E / K]", skillPosX + 5, startPosY - 10);
+            else
+                gc.fillText("[R / L]", skillPosX + 5, startPosY - 10);
         }
-
 
         // boss hp
         for (Enemy enemy : enemies) {
@@ -727,7 +733,7 @@ public class GameEngine {
                 gc.setFill(Color.rgb(100, 10, 10));
                 gc.fillRect(barPosX, barPosY, barWidth * hpRatio, barHeight);
                 gc.setFill(Color.rgb(150, 40, 10));
-                gc.fillRect(barPosX, barPosY, barWidth * hpRatio, barHeight / 2 - 9 );
+                gc.fillRect(barPosX, barPosY, barWidth * hpRatio, barHeight / 2 - 9);
                 gc.setFill(Color.rgb(50, 10, 10));
                 gc.fillRect(barPosX, barPosY + 23, barWidth * hpRatio, barHeight - 23);
                 gc.save();
@@ -735,8 +741,7 @@ public class GameEngine {
                 gc.drawImage(
                         bossBarImg,
                         sourceX, sourceY, frameWidth, frameHeight,
-                        -(frameWidth / 2), -(frameHeight / 2), frameWidth, frameHeight
-                );
+                        -(frameWidth / 2), -(frameHeight / 2), frameWidth, frameHeight);
                 gc.restore();
                 gc.setFont(FONT_24);
                 gc.setFill(Color.RED);
@@ -745,15 +750,13 @@ public class GameEngine {
                 gc.setFont(FONT_16);
                 gc.setFill(Color.WHITE);
                 gc.save();
-                gc.fillText((int)boss.getHealth() + " / " + (int)boss.getMaxHealth(), barPosX + (barWidth / 2) - 60, barPosY + 20);
+                gc.fillText((int) boss.getHealth() + " / " + (int) boss.getMaxHealth(), barPosX + (barWidth / 2) - 60,
+                        barPosY + 20);
                 gc.restore();
             }
         }
 
-
-
-
-        //=============== Minimap ===============
+        // =============== Minimap ===============
         if (world.isShowMiniMap()) {
 
             topLeftWeaponHang.setVisible(true);
@@ -781,14 +784,13 @@ public class GameEngine {
                 double distanceX = obstacle.getPosX() - player.getPosX();
                 double distanceY = obstacle.getPosY() - player.getPosY();
                 if ((distanceX <= viewDistanceX * 2 && distanceX + obstacle.getWidth() >= -viewDistanceX * 2) &&
-                    (distanceY <= viewDistanceY * 2 && distanceY + obstacle.getHeight() >= -viewDistanceY * 2)) {
+                        (distanceY <= viewDistanceY * 2 && distanceY + obstacle.getHeight() >= -viewDistanceY * 2)) {
                     double scaleX = miniMapWidth / (viewDistanceX * 4);
                     double scaleY = miniMapHeight / (viewDistanceY * 4);
                     gc.fillRect(miniMapPosX + (miniMapWidth / 2) + (distanceX * scaleX),
-                              miniMapPosY + (miniMapHeight / 2) + (distanceY * scaleY),
+                            miniMapPosY + (miniMapHeight / 2) + (distanceY * scaleY),
                             Math.max(2, obstacle.getWidth() * scaleX),
-                            Math.max(2, obstacle.getHeight() * scaleY)
-                    );
+                            Math.max(2, obstacle.getHeight() * scaleY));
                 }
             }
 
@@ -798,11 +800,11 @@ public class GameEngine {
                 double distanceY = chest.getPosY() - player.getPosY();
                 if ((distanceX <= viewDistanceX * 2 && distanceX >= -viewDistanceX * 2) &&
                         (distanceY <= viewDistanceY * 2 && distanceY >= -viewDistanceY * 2)) {
-                    gc.fillRect(miniMapPosX + (miniMapWidth / 2) + (distanceX * (miniMapWidth / (viewDistanceX * 4)) - 3),
+                    gc.fillRect(
+                            miniMapPosX + (miniMapWidth / 2) + (distanceX * (miniMapWidth / (viewDistanceX * 4)) - 3),
                             miniMapPosY + (miniMapHeight / 2) + (distanceY * (miniMapHeight / (viewDistanceY * 4)) - 3),
                             6,
-                            6
-                    );
+                            6);
                 }
             }
             gc.setFill(Color.SADDLEBROWN);
@@ -811,26 +813,28 @@ public class GameEngine {
                 double distanceY = steak.getPosY() - player.getPosY();
                 if ((distanceX <= viewDistanceX * 2 && distanceX >= -viewDistanceX * 2) &&
                         (distanceY <= viewDistanceY * 2 && distanceY >= -viewDistanceY * 2)) {
-                    gc.fillRect(miniMapPosX + (miniMapWidth / 2) + (distanceX * (miniMapWidth / (viewDistanceX * 4)) - 2),
+                    gc.fillRect(
+                            miniMapPosX + (miniMapWidth / 2) + (distanceX * (miniMapWidth / (viewDistanceX * 4)) - 2),
                             miniMapPosY + (miniMapHeight / 2) + (distanceY * (miniMapHeight / (viewDistanceY * 4)) - 2),
                             4,
-                            4
-                    );
+                            4);
                 }
             }
             gc.setFill(Color.RED);
             for (Enemy enemy : world.getEnemies()) {
-                if (enemy instanceof Boss ) {
+                if (enemy instanceof Boss) {
                     Boss boss = (Boss) enemy;
                     double distanceX = boss.getPosX() - player.getPosX();
                     double distanceY = boss.getPosY() - player.getPosY();
                     if ((distanceX <= viewDistanceX * 2 && distanceX >= -viewDistanceX * 2) &&
                             (distanceY <= viewDistanceY * 2 && distanceY >= -viewDistanceY * 2)) {
-                        gc.fillRect(miniMapPosX + (miniMapWidth / 2) + (distanceX * (miniMapWidth / (viewDistanceX * 4)) - 2),
-                                miniMapPosY + (miniMapHeight / 2) + (distanceY * (miniMapHeight / (viewDistanceY * 4)) - 2),
+                        gc.fillRect(
+                                miniMapPosX + (miniMapWidth / 2)
+                                        + (distanceX * (miniMapWidth / (viewDistanceX * 4)) - 2),
+                                miniMapPosY + (miniMapHeight / 2)
+                                        + (distanceY * (miniMapHeight / (viewDistanceY * 4)) - 2),
                                 8,
-                                8
-                        );
+                                8);
                     }
                 }
             }
@@ -850,7 +854,6 @@ public class GameEngine {
             gc.setFill(Color.WHITE);
             gc.setFont(FONT_20);
             gc.fillText("[TAB]", miniMapPosX + 85, miniMapPosY + 250);
-
 
         } else {
 
@@ -881,7 +884,8 @@ public class GameEngine {
             statPosY += padding;
             gc.fillText("Max Stamina: " + player.getMaxStamina(), statPosX, statPosY);
             statPosY += padding;
-            gc.fillText("Speed: " + String.format("%.2f", player.getMAX_SPEED() * player.getSpeedMultiplier()), statPosX, statPosY);
+            gc.fillText("Speed: " + String.format("%.2f", player.getMAX_SPEED() * player.getSpeedMultiplier()),
+                    statPosX, statPosY);
             statPosY += padding;
             gc.fillText("Max Overheal: " + player.getMaxOverHeal(), statPosX, statPosY);
             statPosY += padding;
@@ -889,27 +893,37 @@ public class GameEngine {
             statPosY += padding;
             gc.fillText("Lifesteal: " + String.format("%.2f", player.getLifeSteal() * 100) + "%", statPosX, statPosY);
             statPosY += padding;
-            gc.fillText("Exp Multi: " + String.format("%.2f", player.getExpMultiplier() * 100) + "%", statPosX, statPosY);
+            gc.fillText("Exp Multi: " + String.format("%.2f", player.getExpMultiplier() * 100) + "%", statPosX,
+                    statPosY);
             statPosY += padding;
             gc.fillText("Luck: " + String.format("%.2f", player.getLuck() * 100) + "%", statPosX, statPosY);
             statPosY += padding;
-            gc.fillText("Difficulty: " + String.format("%.2f", world.getDifficultyMultiplier() * 100) + "%", statPosX, statPosY);
+            gc.fillText("Difficulty: " + String.format("%.2f", world.getDifficultyMultiplier() * 100) + "%", statPosX,
+                    statPosY);
             statPosY += padding;
-            gc.fillText("Coin Multi: " + String.format("%.2f", player.getCoinMultiplier() * 100) + "%", statPosX, statPosY);
+            gc.fillText("Coin Multi: " + String.format("%.2f", player.getCoinMultiplier() * 100) + "%", statPosX,
+                    statPosY);
             statPosY += padding;
-            gc.fillText("Cooldown: -" + String.format("%.2f", player.getSlashCooldownMultiplier()) + "%", statPosX, statPosY);
+            gc.fillText("Cooldown: -" + String.format("%.2f", player.getSlashCooldownMultiplier()) + "%", statPosX,
+                    statPosY);
             statPosY += padding;
-            gc.fillText("Damage: " + String.format("%.2f", world.getPlayer().getStatDamage()) + "%", statPosX, statPosY);
+            gc.fillText("Damage: " + String.format("%.2f", world.getPlayer().getStatDamage()) + "%", statPosX,
+                    statPosY);
             statPosY += padding;
-            gc.fillText("Atk Speed: " + String.format("%.2f", world.getPlayer().getStatAtkSpeed()) + "%", statPosX, statPosY);
+            gc.fillText("Atk Speed: " + String.format("%.2f", world.getPlayer().getStatAtkSpeed()) + "%", statPosX,
+                    statPosY);
             statPosY += padding;
-            gc.fillText("Crit Dmg: " + String.format("%.2f", world.getPlayer().getStatCritDamage()) + "%", statPosX, statPosY);
+            gc.fillText("Crit Dmg: " + String.format("%.2f", world.getPlayer().getStatCritDamage()) + "%", statPosX,
+                    statPosY);
             statPosY += padding;
-            gc.fillText("Crit Rate: " + String.format("%.2f", world.getPlayer().getStatCritRate()) + "%", statPosX, statPosY);
+            gc.fillText("Crit Rate: " + String.format("%.2f", world.getPlayer().getStatCritRate()) + "%", statPosX,
+                    statPosY);
             statPosY += padding;
-            gc.fillText("Proj Count: " + String.format("%.2f", world.getPlayer().getStatProjCount()) , statPosX, statPosY);
+            gc.fillText("Proj Count: " + String.format("%.2f", world.getPlayer().getStatProjCount()), statPosX,
+                    statPosY);
             statPosY += padding;
-            gc.fillText("Size Multi: " + String.format("%.2f", world.getPlayer().getStatSize()) + "%", statPosX, statPosY);
+            gc.fillText("Size Multi: " + String.format("%.2f", world.getPlayer().getStatSize()) + "%", statPosX,
+                    statPosY);
             statPosY += padding;
 
             double mapSize = (screenHeight - 40) * 0.8;
@@ -986,10 +1000,6 @@ public class GameEngine {
 
     }
 
-
-
-
-
     // animation
     private void popAnimation(Node uiElement) {
         ScaleTransition pop = new ScaleTransition(Duration.seconds(0.1), uiElement);
@@ -1005,11 +1015,7 @@ public class GameEngine {
         pop.play();
     }
 
-
-
-
-
-    //=================== Timer =========================
+    // =================== Timer =========================
 
     public AnimationTimer loop;
 
@@ -1018,16 +1024,13 @@ public class GameEngine {
         loop = new AnimationTimer() {
             long time = System.nanoTime();
 
-
-
             @Override
             public void handle(long l) {
                 double deltaTime = (l - time) / 1000000000.0;
                 time = l;
 
-
-                if (deltaTime > 0.1) deltaTime = 0.1;
-
+                if (deltaTime > 0.1)
+                    deltaTime = 0.1;
 
                 fireBgAnimationTimer += deltaTime;
                 if (fireBgAnimationTimer > 0.01) {
@@ -1038,17 +1041,14 @@ public class GameEngine {
                     fireBgAnimationTimer = 0;
                 }
 
-
                 // engine start
                 if (currentGameState == Main.GameState.Play) {
-
 
                     // reset UI
                     if (world.isUiNeedsUpdate()) {
                         updateLeftPanelUI();
                         world.setUiNeedsUpdate(false);
                     }
-
 
                     // gameover
                     if (world.getPlayer().getCurrentHealth() <= 0 && !world.isGameStop()) {
@@ -1059,7 +1059,6 @@ public class GameEngine {
                         return;
                     }
 
-
                     // run all pending level
                     if (!world.isGameStop() && world.getPlayer().getPendingLevelup() > 0) {
                         world.getPlayer().claimLevelUp();
@@ -1069,7 +1068,6 @@ public class GameEngine {
                         isLevelUpCallBack = true;
                         return;
                     }
-
 
                     // chestget
 
@@ -1130,8 +1128,7 @@ public class GameEngine {
                             }
                         }
 
-
-                    // update world + UI
+                        // update world + UI
 
                     } else {
                         Player player = world.getPlayer();
@@ -1168,8 +1165,10 @@ public class GameEngine {
                             staminaFillView.setVisible(false);
                         }
 
-                        healthLabel.setText("HP: " + (int) (player.getCurrentHealth() + player.getCurrentOverHeal()) + " / " + (int) player.getMaxHealth());
-                        staminaLabel.setText("STA: " + (int) player.getCurrentStamina() + " / " + (int) player.getMaxStamina());
+                        healthLabel.setText("HP: " + (int) (player.getCurrentHealth() + player.getCurrentOverHeal())
+                                + " / " + (int) player.getMaxHealth());
+                        staminaLabel.setText(
+                                "STA: " + (int) player.getCurrentStamina() + " / " + (int) player.getMaxStamina());
 
                         double expRatio = player.getExpRatio();
 
@@ -1214,8 +1213,7 @@ public class GameEngine {
                     gc.drawImage(
                             fireBg,
                             0, 0, 320, 180,
-                            0, 0, SCREEN_WIDTH, SCREEN_HEIGHT
-                    );
+                            0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                     gc.restore();
                 } else if (currentGameState == Main.GameState.Setting) {
                     gc.setFill(Color.rgb(50, 0, 20, 0.02));
@@ -1259,25 +1257,29 @@ public class GameEngine {
         }
     }
 
-    private void renderList(List<? extends Renderable> list, GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin) {
+    private void renderList(List<? extends Renderable> list, GraphicsContext gc, double cameraPosX, double cameraPosY,
+            double screenWidth, double screenHeight, double margin) {
         for (Renderable renderable : list) {
             renderable.draw(gc, cameraPosX, cameraPosY, screenWidth, screenHeight, margin, this);
         }
     }
 
-
     public void setWorld(World world) {
         this.world = world;
     }
+
     public World getWorld() {
         return this.world;
     }
+
     public Camera getCamera() {
         return this.camera;
     }
+
     public void setCurrentGameState(Main.GameState gameState) {
         this.currentGameState = gameState;
     }
+
     public void setControl(Scene scene, World world, Camera camera) {
         this.controller.control(scene, world, camera);
     }
@@ -1298,11 +1300,11 @@ public class GameEngine {
         return assets;
     }
 
-    public Image getPlayerMech()  {
+    public Image getPlayerMech() {
         return assets.playerMech;
     }
 
-    public Image getEnemyMech()   {
+    public Image getEnemyMech() {
         return assets.enemyMech;
     }
 
@@ -1310,7 +1312,7 @@ public class GameEngine {
         return assets.chargerMech;
     }
 
-    public Image getBossMech()  {
+    public Image getBossMech() {
         return assets.bossMech;
     }
 
@@ -1318,7 +1320,7 @@ public class GameEngine {
         return assets.props;
     }
 
-    public Image getCrystal()  {
+    public Image getCrystal() {
         return assets.crystal;
     }
 
@@ -1334,23 +1336,23 @@ public class GameEngine {
         return assets.boomerangImage;
     }
 
-    public Image getRockImage()  {
+    public Image getRockImage() {
         return assets.rockImage;
     }
 
-    public Image getLightningImage()   {
+    public Image getLightningImage() {
         return assets.lightningImage;
     }
 
-    public Image getLightningImage2()  {
+    public Image getLightningImage2() {
         return assets.lightningImage2;
     }
 
-    public Image getSlashImage()  {
+    public Image getSlashImage() {
         return assets.slashImage;
     }
 
-    public Image getCrossSlashImage()   {
+    public Image getCrossSlashImage() {
         return assets.crossSlashImage;
     }
 
@@ -1362,7 +1364,7 @@ public class GameEngine {
         return assets.swordImage;
     }
 
-    public Image getAuraImage()   {
+    public Image getAuraImage() {
         return assets.auraImage;
     }
 
@@ -1374,11 +1376,11 @@ public class GameEngine {
         return assets.blackholeImage;
     }
 
-    public Image getGlitchImage()    {
+    public Image getGlitchImage() {
         return assets.glitchImage;
     }
 
-    public Image getEnteringImage()  {
+    public Image getEnteringImage() {
         return assets.enteringImage;
     }
 
@@ -1389,6 +1391,7 @@ public class GameEngine {
     public List<PlayerTrail> getPlayerTrails() {
         return playerTrails;
     }
+
     public double getTrailTimer() {
         return trailTimer;
     }
@@ -1405,7 +1408,7 @@ public class GameEngine {
         return hitPlayer;
     }
 
-    public Effect getHitFlash()  {
+    public Effect getHitFlash() {
         return hitFlash;
     }
 

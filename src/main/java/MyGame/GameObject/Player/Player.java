@@ -106,7 +106,7 @@ public class Player extends GameObject {
     private double animationTimer = 0.0;
     private int checkSetFrame = 0;
     public enum MovementState {
-        Idle(0, 0.15, 6),
+        Idle(0, 0.15, 4),
         Run(1, 0.08, 5),
         Dash(2, 0.10, 2),
         JumpUp(3, 0.06, 1),

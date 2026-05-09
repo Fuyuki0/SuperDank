@@ -138,9 +138,12 @@
     -jar "path\to\SuperDank-1.jar"</div>
 
   <h3>Linux</h3>
-  <div class="code-block">java --module-path "path/to/javafx-sdk/lib" \
-    --add-modules javafx.controls,javafx.graphics \
-    -jar SuperDank-1.jar</div>
+  <div class="code-block">java -Xms2G -Xmx2G -XX:+UseG1GC -XX:MaxGCPauseMillis=5 -XX:G1ReservePercent=20 \
+    -Dprism.forceGPU=true \
+    -Dprism.order=es2 \
+    --module-path "path/to/javafx-sdk/lib" \
+    --add-modules javafx.controls,javafx.graphics,javafx.fxml,javafx.media \
+    -jar path/to/SuperDank-1.jar</div>
   <p class="note">The JAR file is located in <code>SuperDank/build/libs/</code>. Place the JavaFX SDK folder next to the
     JAR.</p>
 
