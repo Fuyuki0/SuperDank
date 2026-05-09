@@ -1,0 +1,15 @@
+MyGame
+MyGame.Game
+MyGame.GameObject
+MyGame.GameObject.Enemies
+MyGame.GameObject.Items
+MyGame.GameObject.Items.Collectable
+MyGame.GameObject.Items.Equipment
+MyGame.GameObject.Items.PowerUp
+MyGame.GameObject.Player
+MyGame.GameObject.Projectile
+MyGame.GameObject.Skill
+MyGame.GameObject.Weapon
+MyGame.GameObject.Weapon.Cores
+MyGame.Interface
+MyGame.Rarity
