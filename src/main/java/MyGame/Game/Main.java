@@ -273,6 +273,7 @@ public class Main extends Application {
                 possibleWeapon.add(new EntropyCore());
                 possibleWeapon.add(new FractalCore());
                 possibleWeapon.add(new KineticCore());
+                possibleWeapon.add(new MatrixCore());
                 possibleWeapon.add(new OverClockCore());
                 possibleWeapon.add(new OverHeatCore());
                 possibleWeapon.add(new PlasmaCore());

@@ -22,7 +22,7 @@ public class ChaosCore extends Weapon {
 
     @Override
     public void coreUpgrade(World world, double bonus) {
-        world.setDifficultyMultiplier(world.getDifficultyMultiplier() + 0.15 * bonus);
+        world.setChaosCoreBonus(world.getChaosCoreBonus() + 0.15 * bonus);
     }
 
     @Override

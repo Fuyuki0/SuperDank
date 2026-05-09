@@ -1,7 +1,5 @@
 package MyGame.Game;
 
-
-
 import MyGame.GameObject.Enemies.Boss;
 import MyGame.GameObject.Enemies.Charger;
 import MyGame.GameObject.Enemies.Enemy;
@@ -26,7 +24,8 @@ import static MyGame.Game.Main.SCREEN_HEIGHT;
 import static MyGame.Game.Main.SCREEN_WIDTH;
 
 /**
- * The main container class representing the game state, including entities, map, and collision.
+ * The main container class representing the game state, including entities,
+ * map, and collision.
  */
 public class World {
     private boolean showMiniMap = true;
@@ -87,6 +86,7 @@ public class World {
 
     // difficulty
     private double difficultyMultiplier = 1;
+    private double chaosCoreBonus = 0;
 
     // item
     private double adrenalCooldown = 0;
@@ -116,7 +116,6 @@ public class World {
     // sfx check
     private int enteringSoundCheck = 0;
     private int ultimateSoundCheck = 0;
-
 
     public World() {
         this.player = new Player(0, 0);
@@ -161,7 +160,6 @@ public class World {
             Experience exp = Experience.create(0, 0);
             Experience.release(exp);
         }
-
 
         // map
         mapGenerate();
@@ -217,14 +215,14 @@ public class World {
 
         // debug
 
-
         // ============
 
         if (gameStop) {
             return;
         }
 
-        else timeSurvived += deltaTime;
+        else
+            timeSurvived += deltaTime;
         if (screenShakeTimer > 0) {
             screenShakeTimer -= deltaTime;
         }
@@ -259,8 +257,6 @@ public class World {
             ultimate.updateSkill(deltaTime, this);
         }
 
-
-
         // player vs obstacle (no dash inside)
         player.update(deltaTime, this);
         double playerPosX = player.getPosX();
@@ -279,14 +275,20 @@ public class World {
                 double distanceTop = playerPosY - top;
                 double distanceBottom = bottom - playerPosY;
                 double min = Math.min(Math.min(distanceLeft, distanceRight), Math.min(distanceTop, distanceBottom));
-                if (min == distanceLeft) playerPosX = left - playerRadius;
-                else if (min == distanceRight) playerPosX = right + playerRadius;
-                else if (min == distanceTop) playerPosY = top - playerRadius;
-                else if (min == distanceBottom) playerPosY = bottom + playerRadius;
+                if (min == distanceLeft)
+                    playerPosX = left - playerRadius;
+                else if (min == distanceRight)
+                    playerPosX = right + playerRadius;
+                else if (min == distanceTop)
+                    playerPosY = top - playerRadius;
+                else if (min == distanceBottom)
+                    playerPosY = bottom + playerRadius;
 
             } else { // normal collision
-                double closeToX = Math.max(obstacle.getPosX(), Math.min(playerPosX, obstacle.getPosX() + obstacle.getWidth()));
-                double closeToY = Math.max(obstacle.getPosY(), Math.min(playerPosY, obstacle.getPosY() + obstacle.getHeight()));
+                double closeToX = Math.max(obstacle.getPosX(),
+                        Math.min(playerPosX, obstacle.getPosX() + obstacle.getWidth()));
+                double closeToY = Math.max(obstacle.getPosY(),
+                        Math.min(playerPosY, obstacle.getPosY() + obstacle.getHeight()));
                 double distanceX = playerPosX - closeToX;
                 double distanceY = playerPosY - closeToY;
                 double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
@@ -318,12 +320,9 @@ public class World {
             crystalAnimationTimer = 0;
         }
 
-
         // =========== Enemy ==============
 
-
-        // difficulty
-        difficultyMultiplier = 1 + (timeSurvived * 0.005);
+        difficultyMultiplier = 1 + (timeSurvived * 0.005) + chaosCoreBonus;
 
         // >>>>>>>> Base enemy <<<<<<<<<
         enemySpawnTimer += deltaTime;
@@ -371,7 +370,7 @@ public class World {
         if (!enemies.isEmpty()) {
             for (Enemy enemy : enemies) {
 
-                if (enemy instanceof  Boss) {
+                if (enemy instanceof Boss) {
                     Boss boss = (Boss) enemy;
                     boss.update(deltaTime, player, difficultyMultiplier);
                 } else
@@ -383,9 +382,12 @@ public class World {
                         // dodge check
                         if (Math.random() >= player.getDodgeChance()) {
                             double damage = 50 * difficultyMultiplier;
-                            if (enemy.isCharger()) damage = 60 * difficultyMultiplier;
-                            else if (enemy.isBoss()) damage = 100 * difficultyMultiplier;
-                            if (player.getDashTimer() > 0) damage *= (1 - player.getDashDamageReduction());
+                            if (enemy.isCharger())
+                                damage = 60 * difficultyMultiplier;
+                            else if (enemy.isBoss())
+                                damage = 100 * difficultyMultiplier;
+                            if (player.getDashTimer() > 0)
+                                damage *= (1 - player.getDashDamageReduction());
                             enemy.doDamage(player, damage);
 
                         } else {
@@ -412,14 +414,21 @@ public class World {
                             double distanceRight = right - enemyPosX;
                             double distanceTop = enemyPosX - top;
                             double distanceBottom = bottom - enemyPosX;
-                            double min = Math.min(Math.min(distanceLeft, distanceRight), Math.min(distanceTop, distanceBottom));
-                            if (min == distanceLeft) enemyPosX = left - enemy.getHitbox();
-                            else if (min == distanceRight) enemyPosX = right + enemy.getHitbox();
-                            else if (min == distanceTop) enemyPosY = top - enemy.getHitbox();
-                            else if (min == distanceBottom) enemyPosY = bottom + enemy.getHitbox();
+                            double min = Math.min(Math.min(distanceLeft, distanceRight),
+                                    Math.min(distanceTop, distanceBottom));
+                            if (min == distanceLeft)
+                                enemyPosX = left - enemy.getHitbox();
+                            else if (min == distanceRight)
+                                enemyPosX = right + enemy.getHitbox();
+                            else if (min == distanceTop)
+                                enemyPosY = top - enemy.getHitbox();
+                            else if (min == distanceBottom)
+                                enemyPosY = bottom + enemy.getHitbox();
                         } else {
-                            double closeToX = Math.max(obstacle.getPosX(), Math.min(enemyPosX, obstacle.getPosX() + obstacle.getWidth()));
-                            double closeToY = Math.max(obstacle.getPosY(), Math.min(enemyPosY, obstacle.getPosY() + obstacle.getHeight()));
+                            double closeToX = Math.max(obstacle.getPosX(),
+                                    Math.min(enemyPosX, obstacle.getPosX() + obstacle.getWidth()));
+                            double closeToY = Math.max(obstacle.getPosY(),
+                                    Math.min(enemyPosY, obstacle.getPosY() + obstacle.getHeight()));
                             double distanceX = enemyPosX - closeToX;
                             double distanceY = enemyPosY - closeToY;
                             double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
@@ -437,11 +446,11 @@ public class World {
                 }
             }
 
-
             // enemy collision
             for (int i = 0; i < enemies.size(); i++) {
                 for (int j = i + 1; j < enemies.size(); j++) {
-                    if (i == j) continue;
+                    if (i == j)
+                        continue;
                     Enemy enemy_1 = enemies.get(i);
                     Enemy enemy_2 = enemies.get(j);
                     if ((enemy_1.isCharger() || enemy_2.isCharger())) {
@@ -490,19 +499,22 @@ public class World {
                 if (enemy.isBoss()) {
                     Experience exp = Experience.create(enemy.getPosX(), enemy.getPosY());
                     exp.setExpType(4);
-                    exp.setExpValue((int)(3000 * difficultyMultiplier));
+                    exp.setExpValue((int) (3000 * difficultyMultiplier));
                     experience.add(exp);
 
-                    player.setCoin(player.getCoin() + 200);
+                    player.setCoin(
+                            (int) (player.getCoin() + (500 * difficultyMultiplier) * player.getCoinMultiplier()));
 
                     bossIsAlive = false;
                     bossSpawnTimer = 40;
                 } else {
                     Experience exp = Experience.create(enemy.getPosX(), enemy.getPosY());
                     if (timeSurvived > 480) {
-                        exp.setExpValue((int) (exp.getExpValue() * 10 * difficultyMultiplier * difficultyMultiplier / 1.5));
+                        exp.setExpValue(
+                                (int) (exp.getExpValue() * 10 * difficultyMultiplier * difficultyMultiplier / 1.5));
                     } else if (timeSurvived > 240 && timeSurvived < 480) {
-                        exp.setExpValue((int) (exp.getExpValue() * 3 * difficultyMultiplier * difficultyMultiplier / 1.5));
+                        exp.setExpValue(
+                                (int) (exp.getExpValue() * 3 * difficultyMultiplier * difficultyMultiplier / 1.5));
                     } else {
                         exp.setExpValue((int) (exp.getExpValue() * difficultyMultiplier * difficultyMultiplier / 1.5));
                     }
@@ -514,10 +526,12 @@ public class World {
 
                     if (!enemy.isBoss() && !enemy.isCharger()) {
                         if (Math.random() < 0.001) {
-                            chests.add(new Chest(enemy.getPosX() - (Math.random() * 30 - 15), enemy.getPosY() - (Math.random() * 30 - 15)));
+                            chests.add(new Chest(enemy.getPosX() - (Math.random() * 30 - 15),
+                                    enemy.getPosY() - (Math.random() * 30 - 15)));
                         }
                         if (Math.random() < 0.01) {
-                            steaks.add(new Steak(enemy.getPosX() - (Math.random() * 30 - 15), enemy.getPosY() - (Math.random() * 30 - 15)));
+                            steaks.add(new Steak(enemy.getPosX() - (Math.random() * 30 - 15),
+                                    enemy.getPosY() - (Math.random() * 30 - 15)));
                         }
                         if (Math.random() < 0.01) {
                             energyDrinks.add(new EnergyDrink(enemy.getPosX(), enemy.getPosY()));
@@ -535,7 +549,8 @@ public class World {
                             double distanceY = enemy1.getPosY() - enemy.getPosY();
                             double distance = distanceX * distanceX + distanceY * distanceY;
                             if (distance < 250 * 250) {
-                                enemy1.takeDamageAndEffectPlayer(player, 30 * (1 + player.getStatDamage() / 100), damageTexts, false);
+                                enemy1.takeDamageAndEffectPlayer(player, 30 * (1 + player.getStatDamage() / 100),
+                                        damageTexts, false);
                             }
                         }
                     }
@@ -591,23 +606,25 @@ public class World {
             }
         }
 
-
-
         // =================== ITEM ====================
 
-
-        if (drinkMagnetTimer > 0) drinkMagnetTimer -= deltaTime;
-        if (rainbowTimer > 0) rainbowTimer -= deltaTime;
-        if (repulsorVisualTimer > 0) repulsorVisualTimer -= deltaTime;
-        if (gasVisualTimer > 0) gasVisualTimer -= deltaTime;
-        if (adrenalCooldown > 0) adrenalCooldown -= deltaTime;
-
+        if (drinkMagnetTimer > 0)
+            drinkMagnetTimer -= deltaTime;
+        if (rainbowTimer > 0)
+            rainbowTimer -= deltaTime;
+        if (repulsorVisualTimer > 0)
+            repulsorVisualTimer -= deltaTime;
+        if (gasVisualTimer > 0)
+            gasVisualTimer -= deltaTime;
+        if (adrenalCooldown > 0)
+            adrenalCooldown -= deltaTime;
 
         // energy drink powerup
         checkCollection(energyDrinks, deltaTime);
         if (drinkShieldTimer > 0) {
             drinkShieldTimer -= deltaTime;
-            if (drinkShieldTimer <= 0) player.setShielded(false);
+            if (drinkShieldTimer <= 0)
+                player.setShielded(false);
         }
         if (drinkSpeedTimer > 0) {
             drinkSpeedTimer -= deltaTime;
@@ -615,10 +632,10 @@ public class World {
                 drinkSpeedActive = false;
                 player.addSpeedMultiplier(-1.0);
                 player.setStatAtkSpeed(player.getStatAtkSpeed() - 20);
-                for (Weapon weapon : weaponList) weapon.setBonusAttackSpeed(weapon.getBonusAttackSpeed() - 20);
+                for (Weapon weapon : weaponList)
+                    weapon.setBonusAttackSpeed(weapon.getBonusAttackSpeed() - 20);
             }
         }
-
 
         explosionAnimationTimer += deltaTime;
         if (explosionAnimationTimer > 0.01) {
@@ -631,13 +648,15 @@ public class World {
         for (int i = damageTexts.size() - 1; i >= 0; i--) {
             DamageText text = damageTexts.get(i);
             text.update(deltaTime);
-            if (text.isFade()) damageTexts.remove(i);
+            if (text.isFade())
+                damageTexts.remove(i);
         }
 
         for (int i = explosions.size() - 1; i >= 0; i--) {
             Explosion ex = explosions.get(i);
             ex.update(deltaTime);
-            if (ex.isFade()) explosions.remove(i);
+            if (ex.isFade())
+                explosions.remove(i);
         }
 
         // black hole
@@ -672,7 +691,8 @@ public class World {
                     }
                 }
             }
-            if (blackHole[2] <= 0) blackHoles.remove(i);
+            if (blackHole[2] <= 0)
+                blackHoles.remove(i);
         }
 
         // final weapon
@@ -684,7 +704,6 @@ public class World {
             finalWeaponAnimationTimer = 0;
         }
 
-
         // item update
         for (Item item : itemList) {
             item.updateEffect(deltaTime, this, player);
@@ -692,22 +711,19 @@ public class World {
 
     }
 
-
-
-    //=========================== Method =================================
-
-
+    // =========================== Method =================================
 
     public boolean insideObstacle(double posX, double posY) {
-        if (obstacles == null) return false;
+        if (obstacles == null)
+            return false;
         for (Obstacle obstacle : obstacles) {
             if (posX >= obstacle.getPosX() && posX <= obstacle.getPosX() + obstacle.getWidth() &&
-                posY >= obstacle.getPosY() && posY <= obstacle.getPosY() + obstacle.getHeight()) {
+                    posY >= obstacle.getPosY() && posY <= obstacle.getPosY() + obstacle.getHeight()) {
                 return true;
             }
-        } return false;
+        }
+        return false;
     }
-
 
     // Enemies
     public void spawnEnemy(int type) {
@@ -728,45 +744,45 @@ public class World {
 
         switch (type) {
             case 0 -> {
-            Enemy enemy = new Enemy(spawnX, spawnY, player);
-            enemy.addMaxHealth(difficultyMultiplier);
-            if (timeSurvived > 300) {
-                enemy.setSpeed(100 * difficultyMultiplier);
-                enemy.setMaxHealth(200 * difficultyMultiplier);
-            } else if (timeSurvived > 120 && timeSurvived < 300) {
-                enemy.setMaxHealth(200);
-                enemy.setSpeed(350);
-            } else {
-                enemy.setMaxHealth(120);
-                enemy.setSpeed(250);
-            }
-            enemies.add(enemy);
+                Enemy enemy = new Enemy(spawnX, spawnY, player);
+                enemy.addMaxHealth(difficultyMultiplier);
+                if (timeSurvived > 300) {
+                    enemy.setSpeed(100 * difficultyMultiplier);
+                    enemy.setMaxHealth(200 * difficultyMultiplier);
+                } else if (timeSurvived > 120 && timeSurvived < 300) {
+                    enemy.setMaxHealth(200);
+                    enemy.setSpeed(350);
+                } else {
+                    enemy.setMaxHealth(120);
+                    enemy.setSpeed(250);
+                }
+                enemies.add(enemy);
 
             }
             case 1 -> {
                 int swarmWidth = 30;
                 int waveCount = 3;
                 double rotateAngle = angle + (Math.PI / 2);
-                    for (int w = 0; w < waveCount; w++) {
-                        double depthOffset = w * 280.0;
-                        for (int i = 0; i < swarmWidth; i++) {
-                            double widthOffset = (i - (swarmWidth / 2.0)) * 60;
-                            double randomJitterX = (Math.random() - 0.5) * 150;
-                            double randomJitterY = (Math.random() - 0.5) * 150;
-                            double cSpawnX = spawnX + Math.cos(rotateAngle) * widthOffset;
-                            double cSpawnY = spawnY + Math.sin(rotateAngle) * widthOffset;
-                            cSpawnX += (Math.cos(angle) * depthOffset) + randomJitterX;
-                            cSpawnY += (Math.sin(angle) * depthOffset) + randomJitterY;
-                            Charger charger = new Charger(cSpawnX, cSpawnY, player);
-                            charger.setDirectionX(directionX);
-                            charger.setDirectionY(directionY);
-                            charger.addMaxHealth(difficultyMultiplier);
+                for (int w = 0; w < waveCount; w++) {
+                    double depthOffset = w * 280.0;
+                    for (int i = 0; i < swarmWidth; i++) {
+                        double widthOffset = (i - (swarmWidth / 2.0)) * 60;
+                        double randomJitterX = (Math.random() - 0.5) * 150;
+                        double randomJitterY = (Math.random() - 0.5) * 150;
+                        double cSpawnX = spawnX + Math.cos(rotateAngle) * widthOffset;
+                        double cSpawnY = spawnY + Math.sin(rotateAngle) * widthOffset;
+                        cSpawnX += (Math.cos(angle) * depthOffset) + randomJitterX;
+                        cSpawnY += (Math.sin(angle) * depthOffset) + randomJitterY;
+                        Charger charger = new Charger(cSpawnX, cSpawnY, player);
+                        charger.setDirectionX(directionX);
+                        charger.setDirectionY(directionY);
+                        charger.addMaxHealth(difficultyMultiplier);
 
-                            if (timeSurvived > 180) {
-                                charger.setSpeed(400 * difficultyMultiplier);
-                                charger.setMaxHealth(120 * difficultyMultiplier);
-                            }
-                            enemies.add(charger);
+                        if (timeSurvived > 180) {
+                            charger.setSpeed(400 * difficultyMultiplier);
+                            charger.setMaxHealth(120 * difficultyMultiplier);
+                        }
+                        enemies.add(charger);
                     }
                     chargerWaveTimer = 0;
                 }
@@ -775,7 +791,7 @@ public class World {
                 Boss boss = new Boss(spawnX, spawnY, player);
                 if (timeSurvived > 180) {
                     boss.setSpeed(200 * difficultyMultiplier);
-                    boss.setMaxHealth(boss.getMaxHealth() + 1000 *  difficultyMultiplier);
+                    boss.setMaxHealth(boss.getMaxHealth() + 1000 * difficultyMultiplier);
                     boss.setHealth(boss.getMaxHealth());
                     boss.setMaxCooldown(boss.getMaxCooldown() / difficultyMultiplier);
                 }
@@ -784,11 +800,12 @@ public class World {
         }
     }
 
-
-        public void triggerSlash(double controllerPosX, double controllerPosY) {
-        if (!player.canSlash()) return;
+    public void triggerSlash(double controllerPosX, double controllerPosY) {
+        if (!player.canSlash())
+            return;
         player.resetSlashCooldown();
-        if (player.isJumping() && player.isCanJumpingSlashOnce() && player.getCurrentStamina() >= 5 * player.getSkillStaminaMultiplier()) {
+        if (player.isJumping() && player.isCanJumpingSlashOnce()
+                && player.getCurrentStamina() >= 5 * player.getSkillStaminaMultiplier()) {
             SoundManager.jumpingSlashSound.play();
             player.triggerJumpingDashAttack();
             player.setCurrentStamina(player.getCurrentStamina() - 5 * player.getSkillStaminaMultiplier());
@@ -806,9 +823,11 @@ public class World {
     }
 
     public void triggerSlash() {
-        if (!player.canSlash()) return;
+        if (!player.canSlash())
+            return;
         player.resetSlashCooldown();
-        if (player.isJumping() && player.isCanJumpingSlashOnce() && player.getCurrentStamina() >= 5 * player.getSkillStaminaMultiplier()) {
+        if (player.isJumping() && player.isCanJumpingSlashOnce()
+                && player.getCurrentStamina() >= 5 * player.getSkillStaminaMultiplier()) {
             SoundManager.jumpingSlashSound.play();
             player.triggerJumpingDashAttack();
             player.setCurrentStamina(player.getCurrentStamina() - 5 * player.getSkillStaminaMultiplier());
@@ -825,10 +844,11 @@ public class World {
         activeSkills.add(new Slash(slashPosX, slashPosY, player.getPosZ(), Math.toDegrees(angle)));
     }
 
-
     public void triggerCrossSlash() {
-        if (player.getGameStartTimer() > 0) return;
-        if (player.getCrossSlashCooldown() <= 0 && !player.isJumping() && player.getCurrentStamina() >= 60 * player.getSkillStaminaMultiplier()) {
+        if (player.getGameStartTimer() > 0)
+            return;
+        if (player.getCrossSlashCooldown() <= 0 && !player.isJumping()
+                && player.getCurrentStamina() >= 60 * player.getSkillStaminaMultiplier()) {
             SoundManager.skill2Sound.play();
             player.setCurrentStamina(player.getCurrentStamina() - (60 * player.getSkillStaminaMultiplier()));
             player.setCrossSlashCooldown(8.0);
@@ -839,10 +859,10 @@ public class World {
         }
     }
 
-
     // ultimate
     public void triggerUltimate() {
-        if (player.getGameStartTimer() > 0) return;
+        if (player.getGameStartTimer() > 0)
+            return;
         if (player.getUltimateCooldown() <= 0 && player.getCurrentStamina() >= 100) {
             player.setCurrentStamina(player.getCurrentStamina() - 100);
             player.setUltimateCooldown(60.0);
@@ -854,8 +874,6 @@ public class World {
         }
     }
 
-
-
     // set weapon
 
     public int getWeaponLevel(WeaponType weaponType) {
@@ -866,7 +884,8 @@ public class World {
             if (weapon == null) {
                 return 0;
             }
-            if (weapon.getType().equals(weaponType)) return weapon.getLevel();
+            if (weapon.getType().equals(weaponType))
+                return weapon.getLevel();
         }
         return 0;
     }
@@ -939,7 +958,6 @@ public class World {
         return false;
     }
 
-
     // collecting things
     public void checkCollection(List<? extends Collectable> collectibles, double deltaTime) {
         collectibles.removeIf(item -> {
@@ -953,10 +971,6 @@ public class World {
         });
 
     }
-
-
-
-
 
     // GAME
     public void triggerScreenShake(double duration, double intensity) {
@@ -983,17 +997,9 @@ public class World {
         this.item = null;
     }
 
-
-
-    //==================================================
-
-
-
-
+    // ==================================================
 
     // s, g
-
-
 
     public boolean isShowMiniMap() {
         return showMiniMap;
@@ -1147,7 +1153,6 @@ public class World {
         this.rocks = rocks;
     }
 
-
     public double getChargersSpawnTimer() {
         return chargersSpawnTimer;
     }
@@ -1208,6 +1213,14 @@ public class World {
         this.difficultyMultiplier = difficultyMultiplier;
     }
 
+    public double getChaosCoreBonus() {
+        return chaosCoreBonus;
+    }
+
+    public void setChaosCoreBonus(double chaosCoreBonus) {
+        this.chaosCoreBonus = chaosCoreBonus;
+    }
+
     public List<Obstacle> getObstacles() {
         return obstacles;
     }
@@ -1231,8 +1244,6 @@ public class World {
     public void setLightningEffects(List<LightningEffect> lightningEffects) {
         this.lightningEffects = lightningEffects;
     }
-
-
 
     public List<double[]> getBlackHoles() {
         return blackHoles;
@@ -1289,7 +1300,6 @@ public class World {
     public void setFinalWeaponAnimationTimer(double finalWeaponAnimationTimer) {
         this.finalWeaponAnimationTimer = finalWeaponAnimationTimer;
     }
-
 
     public void setGlitchStrikes(List<double[]> glitchStrikes) {
         this.glitchStrikes = glitchStrikes;
@@ -1482,7 +1492,6 @@ public class World {
     public int getUltimateSoundCheck() {
         return ultimateSoundCheck;
     }
-
 
     public List<Projectile> getProjectiles() {
         return projectiles;
