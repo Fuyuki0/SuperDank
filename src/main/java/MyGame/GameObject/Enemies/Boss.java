@@ -35,6 +35,7 @@ public class Boss extends Enemy{
         this.speed = 180;
         this.hitbox = 35;
         this.isBoss = true;
+        this.rockHitTime = 1;
     }
 
     public void update(double deltaTime, Player player, double difficultyMultiplier) {

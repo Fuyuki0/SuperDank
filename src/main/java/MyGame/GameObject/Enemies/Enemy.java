@@ -32,7 +32,7 @@ public class Enemy extends GameObject {
     protected double knockBackVelocityY = 0;
 
     // weapon co
-    protected double rockHitTime;
+    protected double rockHitTime = 1;
 
     // type
     protected boolean isCharger = false;

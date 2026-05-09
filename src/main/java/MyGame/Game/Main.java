@@ -1041,6 +1041,7 @@ public class Main extends Application {
 
             engine.getWorld().resumeGame();
             engine.setLevelUpCallBack(false);
+            refreshCost = 30;
         });
 
         HBox rouletteButtonLayout = new HBox(20);

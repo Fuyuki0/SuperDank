@@ -17,6 +17,7 @@ public class Charger extends Enemy {
         this.maxHealth = 80;
         this.health = maxHealth;
         this.isCharger = true;
+        this.rockHitTime = 1;
     }
 
     @Override
