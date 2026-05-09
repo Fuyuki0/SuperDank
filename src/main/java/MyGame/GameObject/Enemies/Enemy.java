@@ -31,6 +31,9 @@ public class Enemy extends GameObject {
     protected double knockBackVelocityX = 0;
     protected double knockBackVelocityY = 0;
 
+    // weapon co
+    protected double rockHitTime;
+
     // type
     protected boolean isCharger = false;
     protected boolean isBoss = false;
@@ -57,6 +60,7 @@ public class Enemy extends GameObject {
         this.knockBackVelocityY = 0;
         this.isCharger = false;
         this.isBoss = false;
+        this.rockHitTime = 1;
     }
 
     public void doDamage(Player player, double amount) {
@@ -171,6 +175,10 @@ public class Enemy extends GameObject {
 
         if (flashTimer > 0) {
             flashTimer -= deltaTime;
+        }
+
+        if (rockHitTime < 2) {
+            rockHitTime += deltaTime;
         }
     }
 
@@ -441,5 +449,13 @@ public class Enemy extends GameObject {
 
     public void setFlashTimer(double flashTimer) {
         this.flashTimer = flashTimer;
+    }
+
+    public double getRockHitTime() {
+        return rockHitTime;
+    }
+
+    public void setRockHitTime(double rockHitTime) {
+        this.rockHitTime = rockHitTime;
     }
 }

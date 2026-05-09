@@ -7,6 +7,9 @@ import MyGame.GameObject.Weapon.OrbitRock;
 import MyGame.Game.World;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * A basic projectile representing a thrown rock or fireball.
@@ -36,6 +39,7 @@ public class Rock extends Projectile {
         if (spawnTimer < spawnDuration) {
             spawnTimer += deltaTime;
         }
+
         double diff = targetRelativeAngle - currentRelativeAngle;
         if (diff > 180) diff -= 360;
         if (diff < -180) diff += 360;
@@ -71,9 +75,10 @@ public class Rock extends Projectile {
             double distanceY = enemy.getPosY() - rockPosY;
             double distance = (distanceX * distanceX + distanceY * distanceY);
             double rockRadius = 40 * (1 + world.getOrbitRock().getBonusSize() / 100);
-            if ((distance < rockRadius * rockRadius) && !world.getPlayer().isJumping()) {
+            if ((distance < rockRadius * rockRadius) && !world.getPlayer().isJumping() && enemy.getRockHitTime() > 1) {
                 double damage = 20 * (1 + world.getOrbitRock().getBonusDamage() / 100);
                 enemy.takeDamageAndEffectPlayer(world.getPlayer(), damage, world.getDamageTexts(), false);
+                enemy.setRockHitTime(0);
                 enemy.smoothHitboxContactPushOut(-enemy.getFaceToX() * 200, -enemy.getFaceToY() * 200, 0.1);
                 SoundManager.fireballSound.play();
                 this.hitEnemy();

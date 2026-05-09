@@ -77,6 +77,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#maxHealth" tabindex="0">maxHealth</a></li>
 <li><a href="#knockBackVelocityX" tabindex="0">knockBackVelocityX</a></li>
 <li><a href="#knockBackVelocityY" tabindex="0">knockBackVelocityY</a></li>
+<li><a href="#rockHitTime" tabindex="0">rockHitTime</a></li>
 <li><a href="#isCharger" tabindex="0">isCharger</a></li>
 <li><a href="#isBoss" tabindex="0">isBoss</a></li>
 <li><a href="#flashTimer" tabindex="0">flashTimer</a></li>
@@ -137,6 +138,8 @@ loadScripts(document, 'script');</script>
 <li><a href="#setAnimationState(int)" tabindex="0">setAnimationState(int)</a></li>
 <li><a href="#getFlashTimer()" tabindex="0">getFlashTimer()</a></li>
 <li><a href="#setFlashTimer(double)" tabindex="0">setFlashTimer(double)</a></li>
+<li><a href="#getRockHitTime()" tabindex="0">getRockHitTime()</a></li>
+<li><a href="#setRockHitTime(double)" tabindex="0">setRockHitTime(double)</a></li>
 </ol>
 </li>
 </ol>
@@ -221,8 +224,11 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color"><code><a href="#player" class="member-name-link">player</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>protected double</code></div>
-<div class="col-second even-row-color"><code><a href="#speed" class="member-name-link">speed</a></code></div>
+<div class="col-second even-row-color"><code><a href="#rockHitTime" class="member-name-link">rockHitTime</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
+<div class="col-first odd-row-color"><code>protected double</code></div>
+<div class="col-second odd-row-color"><code><a href="#speed" class="member-name-link">speed</a></code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
 </div>
 <div class="inherited-list">
 <h3 id="fields-inherited-from-class-MyGame.GameObject.GameObject">Fields inherited from class&nbsp;MyGame.GameObject.<a href="../GameObject.html" title="class in MyGame.GameObject">GameObject</a></h3>
@@ -317,75 +323,81 @@ loadScripts(document, 'script');</script>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getPlayer()" class="member-name-link">getPlayer</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSpeed()" class="member-name-link">getSpeed</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getRockHitTime()" class="member-name-link">getRockHitTime</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTimer()" class="member-name-link">getTimer</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSpeed()" class="member-name-link">getSpeed</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isBoss()" class="member-name-link">isBoss</a>()</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getTimer()" class="member-name-link">getTimer</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isCharger()" class="member-name-link">isCharger</a>()</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isBoss()" class="member-name-link">isBoss</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isDead()" class="member-name-link">isDead</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isCharger()" class="member-name-link">isCharger</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pushObject(MyGame.GameObject.GameObject,double,double)" class="member-name-link">pushObject</a><wbr>(<a href="../GameObject.html" title="class in MyGame.GameObject">GameObject</a>&nbsp;object,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isDead()" class="member-name-link">isDead</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pushObject(MyGame.GameObject.GameObject,double,double)" class="member-name-link">pushObject</a><wbr>(<a href="../GameObject.html" title="class in MyGame.GameObject">GameObject</a>&nbsp;object,
  double&nbsp;pushX,
  double&nbsp;pushY)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAnimationState(int)" class="member-name-link">setAnimationState</a><wbr>(int&nbsp;animationState)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAnimationTimer(double)" class="member-name-link">setAnimationTimer</a><wbr>(double&nbsp;animationTimer)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAnimationState(int)" class="member-name-link">setAnimationState</a><wbr>(int&nbsp;animationState)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setBoss(boolean)" class="member-name-link">setBoss</a><wbr>(boolean&nbsp;boss)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setAnimationTimer(double)" class="member-name-link">setAnimationTimer</a><wbr>(double&nbsp;animationTimer)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCharger(boolean)" class="member-name-link">setCharger</a><wbr>(boolean&nbsp;charger)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setBoss(boolean)" class="member-name-link">setBoss</a><wbr>(boolean&nbsp;boss)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCurrentFrame(int)" class="member-name-link">setCurrentFrame</a><wbr>(int&nbsp;currentFrame)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCharger(boolean)" class="member-name-link">setCharger</a><wbr>(boolean&nbsp;charger)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDamageTimer(double)" class="member-name-link">setDamageTimer</a><wbr>(double&nbsp;damageTimer)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setCurrentFrame(int)" class="member-name-link">setCurrentFrame</a><wbr>(int&nbsp;currentFrame)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDirectionX(double)" class="member-name-link">setDirectionX</a><wbr>(double&nbsp;directionX)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDamageTimer(double)" class="member-name-link">setDamageTimer</a><wbr>(double&nbsp;damageTimer)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDirectionY(double)" class="member-name-link">setDirectionY</a><wbr>(double&nbsp;directionY)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDirectionX(double)" class="member-name-link">setDirectionX</a><wbr>(double&nbsp;directionX)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFaceToX(double)" class="member-name-link">setFaceToX</a><wbr>(double&nbsp;faceToX)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setDirectionY(double)" class="member-name-link">setDirectionY</a><wbr>(double&nbsp;directionY)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFaceToY(double)" class="member-name-link">setFaceToY</a><wbr>(double&nbsp;faceToY)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFaceToX(double)" class="member-name-link">setFaceToX</a><wbr>(double&nbsp;faceToX)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFlashTimer(double)" class="member-name-link">setFlashTimer</a><wbr>(double&nbsp;flashTimer)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFaceToY(double)" class="member-name-link">setFaceToY</a><wbr>(double&nbsp;faceToY)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHealth(double)" class="member-name-link">setHealth</a><wbr>(double&nbsp;health)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setFlashTimer(double)" class="member-name-link">setFlashTimer</a><wbr>(double&nbsp;flashTimer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKnockBackTimer(double)" class="member-name-link">setKnockBackTimer</a><wbr>(double&nbsp;knockBackTimer)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHealth(double)" class="member-name-link">setHealth</a><wbr>(double&nbsp;health)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKnockBackVelocityX(double)" class="member-name-link">setKnockBackVelocityX</a><wbr>(double&nbsp;knockBackVelocityX)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKnockBackTimer(double)" class="member-name-link">setKnockBackTimer</a><wbr>(double&nbsp;knockBackTimer)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKnockBackVelocityY(double)" class="member-name-link">setKnockBackVelocityY</a><wbr>(double&nbsp;knockBackVelocityY)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKnockBackVelocityX(double)" class="member-name-link">setKnockBackVelocityX</a><wbr>(double&nbsp;knockBackVelocityX)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxHealth(double)" class="member-name-link">setMaxHealth</a><wbr>(double&nbsp;maxHealth)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setKnockBackVelocityY(double)" class="member-name-link">setKnockBackVelocityY</a><wbr>(double&nbsp;knockBackVelocityY)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPlayer(MyGame.GameObject.Player.Player)" class="member-name-link">setPlayer</a><wbr>(<a href="../Player/Player.html" title="class in MyGame.GameObject.Player">Player</a>&nbsp;player)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setMaxHealth(double)" class="member-name-link">setMaxHealth</a><wbr>(double&nbsp;maxHealth)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setPlayer(MyGame.GameObject.Player.Player)" class="member-name-link">setPlayer</a><wbr>(<a href="../Player/Player.html" title="class in MyGame.GameObject.Player">Player</a>&nbsp;player)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setRockHitTime(double)" class="member-name-link">setRockHitTime</a><wbr>(double&nbsp;rockHitTime)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setSpeed(double)" class="member-name-link">setSpeed</a><wbr>(double&nbsp;speed)</code></div>
@@ -526,6 +538,14 @@ loadScripts(document, 'script');</script>
 <h3>knockBackVelocityY</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">knockBackVelocityY</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="rockHitTime">
+<h3>rockHitTime</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">rockHitTime</span></div>
 </div>
 </section>
 </li>
@@ -982,6 +1002,22 @@ loadScripts(document, 'script');</script>
 <h3>setFlashTimer</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setFlashTimer</span><wbr><span class="parameters">(double&nbsp;flashTimer)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="getRockHitTime()">
+<h3>getRockHitTime</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getRockHitTime</span>()</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="setRockHitTime(double)">
+<h3>setRockHitTime</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRockHitTime</span><wbr><span class="parameters">(double&nbsp;rockHitTime)</span></div>
 </div>
 </section>
 </li>

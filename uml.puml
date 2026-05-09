@@ -188,6 +188,7 @@ class MyGame.GameObject.Enemies.Enemy {
 # double maxHealth
 # double knockBackVelocityX
 # double knockBackVelocityY
+# double rockHitTime
 # boolean isCharger
 # boolean isBoss
 - int currentFrame
@@ -242,6 +243,8 @@ class MyGame.GameObject.Enemies.Enemy {
 + void setAnimationState(int)
 + double getFlashTimer()
 + void setFlashTimer(double)
++ double getRockHitTime()
++ void setRockHitTime(double)
 }
 
 
