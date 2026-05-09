@@ -1119,7 +1119,6 @@ public class Main extends Application {
         titleLabel.setStyle(" -fx-text-fill: #E66420; -fx-effect: dropshadow(gaussian, red, 10, 0, 0, 0);");
         Button playButton = createCustomButton("START THE DANK!");
         playButton.setTranslateY(140);
-        playButton.setPrefWidth(600);
         playButton.setPrefHeight(120);
         playButton.setOnAction(actionEvent -> {
             playButton.setText("LOADING ASSETS...");
@@ -1135,7 +1134,7 @@ public class Main extends Application {
         exitButton.setOnAction(actionEvent -> Platform.exit());
         exitButton.setTranslateY(140);
 
-        Button coresToggleButton = new Button();
+        Button coresToggleButton = createCustomButton("");
         coresToggleButton.setTranslateY(140);
         coresToggleButton.setPrefWidth(300);
         coresToggleButton.setPrefHeight(60);
@@ -1173,21 +1172,39 @@ public class Main extends Application {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
             KeyCode code = keyEvent.getCode();
             if (playButton.isVisible()) {
+                if (playButton.isDisable()) {
+                    playButton.requestFocus();
+                }
                 if (code == KeyCode.J || code == KeyCode.DOWN || (code == KeyCode.TAB && !keyEvent.isShiftDown())) {
                     if (playButton.isFocused()) {
+                        if (!coresToggleButton.isDisable()) {
+                            coresToggleButton.requestFocus();
+                        } else {
+                            exitButton.requestFocus();
+                        }
+                    } else if (coresToggleButton.isFocused()) {
                         exitButton.requestFocus();
-                    } else
+                    } else if (exitButton.isFocused()) {
                         playButton.requestFocus();
+                    }
                     keyEvent.consume();
                 } else if (code == KeyCode.K || code == KeyCode.UP || (code == KeyCode.TAB && keyEvent.isShiftDown())) {
                     if (exitButton.isFocused()) {
+                        if (!coresToggleButton.isDisable()) {
+                            coresToggleButton.requestFocus();
+                        } else {
+                            playButton.requestFocus();
+                        }
+                    } else if (coresToggleButton.isFocused()) {
                         playButton.requestFocus();
-                    } else
+                    } else if (playButton.isFocused()) {
                         exitButton.requestFocus();
+                    }
                     keyEvent.consume();
                 }
             }
         });
+
 
         // ========= Setting ========= //
 
