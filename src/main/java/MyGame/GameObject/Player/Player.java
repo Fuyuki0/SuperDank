@@ -41,7 +41,7 @@ public class Player extends GameObject {
 
     private final double DASH_COOLDOWN = 0.6;
     private final double DASH_DURATION = 0.2;
-    private final double DASH_SPEED = 800;
+    private final double DASH_SPEED = 500;
     private double smoothDash = 0.3;
 
     private double dashTimer = 0;
