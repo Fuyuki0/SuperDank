@@ -25,6 +25,9 @@ import java.util.List;
 import static MyGame.Game.Main.SCREEN_HEIGHT;
 import static MyGame.Game.Main.SCREEN_WIDTH;
 
+/**
+ * The main container class representing the game state, including entities, map, and collision.
+ */
 public class World {
     private boolean showMiniMap = true;
 
@@ -778,10 +781,10 @@ public class World {
         public void triggerSlash(double controllerPosX, double controllerPosY) {
         if (!player.canSlash()) return;
         player.resetSlashCooldown();
-        if (player.isJumping() && player.isCanJumpingSlashOnce() && player.getCurrentStamina() >= 10 * player.getSkillStaminaMultiplier()) {
+        if (player.isJumping() && player.isCanJumpingSlashOnce() && player.getCurrentStamina() >= 5 * player.getSkillStaminaMultiplier()) {
             SoundManager.jumpingSlashSound.play();
             player.triggerJumpingDashAttack();
-            player.setCurrentStamina(player.getCurrentStamina() - 10 * player.getSkillStaminaMultiplier());
+            player.setCurrentStamina(player.getCurrentStamina() - 5 * player.getSkillStaminaMultiplier());
             activeSkills.add(new JumpingSlash(player.getPosX(), player.getPosY(), player.getPosZ(), player));
             return;
         } else {
@@ -798,10 +801,10 @@ public class World {
     public void triggerSlash() {
         if (!player.canSlash()) return;
         player.resetSlashCooldown();
-        if (player.isJumping() && player.isCanJumpingSlashOnce() && player.getCurrentStamina() >= 10 * player.getSkillStaminaMultiplier()) {
+        if (player.isJumping() && player.isCanJumpingSlashOnce() && player.getCurrentStamina() >= 5 * player.getSkillStaminaMultiplier()) {
             SoundManager.jumpingSlashSound.play();
             player.triggerJumpingDashAttack();
-            player.setCurrentStamina(player.getCurrentStamina() - 10 * player.getSkillStaminaMultiplier());
+            player.setCurrentStamina(player.getCurrentStamina() - 5 * player.getSkillStaminaMultiplier());
             activeSkills.add(new JumpingSlash(player.getPosX(), player.getPosY(), player.getPosZ(), player));
             return;
         } else {

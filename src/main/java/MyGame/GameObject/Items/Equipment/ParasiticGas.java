@@ -9,6 +9,9 @@ import MyGame.Game.World;
 import static MyGame.Game.Main.SCREEN_HEIGHT;
 import static MyGame.Game.Main.SCREEN_WIDTH;
 
+/**
+ * An equipment item that emits a toxic cloud damaging nearby enemies.
+ */
 public class ParasiticGas implements Item {
     private double parasiticGasTimer = 5.0;
 

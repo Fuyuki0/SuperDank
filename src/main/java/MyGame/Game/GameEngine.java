@@ -44,6 +44,9 @@ import static MyGame.Game.GameAssets.*;
 import static MyGame.Game.Main.SCREEN_HEIGHT;
 import static MyGame.Game.Main.SCREEN_WIDTH;
 
+/**
+ * The core engine that runs the game loop, handling updates and rendering.
+ */
 public class GameEngine {
     private Main.GameState currentGameState;
     private Scene scene;

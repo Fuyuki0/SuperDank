@@ -5,6 +5,9 @@ import MyGame.GameObject.GameObject;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * A utility class for comparing and sorting enemies, often used for targeting.
+ */
 public class CompareEnemies {
     private GameObject object_1;
     private List<Enemy> object_2;
@@ -23,11 +26,4 @@ public class CompareEnemies {
         objects.sort(objectComparator);
     }
 
-    public List<Enemy> getObject_2() {
-        return object_2;
-    }
-
-    public void setObject_2(List<Enemy> object_2) {
-        this.object_2 = object_2;
-    }
 }

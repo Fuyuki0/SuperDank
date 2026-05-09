@@ -11,6 +11,9 @@ import java.util.List;
 import static MyGame.Game.Main.SCREEN_HEIGHT;
 import static MyGame.Game.Main.SCREEN_WIDTH;
 
+/**
+ * An extremely powerful equipment item representing the ultimate arsenal.
+ */
 public class FinalWeapon implements Item {
     private double finalWeaponTimer = 0;
 

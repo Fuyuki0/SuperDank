@@ -7,6 +7,9 @@ import javafx.scene.media.MediaPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles the loading and playback of all audio effects and background music.
+ */
 public class SoundManager {
 
         public static AudioClip dashingSound;

@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that provides defensive or evasive enhancements.
+ */
 public class CryptoCore extends Weapon {
     public CryptoCore() {
         super(WeaponType.COIN, AmountType.Multiplier, 1);

@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that causes lingering deterioration on enemies.
+ */
 public class EntropyCore extends Weapon {
     public EntropyCore() {
         super(WeaponType.LUCK, AmountType.Multiplier, 0.10);

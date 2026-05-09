@@ -10,6 +10,9 @@ import MyGame.Game.World;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manages the spawning, updating, and logic of all items in the game.
+ */
 public class ItemManager {
     public static Item openingChest(World world) {
         Player player = world.getPlayer();

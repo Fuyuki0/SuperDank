@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that provides bursts of power and damage.
+ */
 public class SurgeCore extends Weapon {
     public SurgeCore() {
         super(WeaponType.OVERHEAL, AmountType.Amount, 2000);

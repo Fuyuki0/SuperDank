@@ -6,6 +6,9 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * A centralized manager for loading and providing all game resources like images and fonts.
+ */
 public class GameAssets {
 
     public static final Font FONT_12  = loadFont(12,  false);

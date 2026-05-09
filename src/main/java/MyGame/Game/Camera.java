@@ -2,6 +2,9 @@ package MyGame.Game;
 
 import MyGame.GameObject.Player.Player;
 
+/**
+ * Manages the viewpoint of the game, keeping the player focused on the screen.
+ */
 public class Camera {
     private double posX;
     private double posY;

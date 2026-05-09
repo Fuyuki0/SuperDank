@@ -5,6 +5,9 @@ import MyGame.Rarity.ItemRarity;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.World;
 
+/**
+ * A defensive equipment item that reduces incoming damage.
+ */
 public class TitaniumArmor implements Item {
     @Override
     public String getName() {

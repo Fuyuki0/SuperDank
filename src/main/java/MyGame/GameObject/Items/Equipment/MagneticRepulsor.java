@@ -6,6 +6,9 @@ import MyGame.Rarity.ItemRarity;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.World;
 
+/**
+ * An equipment item that pushes enemies away from the player.
+ */
 public class MagneticRepulsor implements Item {
     private double magneticRepulsorTimer = 3.0;
 

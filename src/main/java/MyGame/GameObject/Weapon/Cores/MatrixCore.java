@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that manipulates space or enemy positioning.
+ */
 public class MatrixCore extends Weapon {
     public MatrixCore() {
         super(WeaponType.SIZE, AmountType.Multiplier, 0.1);

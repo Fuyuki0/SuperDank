@@ -9,6 +9,9 @@ import MyGame.Game.World;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A weapon that strikes enemies with lightning bolts.
+ */
 public class LightningWeapon extends Weapon {
     public LightningWeapon() {
         super(3.0, WeaponType.LIGHTNING);

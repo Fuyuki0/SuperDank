@@ -1,7 +1,6 @@
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
-!build/libs/SuperDank-1.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
 .kotlin
@@ -43,3 +42,10 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+
+### Generated Documentation & Artifacts ###
+*.odt
+javadoc/
+docs/
+*.jar
+!SuperDank_Manual.html

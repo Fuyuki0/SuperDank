@@ -5,10 +5,16 @@ import MyGame.GameObject.DamageText;
 import MyGame.GameObject.GameObject;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.SoundManager;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Effect;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 import java.util.List;
 
+/**
+ * The base abstract class for all hostile entities in the game.
+ */
 public class Enemy extends GameObject {
     protected Player player = null;
     protected double speed;
@@ -210,11 +216,9 @@ public class Enemy extends GameObject {
     }
 
     @Override
-    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
-        javafx.scene.effect.Effect hitFlash = engine.getHitFlash();
-        javafx.scene.image.Image enemyMech = engine.getEnemyMech();
-        javafx.scene.image.Image chargerMech = engine.getChargerMech();
-        javafx.scene.image.Image bossMech = engine.getBossMech();
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        Effect hitFlash = engine.getHitFlash();
+        Image enemyMech = engine.getEnemyMech();
         gc.setFill(Color.rgb(0, 0, 0, 0.4));
         double shadowWidth = 60;
         double shadowHeight = 20;

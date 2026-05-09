@@ -5,6 +5,9 @@ import MyGame.Rarity.ItemRarity;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.World;
 
+/**
+ * An equipment item that significantly increases armor and defense.
+ */
 public class TungstenPlating implements Item {
     @Override
     public String getName() {

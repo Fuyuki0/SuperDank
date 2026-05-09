@@ -9,6 +9,9 @@ import MyGame.Game.World;
 
 import java.util.List;
 
+/**
+ * An equipment item that unleashes massive destruction when triggered.
+ */
 public class Doomsday implements Item {
     private double doomsdayTimer = 2.0;
     private int doomsdayLastStat = -1;

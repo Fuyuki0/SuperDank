@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that sacrifices defense or health for extreme damage output.
+ */
 public class OverHeatCore extends Weapon {
     public OverHeatCore() {
         super(WeaponType.CRITDMG, AmountType.Multiplier, 0.20);

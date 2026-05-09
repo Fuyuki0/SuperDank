@@ -9,6 +9,9 @@ import java.util.List;
 import MyGame.Interface.ActiveSkill;
 import MyGame.Game.World;
 
+/**
+ * A skill representing a cross-shaped slash attack.
+ */
 public class CrossSlash implements ActiveSkill {
     private double posX, posY;
     private double angle;

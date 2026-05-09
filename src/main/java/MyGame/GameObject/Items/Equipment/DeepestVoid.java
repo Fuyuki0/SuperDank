@@ -5,6 +5,9 @@ import MyGame.Rarity.ItemRarity;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.World;
 
+/**
+ * An equipment item that utilizes black hole or gravity mechanics.
+ */
 public class DeepestVoid implements Item {
     @Override
     public String getName() {

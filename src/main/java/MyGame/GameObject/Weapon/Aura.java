@@ -4,6 +4,9 @@ import MyGame.Game.GameEngine;
 import MyGame.Game.SoundManager;
 import MyGame.Game.World;
 
+/**
+ * A weapon that creates a damaging area of effect around the player.
+ */
 public class Aura extends Weapon{
     private double radius;
     private double timer;

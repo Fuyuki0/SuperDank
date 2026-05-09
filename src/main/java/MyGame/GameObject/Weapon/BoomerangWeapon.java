@@ -10,6 +10,9 @@ import MyGame.Game.World;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A weapon that throws a boomerang projectile which returns to the player.
+ */
 public class BoomerangWeapon extends Weapon {
     public BoomerangWeapon() {
         super(3, WeaponType.BOOMERANG);

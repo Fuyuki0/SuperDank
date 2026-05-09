@@ -4,6 +4,9 @@ import MyGame.Rarity.ItemRarity;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.World;
 
+/**
+ * The base interface or class for all items that can be collected or equipped.
+ */
 public interface Item {
     String getName();
     String getDescription();

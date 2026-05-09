@@ -1,10 +1,14 @@
 package MyGame.GameObject.Weapon;
 
 import MyGame.Game.GameEngine;
+import MyGame.Interface.Renderable;
 import MyGame.Rarity.Rarity;
 import MyGame.Game.World;
 
-public abstract class Weapon implements MyGame.Interface.Renderable {
+/**
+ * The base abstract class for all player weapons, handling firing logic and upgrades.
+ */
+public abstract class Weapon implements Renderable {
     protected double cooldown;
     protected double timer;
 

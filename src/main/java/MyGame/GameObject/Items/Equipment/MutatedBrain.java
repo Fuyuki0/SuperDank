@@ -5,6 +5,9 @@ import MyGame.Rarity.ItemRarity;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.World;
 
+/**
+ * An equipment item that enhances skill effectiveness or reduces cooldowns.
+ */
 public class MutatedBrain implements Item {
     private double mutatedBrainTimer = 3.0;
 

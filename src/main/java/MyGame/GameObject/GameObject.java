@@ -5,6 +5,9 @@ import MyGame.Interface.Renderable;
 import java.util.Comparator;
 import java.util.Objects;
 
+/**
+ * The base class for all entities in the game, providing common properties like position and size.
+ */
 public abstract class GameObject implements Renderable {
     protected double posX;
     protected double posY;

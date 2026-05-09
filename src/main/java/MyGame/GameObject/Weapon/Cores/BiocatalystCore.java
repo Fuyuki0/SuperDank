@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that uses biological effects to poison or weaken enemies.
+ */
 public class BiocatalystCore extends Weapon {
     public BiocatalystCore() {
         super(WeaponType.REGEN, AmountType.Amount, 2);

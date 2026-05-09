@@ -10,6 +10,9 @@ import java.util.List;
 import MyGame.Interface.ActiveSkill;
 import MyGame.Game.World;
 
+/**
+ * A skill representing a jumping slash attack.
+ */
 public class JumpingSlash implements ActiveSkill {
     private double PosX;
     private double PosY;

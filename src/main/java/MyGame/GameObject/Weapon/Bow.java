@@ -10,6 +10,9 @@ import MyGame.Game.World;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A ranged weapon that shoots arrows at enemies.
+ */
 public class Bow extends Weapon {
     private double amount;
     public Bow() {

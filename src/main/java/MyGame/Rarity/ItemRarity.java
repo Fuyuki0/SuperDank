@@ -2,6 +2,9 @@ package MyGame.Rarity;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Defines the different levels of rarity for items in the game.
+ */
 public enum ItemRarity {
     Stock(Color.WHITE),
     Modified(Color.DODGERBLUE),

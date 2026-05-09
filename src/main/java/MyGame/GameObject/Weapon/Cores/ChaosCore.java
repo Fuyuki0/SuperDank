@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that introduces chaotic and unpredictable effects.
+ */
 public class ChaosCore extends Weapon {
     public ChaosCore() {
         super(WeaponType.CHOAS, AmountType.Multiplier, 0.15);

@@ -2,7 +2,11 @@ package MyGame.GameObject.Projectile;
 
 import MyGame.Game.GameEngine;
 import MyGame.GameObject.GameObject;
+import javafx.scene.canvas.GraphicsContext;
 
+/**
+ * A class representing an explosive effect that damages entities in an area.
+ */
 public class Explosion extends GameObject {
     private final double MAX_TIMER = 0.4;
     private double timer;
@@ -13,7 +17,7 @@ public class Explosion extends GameObject {
     }
 
     @Override
-    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
         double frameWidth = 64;
         double frameHeight = 64;
         double scaleExplosion = 4;

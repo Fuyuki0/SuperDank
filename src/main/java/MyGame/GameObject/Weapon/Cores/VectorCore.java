@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that enhances projectile speed and direction.
+ */
 public class VectorCore extends Weapon {
     public VectorCore() {
         super(WeaponType.CRITRATE, AmountType.Multiplier, 0.05);

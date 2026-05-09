@@ -5,6 +5,9 @@ import MyGame.Rarity.ItemRarity;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.World;
 
+/**
+ * An equipment item providing incremental tech bonuses.
+ */
 public class DataFragment implements Item {
     @Override
     public String getName() {

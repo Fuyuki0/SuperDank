@@ -2,9 +2,13 @@ package MyGame.GameObject.Projectile;
 
 import MyGame.Game.GameEngine;
 import MyGame.Game.World;
+import javafx.scene.canvas.GraphicsContext;
 
 import java.util.List;
 
+/**
+ * A visual and damaging effect representing a lightning strike.
+ */
 public class LightningEffect extends Projectile {
     private List<double[]> strikePoints;
     private double timer;
@@ -61,7 +65,7 @@ public class LightningEffect extends Projectile {
     }
 
     @Override
-    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
         double frameWidth = 128;
         double frameHeight = 128;
         double sourceY = 0;

@@ -6,6 +6,9 @@ import MyGame.GameObject.Player.Player;
 import MyGame.Game.SoundManager;
 import MyGame.Game.World;
 
+/**
+ * A melee weapon used for close-range combat.
+ */
 public class Sword extends Weapon {
 
     private int currentFrame = 0;

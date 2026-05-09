@@ -7,6 +7,9 @@ import MyGame.GameObject.Enemies.Enemy;
 import MyGame.GameObject.Player.Player;
 import javafx.scene.canvas.GraphicsContext;
 
+/**
+ * A basic skill representing a standard slash attack.
+ */
 public class Slash implements ActiveSkill {
     private double posX;
     private double posY;

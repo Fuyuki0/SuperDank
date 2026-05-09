@@ -5,8 +5,12 @@ import MyGame.GameObject.Enemies.Enemy;
 import MyGame.Game.SoundManager;
 import MyGame.GameObject.Weapon.OrbitRock;
 import MyGame.Game.World;
+import javafx.scene.canvas.GraphicsContext;
 
 
+/**
+ * A basic projectile representing a thrown rock or fireball.
+ */
 public class Rock extends Projectile {
     private int pierceCount = 30;
     private boolean isBroken;
@@ -102,7 +106,7 @@ public class Rock extends Projectile {
     }
 
     @Override
-    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
         OrbitRock orbitRock = engine.getWorld().getOrbitRock();
         if (orbitRock == null) {
             return;

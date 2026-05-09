@@ -2,8 +2,14 @@ package MyGame.GameObject.Enemies;
 
 import MyGame.Game.GameEngine;
 import MyGame.GameObject.Player.Player;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Effect;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+/**
+ * An advanced enemy with unique attacks, higher health, and distinct phases.
+ */
 public class Boss extends Enemy{
     public enum BossState {ACTIVE, DASHING, TELEGRAPH_CIRCLE, TELEGRAPH_ARC, TELEGRAPH_AIR, TELEGRAPH_LINE}
     private BossState currentState = BossState.ACTIVE;
@@ -143,11 +149,9 @@ public class Boss extends Enemy{
     }
 
     @Override
-    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
-        javafx.scene.effect.Effect hitFlash = engine.getHitFlash();
-        javafx.scene.image.Image enemyMech = engine.getEnemyMech();
-        javafx.scene.image.Image chargerMech = engine.getChargerMech();
-        javafx.scene.image.Image bossMech = engine.getBossMech();
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        Effect hitFlash = engine.getHitFlash();
+        Image bossMech = engine.getBossMech();
 
         // telegraph attack
         gc.save();

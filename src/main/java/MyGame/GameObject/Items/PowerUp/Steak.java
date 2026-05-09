@@ -11,6 +11,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import MyGame.Game.World;
 
+/**
+ * A power-up item that restores a large amount of health.
+ */
 public class Steak extends GameObject implements Item, Collectable, Renderable {
 
     private int healAmount;

@@ -14,6 +14,9 @@ import javafx.scene.canvas.GraphicsContext;
 import MyGame.Game.GameEngine;
 import MyGame.Game.World;
 
+/**
+ * A collectable item that grants experience points to the player upon pickup.
+ */
 public class Experience extends GameObject implements Collectable, Renderable {
     private int expValue;
     private int expType;

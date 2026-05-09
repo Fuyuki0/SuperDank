@@ -2,8 +2,14 @@ package MyGame.GameObject.Enemies;
 
 import MyGame.Game.GameEngine;
 import MyGame.GameObject.Player.Player;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Effect;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
+/**
+ * An enemy that aggressively charges towards the player to deal damage.
+ */
 public class Charger extends Enemy {
     public Charger(double posX, double posY, Player player) {
         super(posX, posY, player);
@@ -30,12 +36,10 @@ public class Charger extends Enemy {
     }
 
     @Override
-    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
-        javafx.scene.effect.Effect hitFlash = engine.getHitFlash();
-        javafx.scene.image.Image enemyMech = engine.getEnemyMech();
-        javafx.scene.image.Image chargerMech = engine.getChargerMech();
-        javafx.scene.image.Image bossMech = engine.getBossMech();
-        
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+        Effect hitFlash = engine.getHitFlash();
+        Image chargerMech = engine.getChargerMech();
+
         gc.setFill(Color.rgb(0, 0, 0, 0.4));
         double shadowWidth = 40;
         double shadowHeight = 15;

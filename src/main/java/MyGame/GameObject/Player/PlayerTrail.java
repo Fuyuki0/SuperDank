@@ -1,5 +1,8 @@
 package MyGame.GameObject.Player;
 
+/**
+ * A visual effect class representing the trail left behind by the player.
+ */
 public class PlayerTrail {
     public double worldPosX;
     public double worldPosY;

@@ -6,6 +6,9 @@ import MyGame.Game.World;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A weapon that summons rocks orbiting the player to damage nearby enemies.
+ */
 public class OrbitRock extends Weapon{
     private final double RADIUS = 350;
     private double rockAmount;

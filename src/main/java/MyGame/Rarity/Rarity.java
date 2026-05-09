@@ -3,6 +3,9 @@ package MyGame.Rarity;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Interface or base class for defining the rarity characteristics of game weapons.
+ */
 public enum Rarity {
     Common(Color.LIGHTGRAY, 1, 1),
     Uncommon(Color.LIMEGREEN, 1.2, 1.2),

@@ -8,6 +8,9 @@ import javafx.scene.input.MouseButton;
 import static MyGame.Game.Main.SCREEN_HEIGHT;
 import static MyGame.Game.Main.SCREEN_WIDTH;
 
+/**
+ * Handles user input from the keyboard or mouse to control the game.
+ */
 public class Controller {
 
     private boolean up;
@@ -89,7 +92,7 @@ public class Controller {
             ) {
                 world.setShowMiniMap(false);
             } else {
-                if (!(mouseX >= (double)(SCREEN_WIDTH - SCREEN_HEIGHT) / 2  && mouseX <= SCREEN_HEIGHT + (double)(SCREEN_WIDTH - SCREEN_HEIGHT) / 2)){
+                if (!(mouseX >= SCREEN_WIDTH)){
                     world.setShowMiniMap(true);
                 }
             }

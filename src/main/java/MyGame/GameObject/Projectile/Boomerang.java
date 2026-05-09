@@ -3,11 +3,15 @@ package MyGame.GameObject.Projectile;
 import MyGame.Game.GameEngine;
 import MyGame.GameObject.Enemies.Enemy;
 import MyGame.Game.World;
+import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * A projectile that travels outward and then returns towards its origin.
+ */
 public class Boomerang extends Projectile {
     private double speed = 1000;
     private double velocityX;
@@ -109,7 +113,7 @@ public class Boomerang extends Projectile {
     }
 
     @Override
-    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
         double frameWidth = 349;
         double frameHeight = 349;
         double sourceX = 0;

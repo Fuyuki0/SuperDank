@@ -5,6 +5,9 @@ import MyGame.Rarity.ItemRarity;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.World;
 
+/**
+ * An equipment item that temporarily boosts speed and damage.
+ */
 public class EngineOverload implements Item {
     @Override
     public String getName() {

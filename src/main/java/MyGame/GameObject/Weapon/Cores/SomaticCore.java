@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that enhances physical attributes and recovery.
+ */
 public class SomaticCore extends Weapon {
     public SomaticCore() {
         super(WeaponType.HEALTH, AmountType.Amount, 1000);

@@ -5,6 +5,9 @@ import MyGame.Rarity.ItemRarity;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.World;
 
+/**
+ * An equipment item that enhances movement speed or attack rate.
+ */
 public class ServoMotor implements Item {
     @Override
     public String getName() {

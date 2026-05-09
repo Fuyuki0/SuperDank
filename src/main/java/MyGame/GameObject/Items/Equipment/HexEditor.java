@@ -9,6 +9,9 @@ import MyGame.Game.World;
 import static MyGame.Game.Main.SCREEN_HEIGHT;
 import static MyGame.Game.Main.SCREEN_WIDTH;
 
+/**
+ * An equipment item that modifies or corrupts enemy data.
+ */
 public class HexEditor implements Item {
     private double hexEditorTimer = 10.0;
 

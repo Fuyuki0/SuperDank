@@ -5,6 +5,9 @@ import MyGame.Rarity.ItemRarity;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.World;
 
+/**
+ * An equipment item that gains strength by defeating enemies.
+ */
 public class SoulHarvester implements Item {
     @Override
     public String getName() {

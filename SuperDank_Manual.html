@@ -1,0 +1,2107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 40px;
+    }
+
+    h1 {
+      color: #1a1a2e;
+      text-align: center;
+      font-size: 32px;
+      border-bottom: 3px solid #e94560;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #7f8c8d;
+      font-style: italic;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      color: #e94560;
+      border-bottom: 2px solid #e94560;
+      padding-bottom: 5px;
+      margin-top: 35px;
+    }
+
+    h3 {
+      color: #0f3460;
+      margin-top: 20px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 15px 0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+
+    th,
+    td {
+      border: 1px solid #bdc3c7;
+      padding: 8px 12px;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    th {
+      background: #1a1a2e;
+      color: #fff;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+
+    tr:nth-child(even) {
+      background: #f8f9fa;
+    }
+
+    .code-block {
+      background: #1a1a2e;
+      color: #0f0;
+      border-radius: 5px;
+      padding: 15px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      font-size: 13px;
+      margin: 10px 0;
+    }
+
+    .note {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 10px;
+      margin: 15px 0;
+      font-style: italic;
+    }
+
+    ul {
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>SuperDank — Official Game Manual</h1>
+  <p class="subtitle">Comprehensive Guide & Technical Reference</p>
+
+  <h2>1. Introduction</h2>
+  <p><strong>SuperDank</strong> is an action survival game built with JavaFX. You pilot a mech through an endless
+    battlefield, fighting waves of enemies, leveling up, and building the ultimate weapon loadout. The game features
+    fluid physics-based movement, a roulette-based upgrade system, and scaling difficulty.</p>
+
+  <h2>2. System Requirements &amp; Installation</h2>
+  <table>
+    <tr>
+      <th>Requirement</th>
+      <th>Minimum</th>
+      <th>Recommended</th>
+    </tr>
+    <tr>
+      <td>Java JDK</td>
+      <td>24.0.2</td>
+      <td>Latest LTS</td>
+    </tr>
+    <tr>
+      <td>JavaFX SDK</td>
+      <td>24.0.1</td>
+      <td>26.0.1</td>
+    </tr>
+    <tr>
+      <td>RAM Allocation</td>
+      <td>1 GB</td>
+      <td>2 GB (-Xms2G -Xmx2G)</td>
+    </tr>
+  </table>
+  <p><strong>Download Links:</strong></p>
+  <ul>
+    <li>Java JDK: <a href="https://www.oracle.com/java/technologies/javase/jdk24-archive-downloads.html">Oracle JDK</a>
+    </li>
+    <li>JavaFX SDK: <a href="https://gluonhq.com/products/javafx/">GluonHQ</a></li>
+  </ul>
+
+  <h3>Windows (Optimized)</h3>
+  <div class="code-block">java -Xms2G -Xmx2G -XX:+UseG1GC -XX:MaxGCPauseMillis=5 -XX:G1ReservePercent=20 ^
+    -Dglass.win.uiScale=1 ^
+    -Dprism.allowhidpi=true ^
+    -Dprism.forceGPU=true ^
+    --module-path "path\to\javafx-sdk-26.0.1\lib" ^
+    --add-modules javafx.controls,javafx.graphics,javafx.fxml,javafx.media ^
+    -jar "path\to\SuperDank-1.jar"</div>
+
+  <h3>Linux</h3>
+  <div class="code-block">java --module-path "path/to/javafx-sdk/lib" \
+    --add-modules javafx.controls,javafx.graphics \
+    -jar SuperDank-1.jar</div>
+  <p class="note">The JAR file is located in <code>SuperDank/build/libs/</code>. Place the JavaFX SDK folder next to the
+    JAR.</p>
+
+  <h2>3. Controls</h2>
+  <table>
+    <tr>
+      <th>Action</th>
+      <th>Primary Key</th>
+      <th>Alternate Key</th>
+    </tr>
+    <tr>
+      <td>Move Up / Down / Left / Right</td>
+      <td>W / S / A / D</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Dash / Dodge</td>
+      <td>SHIFT</td>
+      <td>RIGHT CLICK</td>
+    </tr>
+    <tr>
+      <td>Jump</td>
+      <td>SPACE</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Slash (Skill 1)</td>
+      <td>LEFT CLICK</td>
+      <td>J</td>
+    </tr>
+    <tr>
+      <td>Cross Slash (Skill 2)</td>
+      <td>E</td>
+      <td>K</td>
+    </tr>
+    <tr>
+      <td>Ultimate (Skill 3)</td>
+      <td>R</td>
+      <td>L</td>
+    </tr>
+    <tr>
+      <td>Toggle Mini-Map</td>
+      <td>TAB</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Aim</td>
+      <td colspan="2">Mouse Cursor Position</td>
+    </tr>
+  </table>
+
+  <h2>4. Player Base Stats</h2>
+  <p>Stats extracted from <code>Player.java</code>:</p>
+  <table>
+    <tr>
+      <th>Stat</th>
+      <th>Base Value</th>
+      <th>Notes</th>
+    </tr>
+    <tr>
+      <td>Max Health</td>
+      <td>3,000</td>
+      <td>+10 per level up</td>
+    </tr>
+    <tr>
+      <td>Max Stamina</td>
+      <td>100</td>
+      <td>+1 per level up. Regenerates at 10/sec.</td>
+    </tr>
+    <tr>
+      <td>Max Speed</td>
+      <td>500 units/s</td>
+      <td>Acceleration: 1500, Friction: 600</td>
+    </tr>
+    <tr>
+      <td>Dash Speed</td>
+      <td>800 units/s</td>
+      <td>Duration: 0.2s, Cooldown: 0.6s, Cost: 15 STA</td>
+    </tr>
+    <tr>
+      <td>Jump Speed</td>
+      <td>2000 units/s</td>
+      <td>Gravity: 8000. Cost: 25 STA</td>
+    </tr>
+    <tr>
+      <td>Regeneration</td>
+      <td>2 HP / tick</td>
+      <td>Tick every 0.2s (= 10 HP/sec)</td>
+    </tr>
+    <tr>
+      <td>Base Magnet Radius</td>
+      <td>150</td>
+      <td>Increased by Magnet Ring item</td>
+    </tr>
+    <tr>
+      <td>EXP to Level 1</td>
+      <td>50</td>
+      <td>Scales ×1.3 per level</td>
+    </tr>
+    <tr>
+      <td>Map Boundary</td>
+      <td>±20,000</td>
+      <td>Hard wall limit</td>
+    </tr>
+    <tr>
+      <td>Item Slots</td>
+      <td>10</td>
+      <td>Max equipment capacity</td>
+    </tr>
+  </table>
+
+  <h3>Stamina Costs</h3>
+  <table>
+    <tr>
+      <th>Action</th>
+      <th>Stamina Cost</th>
+      <th>Cooldown</th>
+    </tr>
+    <tr>
+      <td>Dash</td>
+      <td>15</td>
+      <td>0.6s</td>
+    </tr>
+    <tr>
+      <td>Jump</td>
+      <td>25</td>
+      <td>0.2s</td>
+    </tr>
+    <tr>
+      <td>Slash (on hit)</td>
+      <td>5</td>
+      <td>2.0s base</td>
+    </tr>
+    <tr>
+      <td>Cross Slash</td>
+      <td>60</td>
+      <td>8.0s</td>
+    </tr>
+    <tr>
+      <td>Ultimate</td>
+      <td>100 (full bar)</td>
+      <td>60.0s</td>
+    </tr>
+  </table>
+
+  <h2>5. Weapons</h2>
+  <p>Weapons fire automatically. Each can be leveled up to 20 via the roulette system. Stats scale with bonus stats
+    gained per level.</p>
+
+  <table>
+    <tr>
+      <th>Weapon</th>
+      <th>In-Game Name</th>
+      <th>Base Dmg</th>
+      <th>Cooldown</th>
+      <th>Base Crit Rate</th>
+      <th>Base Crit Dmg</th>
+      <th>Base Proj</th>
+      <th>Upgradeable Stats</th>
+    </tr>
+    <tr>
+      <td>Sword</td>
+      <td>Swinger</td>
+      <td>60</td>
+      <td>1.5s</td>
+      <td>0%</td>
+      <td>0%</td>
+      <td>—</td>
+      <td>Damage, Atk Speed, Size</td>
+    </tr>
+    <tr>
+      <td>Bow</td>
+      <td>Bau</td>
+      <td>30</td>
+      <td>2.0s</td>
+      <td>5%</td>
+      <td>50%</td>
+      <td>2</td>
+      <td>Damage, Atk Speed, Crit Rate, Crit Dmg, Proj Count</td>
+    </tr>
+    <tr>
+      <td>Boomerang</td>
+      <td>Spinner</td>
+      <td>20</td>
+      <td>3.0s</td>
+      <td>5%</td>
+      <td>50%</td>
+      <td>3</td>
+      <td>Damage, Atk Speed, Crit Rate, Crit Dmg, Size, Proj Count</td>
+    </tr>
+    <tr>
+      <td>Orbit Rocks</td>
+      <td>Hot Rock</td>
+      <td>20</td>
+      <td>1.5s respawn</td>
+      <td>0%</td>
+      <td>0%</td>
+      <td>3</td>
+      <td>Damage, Atk Speed, Size, Proj Count</td>
+    </tr>
+    <tr>
+      <td>Aura</td>
+      <td>Aura</td>
+      <td>Tick-based</td>
+      <td>0.5s tick</td>
+      <td>0%</td>
+      <td>0%</td>
+      <td>—</td>
+      <td>Damage, Atk Speed, Size</td>
+    </tr>
+    <tr>
+      <td>Lightning</td>
+      <td>Shock Collar</td>
+      <td>80</td>
+      <td>3.0s</td>
+      <td>2%</td>
+      <td>30%</td>
+      <td>8 chains</td>
+      <td>Damage, Atk Speed, Crit Rate, Crit Dmg, Proj Count</td>
+    </tr>
+  </table>
+
+  <h3>Bonus Stats Per Level-Up (Base × Rarity Multiplier)</h3>
+  <table>
+    <tr>
+      <th>Stat</th>
+      <th>Base Bonus</th>
+    </tr>
+    <tr>
+      <td>Damage</td>
+      <td>+8%</td>
+    </tr>
+    <tr>
+      <td>Atk Speed</td>
+      <td>+2%</td>
+    </tr>
+    <tr>
+      <td>Crit Rate</td>
+      <td>+3%</td>
+    </tr>
+    <tr>
+      <td>Crit Dmg</td>
+      <td>+15%</td>
+    </tr>
+    <tr>
+      <td>Size</td>
+      <td>+10%</td>
+    </tr>
+    <tr>
+      <td>Proj Count</td>
+      <td>+1</td>
+    </tr>
+  </table>
+
+  <h3>Stat Slots Granted by Rarity</h3>
+  <table>
+    <tr>
+      <th>Rarity</th>
+      <th>Stat Slots</th>
+    </tr>
+    <tr>
+      <td>Common / Uncommon</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>Rare / Epic</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>Legendary / Abysmal</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Divine</td>
+      <td>5</td>
+    </tr>
+  </table>
+
+
+
+  <h2>6. Active Skills</h2>
+  <table>
+    <tr>
+      <th>Skill</th>
+      <th>Base Damage</th>
+      <th>Range</th>
+      <th>Cooldown</th>
+      <th>Duration</th>
+      <th>Key</th>
+      <th>Behavior</th>
+    </tr>
+    <tr>
+      <td>Slash</td>
+      <td>60</td>
+      <td>700 units</td>
+      <td>2.0s</td>
+      <td>0.2s</td>
+      <td>L-Click / J</td>
+      <td>Forward cone attack. Knocks enemies back 200 units. If airborne, becomes a Jumping Slash instead.</td>
+    </tr>
+    <tr>
+      <td>Jumping Slash</td>
+      <td>80</td>
+      <td>300 units</td>
+      <td>Shares with Slash</td>
+      <td>0.2s</td>
+      <td>L-Click / J (while airborne)</td>
+      <td>AoE slam around player. Pushes enemies 300 units. Reduces slash cooldown by 0.01s per hit.</td>
+    </tr>
+    <tr>
+      <td>Cross Slash</td>
+      <td>150</td>
+      <td>300 units</td>
+      <td>8.0s</td>
+      <td>0.4s</td>
+      <td>E / K</td>
+      <td>Cross-shaped AoE. Hits all enemies in radius once. Pushes 100 units. Costs 60 stamina. Cannot be used while
+        jumping.</td>
+    </tr>
+    <tr>
+      <td>Ultimate</td>
+      <td>500</td>
+      <td>Screen-wide</td>
+      <td>60.0s</td>
+      <td>3.5s</td>
+      <td>R / L</td>
+      <td>Player rises for 1.5s pulling nearby enemies inward, then slams dealing 500 base damage to ALL enemies.
+        Triggers screen shake. Costs 100 stamina. Grants shield during cast.</td>
+    </tr>
+  </table>
+
+  <h2>7. Core Upgrades</h2>
+  <p>Cores are passive stat modifiers that enhance your mech globally. They are acquired through the roulette system
+    alongside weapons.</p>
+
+  <table>
+    <tr>
+      <th>Core</th>
+      <th>Stat Modified</th>
+      <th>Base Amount</th>
+      <th>Type</th>
+    </tr>
+    <tr>
+      <td>BiocatalystCore</td>
+      <td>Regeneration</td>
+      <td>+2 HP/tick</td>
+      <td>Flat</td>
+    </tr>
+    <tr>
+      <td>ChaosCore</td>
+      <td>All Weapon Bonus</td>
+      <td>+15%</td>
+      <td>Multiplier</td>
+    </tr>
+    <tr>
+      <td>CryptoCore</td>
+      <td>Coin Multiplier</td>
+      <td>+100%</td>
+      <td>Multiplier</td>
+    </tr>
+    <tr>
+      <td>DataCore</td>
+      <td>EXP Multiplier</td>
+      <td>+10%</td>
+      <td>Multiplier</td>
+    </tr>
+    <tr>
+      <td>DynamoCore</td>
+      <td>Max Stamina</td>
+      <td>+20</td>
+      <td>Flat</td>
+    </tr>
+    <tr>
+      <td>EntropyCore</td>
+      <td>Luck</td>
+      <td>+10%</td>
+      <td>Multiplier</td>
+    </tr>
+    <tr>
+      <td>FractalCore</td>
+      <td>Projectile Count (all weapons)</td>
+      <td>+1</td>
+      <td>Flat</td>
+    </tr>
+    <tr>
+      <td>KineticCore</td>
+      <td>Movement Speed</td>
+      <td>+20%</td>
+      <td>Multiplier</td>
+    </tr>
+    <tr>
+      <td>MatrixCore</td>
+      <td>Size (all weapons)</td>
+      <td>+10%</td>
+      <td>Multiplier</td>
+    </tr>
+    <tr>
+      <td>OverClockCore</td>
+      <td>Cooldown Reduction (all weapons)</td>
+      <td>+5%</td>
+      <td>Multiplier</td>
+    </tr>
+    <tr>
+      <td>OverHeatCore</td>
+      <td>Crit Damage (all weapons)</td>
+      <td>+20%</td>
+      <td>Multiplier</td>
+    </tr>
+    <tr>
+      <td>PlasmaCore</td>
+      <td>Damage (all weapons)</td>
+      <td>+5%</td>
+      <td>Multiplier</td>
+    </tr>
+    <tr>
+      <td>ResonanceCore</td>
+      <td>Attack Speed (all weapons)</td>
+      <td>+1.5%</td>
+      <td>Multiplier</td>
+    </tr>
+    <tr>
+      <td>SiphonCore</td>
+      <td>Life Steal</td>
+      <td>+1%</td>
+      <td>Multiplier</td>
+    </tr>
+    <tr>
+      <td>SomaticCore</td>
+      <td>Max Health</td>
+      <td>+1000</td>
+      <td>Flat</td>
+    </tr>
+    <tr>
+      <td>SurgeCore</td>
+      <td>Max Overheal</td>
+      <td>+2000</td>
+      <td>Flat</td>
+    </tr>
+    <tr>
+      <td>VectorCore</td>
+      <td>Crit Rate (all weapons)</td>
+      <td>+5%</td>
+      <td>Multiplier</td>
+    </tr>
+  </table>
+
+  <h2>8. Weapon &amp; Core Rarity System</h2>
+  <table>
+    <tr>
+      <th>Rarity</th>
+      <th>Color</th>
+      <th>Weapon Multiplier</th>
+      <th>Core Multiplier</th>
+      <th>Drop Rate (base)</th>
+    </tr>
+    <tr>
+      <td>Common</td>
+      <td>Light Gray</td>
+      <td>×1.0</td>
+      <td>×1.0</td>
+      <td>40%</td>
+    </tr>
+    <tr>
+      <td>Uncommon</td>
+      <td>Lime Green</td>
+      <td>×1.2</td>
+      <td>×1.2</td>
+      <td>24%</td>
+    </tr>
+    <tr>
+      <td>Rare</td>
+      <td>Dodger Blue</td>
+      <td>×1.5</td>
+      <td>×1.5</td>
+      <td>18%</td>
+    </tr>
+    <tr>
+      <td>Epic</td>
+      <td>Purple</td>
+      <td>×1.8</td>
+      <td>×1.8</td>
+      <td>10%</td>
+    </tr>
+    <tr>
+      <td>Legendary</td>
+      <td>Gold</td>
+      <td>×2.0</td>
+      <td>×2.2</td>
+      <td>5%</td>
+    </tr>
+    <tr>
+      <td>Abysmal</td>
+      <td>Dark Red</td>
+      <td>×2.5</td>
+      <td>×2.6</td>
+      <td>2.5%</td>
+    </tr>
+    <tr>
+      <td>Divine</td>
+      <td>White</td>
+      <td>×2.0</td>
+      <td>×3.0</td>
+      <td>0.5%</td>
+    </tr>
+  </table>
+  <p><em>Drop rates are modified by the player's Luck stat (from EntropyCore).</em></p>
+
+  <h2>9. Enemy Bestiary</h2>
+  <table>
+    <tr>
+      <th>Enemy</th>
+      <th>Sprite</th>
+      <th>Max HP</th>
+      <th>Speed</th>
+      <th>Hitbox</th>
+      <th>Contact Damage</th>
+      <th>Behavior</th>
+    </tr>
+    <tr>
+      <td>Berserker (Base)</td>
+      <td>Berserker-sprite</td>
+      <td>120</td>
+      <td>250</td>
+      <td>20</td>
+      <td>On contact</td>
+      <td>Walks toward the player. Spawns in increasing waves.</td>
+    </tr>
+    <tr>
+      <td>Assassin (Charger)</td>
+      <td>Assassin-sprite</td>
+      <td>80</td>
+      <td>600</td>
+      <td>20</td>
+      <td>On contact</td>
+      <td>Extremely fast. Charges in a straight line at your position.</td>
+    </tr>
+    <tr>
+      <td>Blackbeard (Boss)</td>
+      <td>Blackbeard-sprite</td>
+      <td>3,000</td>
+      <td>180 / 1200 (dash)</td>
+      <td>35</td>
+      <td>400–500</td>
+      <td>Telegraphed attacks: Circle AoE (radius 350, 500 dmg) and Arc sweep (radius 550, 45° cone, 400 dmg). Cooldown
+        decreases with difficulty.</td>
+    </tr>
+  </table>
+
+  <h3>Boss Attack Patterns</h3>
+  <table>
+    <tr>
+      <th>Pattern</th>
+      <th>Telegraph Time</th>
+      <th>Damage</th>
+      <th>Radius</th>
+      <th>Avoidable By</th>
+    </tr>
+    <tr>
+      <td>Circle AoE (1–3 casts)</td>
+      <td>0.8s</td>
+      <td>500</td>
+      <td>350 units</td>
+      <td>Jumping, Dashing, Shield</td>
+    </tr>
+    <tr>
+      <td>Dash → Arc Sweep</td>
+      <td>0.5s dash + 0.2s telegraph</td>
+      <td>400</td>
+      <td>550 units, 90° cone</td>
+      <td>Jumping, Shield, Out-of-range</td>
+    </tr>
+  </table>
+
+  <h2>10. Equipment Items</h2>
+
+  <h3>Item Rarity Tiers</h3>
+  <table>
+    <tr>
+      <th>Tier</th>
+      <th>Color</th>
+    </tr>
+    <tr>
+      <td>Stock</td>
+      <td>White</td>
+    </tr>
+    <tr>
+      <td>Modified</td>
+      <td>Dodger Blue</td>
+    </tr>
+    <tr>
+      <td>Prototype</td>
+      <td>Purple</td>
+    </tr>
+    <tr>
+      <td>Artifact</td>
+      <td>Gold</td>
+    </tr>
+    <tr>
+      <td>Ultimate</td>
+      <td>Red</td>
+    </tr>
+  </table>
+
+  <h3>Equipment Matrix</h3>
+  <table>
+    <tr>
+      <th>Level</th>
+      <th>Stock</th>
+      <th>Modified</th>
+      <th>Prototype</th>
+      <th>Artifact</th>
+      <th>Ultimate</th>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>Data Fragment</td>
+      <td>Adrenal Syringe</td>
+      <td>Necrotic Heart</td>
+      <td>Deepest Void</td>
+      <td>Final Weapon</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Engine Overload</td>
+      <td>Hex Editor</td>
+      <td>Parasitic Gas</td>
+      <td>Doomsday</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Magnet Ring</td>
+      <td>Magnetic Repulsor</td>
+      <td>Soul Harvester</td>
+      <td>Mutated Brain</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Phantom Drive</td>
+      <td>Neuro Amplifier</td>
+      <td>Titanium Armor</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Servo Motor</td>
+      <td>Tungsten Plating</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Steak</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+      <td>—</td>
+    </tr>
+  </table>
+
+  <h3>Consumables / Power-Ups</h3>
+  <table>
+    <tr>
+      <th>Item</th>
+      <th>Type</th>
+      <th>Effect</th>
+    </tr>
+    <tr>
+      <td>Steak</td>
+      <td>Drop</td>
+      <td>Restores a large amount of health on pickup.</td>
+    </tr>
+    <tr>
+      <td>Energy Drink</td>
+      <td>Drop</td>
+      <td>Grants temporary buffs: Shield, Speed Boost, or Magnet range increase.</td>
+    </tr>
+    <tr>
+      <td>Chest</td>
+      <td>World Object</td>
+      <td>Contains a random Equipment item. Opens a selection popup.</td>
+    </tr>
+    <tr>
+      <td>Experience Crystal</td>
+      <td>Enemy Drop</td>
+      <td>Grants EXP. Auto-collected within magnet radius.</td>
+    </tr>
+  </table>
+
+
+
+  <h2>11. Game Systems &amp; Mechanics</h2>
+
+  <h3>11.1 Difficulty Scaling (World.java)</h3>
+  <p>Difficulty grows continuously based on time survived:</p>
+  <div class="code-block">difficultyMultiplier = 1 + (timeSurvived * 0.005)
+    // e.g. at 60s -> 1.3x, at 300s -> 2.5x, at 600s -> 4.0x</div>
+  <p>All enemy HP, speed, and boss cooldowns use this multiplier. Player EXP drops also scale with
+    <code>difficultyMultiplier^2 / 1.5</code>.
+  </p>
+
+  <h3>11.2 Enemy Spawn Timeline (World.java)</h3>
+  <table>
+    <tr>
+      <th>Time (seconds)</th>
+      <th>Berserker Spawn Rate</th>
+      <th>Event</th>
+    </tr>
+    <tr>
+      <td>0 – 29s</td>
+      <td>1 per 0.80s</td>
+      <td>Game start. Only Berserkers.</td>
+    </tr>
+    <tr>
+      <td>30 – 59s</td>
+      <td>1 per 0.40s</td>
+      <td>Spawn rate doubles.</td>
+    </tr>
+    <tr>
+      <td>40s+</td>
+      <td>—</td>
+      <td>Charger waves begin (every 6.0s). 3 rows of 30 = 90 Chargers per wave.</td>
+    </tr>
+    <tr>
+      <td>60 – 299s</td>
+      <td>1 per 0.20s</td>
+      <td>Spawn rate doubles again. Boss spawns every 60s.</td>
+    </tr>
+    <tr>
+      <td>300s+</td>
+      <td>1 per 0.10s</td>
+      <td>Maximum spawn rate. Berserker speed = 100 × difficulty.</td>
+    </tr>
+  </table>
+  <p>Enemies always spawn off-screen at 1.5× the max screen dimension from the player. Chargers are culled if they move
+    more than 4000 units away; Berserkers at 3000 units.</p>
+
+  <h3>11.3 Enemy Scaling by Time (World.java)</h3>
+  <table>
+    <tr>
+      <th>Enemy</th>
+      <th>0–119s</th>
+      <th>120–299s</th>
+      <th>300s+</th>
+    </tr>
+    <tr>
+      <td>Berserker HP</td>
+      <td>120</td>
+      <td>200</td>
+      <td>200 × difficulty</td>
+    </tr>
+    <tr>
+      <td>Berserker Speed</td>
+      <td>250</td>
+      <td>350</td>
+      <td>100 × difficulty</td>
+    </tr>
+    <tr>
+      <td>Charger HP</td>
+      <td>80</td>
+      <td>80</td>
+      <td>120 × difficulty</td>
+    </tr>
+    <tr>
+      <td>Charger Speed</td>
+      <td>600</td>
+      <td>600</td>
+      <td>400 × difficulty</td>
+    </tr>
+    <tr>
+      <td>Boss HP</td>
+      <td>3000</td>
+      <td>3000 + 1000×diff</td>
+      <td>3000 + 1000×diff</td>
+    </tr>
+    <tr>
+      <td>Boss Speed</td>
+      <td>180</td>
+      <td>200 × difficulty</td>
+      <td>200 × difficulty</td>
+    </tr>
+    <tr>
+      <td>Boss Cooldown</td>
+      <td>1.0s</td>
+      <td>1.0 / difficulty</td>
+      <td>1.0 / difficulty</td>
+    </tr>
+  </table>
+
+  <h3>11.4 Enemy Contact Damage (World.java)</h3>
+  <p>Enemies deal damage when their hitbox touches the player (only while player is on ground):</p>
+  <table>
+    <tr>
+      <th>Enemy Type</th>
+      <th>Base Contact Damage</th>
+      <th>With Difficulty</th>
+    </tr>
+    <tr>
+      <td>Berserker</td>
+      <td>50</td>
+      <td>50 × difficultyMultiplier</td>
+    </tr>
+    <tr>
+      <td>Charger</td>
+      <td>60</td>
+      <td>60 × difficultyMultiplier</td>
+    </tr>
+    <tr>
+      <td>Boss</td>
+      <td>100</td>
+      <td>100 × difficultyMultiplier</td>
+    </tr>
+  </table>
+  <p>Jumping completely avoids contact damage. Dashing reduces it by <code>dashDamageReduction</code> (from Phantom
+    Drive item). Dodge chance (from Hex Editor) can negate it entirely, showing a "Dodge!" DamageText.</p>
+
+  <h3>11.5 Collision Model (World.java)</h3>
+  <ul>
+    <li><strong>Player vs Obstacle:</strong> Full AABB circle collision. If dashed inside, instantly ejects to nearest
+      edge.</li>
+    <li><strong>Enemy vs Obstacle:</strong> Same AABB model, except Chargers pass through obstacles entirely.</li>
+    <li><strong>Player vs Enemy:</strong> Circle-vs-circle push. Player is pushed out by 3× force.</li>
+    <li><strong>Enemy vs Enemy:</strong> Only non-charger enemies collide with each other. Checked via O(N²) pairs
+      within 200 units to reduce overhead.</li>
+  </ul>
+
+  <h3>11.6 Damage, Lifesteal &amp; Overheal (Enemy.java)</h3>
+  <div class="code-block">// When player deals damage to enemy:
+    enemy.health -= amount
+    player.heal(amount * lifeSteal) // lifesteal
+    if (overHeal > 0) → absorb before HP // overheal buffer
+
+    // Enemy contact damage throttle:
+    damageTimer = 0.2s after hit // 200ms immunity window</div>
+  <p>The <code>takeDamageAndEffectPlayer()</code> method also checks for instant-kill chance (from Soul Harvester),
+    triggering <code>enemy.health = 0</code> when the random roll passes.</p>
+
+  <h3>11.7 Projectile Systems</h3>
+  <table>
+    <tr>
+      <th>Projectile</th>
+      <th>Class</th>
+      <th>Behavior</th>
+      <th>Key Stats</th>
+    </tr>
+    <tr>
+      <td>Arrow</td>
+      <td>Arrow.java</td>
+      <td>Linear travel toward a target enemy. Despawns on hit or off-screen.</td>
+      <td>30 base dmg. Can crit. One target per arrow.</td>
+    </tr>
+    <tr>
+      <td>Boomerang</td>
+      <td>Boomerang.java</td>
+      <td>Travels to target, then returns. Hits on both outbound and return paths.</td>
+      <td>20 base dmg. Can crit. Size scales hitbox.</td>
+    </tr>
+    <tr>
+      <td>Rock</td>
+      <td>Rock.java</td>
+      <td>Orbits player at radius 350. Respawns 1.5s after being destroyed.</td>
+      <td>20 base dmg. No crit. Breaks on enemy contact.</td>
+    </tr>
+    <tr>
+      <td>LightningEffect</td>
+      <td>LightningEffect.java</td>
+      <td>Visual chain drawn between strike points. No collision logic (handled by LightningWeapon).</td>
+      <td>Visual only after damage is applied.</td>
+    </tr>
+    <tr>
+      <td>Explosion</td>
+      <td>Explosion.java</td>
+      <td>Area burst triggered by Necrotic Heart item on enemy death.</td>
+      <td>30 base dmg, 250-unit radius.</td>
+    </tr>
+  </table>
+
+  <h3>11.8 Arrow Mechanics (Arrow.java)</h3>
+  <p>Arrows are linear projectiles fired by the <strong>Bow</strong> weapon. Here is how they work internally:</p>
+  <table>
+    <tr>
+      <th>Property</th>
+      <th>Value</th>
+      <th>Explanation</th>
+    </tr>
+    <tr>
+      <td>Speed</td>
+      <td>1,600 units/s</td>
+      <td>Arrow travels at fixed speed along its normalized velocity vector.</td>
+    </tr>
+    <tr>
+      <td>Pierce Count</td>
+      <td>4</td>
+      <td>Arrow can pass through up to 4 enemies before despawning. Each hit decrements the count.</td>
+    </tr>
+    <tr>
+      <td>Hitbox</td>
+      <td>10 units</td>
+      <td>Small circular hitbox for precise collision with enemies.</td>
+    </tr>
+    <tr>
+      <td>Fade Timer</td>
+      <td>8.0s</td>
+      <td>Arrow is removed after 8 seconds even if it still has pierce remaining.</td>
+    </tr>
+    <tr>
+      <td>Hit tracking</td>
+      <td><code>hitEnemies</code> list</td>
+      <td>Prevents hitting the same enemy twice on one pass. Cleared when arrow bounces off screen edge.</td>
+    </tr>
+  </table>
+  <p><strong>Direction calculation</strong> (constructor): The arrow computes a normalized direction vector from its
+    spawn position to the target enemy, then stores it as <code>velocityX / velocityY</code>. The visual rotation angle
+    is derived with <code>Math.atan2(velocityY, velocityX)</code>.</p>
+  <p><strong>Boundary behavior</strong>: When an arrow exits the screen boundary, it <em>bounces</em> by negating its
+    velocity component (<code>velocityX *= -1</code>) and clears <code>hitEnemies</code>, letting it re-hit
+    already-struck enemies on the return path.</p>
+  <p><strong>JavaFX rendering</strong>: Arrow uses <code>GraphicsContext.translate()</code> to move the canvas origin to
+    the arrow position, then <code>gc.rotate(angle)</code> to orient the sprite correctly before calling
+    <code>gc.drawImage()</code> from a sprite sheet with 30 animation frames (64×64px each).
+  </p>
+  <div class="code-block">// Arrow update each frame:
+    posX += velocityX * 1600 * deltaTime
+    posY += velocityY * 1600 * deltaTime
+    fadeTimer -= deltaTime
+    // On screen exit: velocityX *= -1 (bounce)
+    // Despawn when: pierceCount <= 0 OR fadeTimer <=0</div>
+
+      <h3>11.9 Aura Weapon Mechanics (World.java + Aura.java)</h3>
+      <div class="code-block">// Aura ticks every:
+        tickInterval = 0.5s × max(0.1, 1 - totalAtkSpeed% / 100)
+
+        // Damage per tick to each enemy in range:
+        auraDamage = 15 × (1 + bonusDamage% / 100)
+        auraRadius = 250 × (1 + bonusSize% / 100)
+
+        // Enemies also get knocked back 50 units per tick.</div>
+
+      <h3>11.9 Lightning Chain Mechanics (LightningWeapon.java)</h3>
+      <div class="code-block">// Only targets enemies within 1000 units of player
+        totalJumps = 8 + bonusProjCount
+        chainRange = 600 units between bounces
+
+        // Each jump: damage applied + 50-unit knockback
+        // Starts from player -> nearest in-range enemy -> chains to next closest</div>
+
+      <h3>11.10 Weapon Upgrade Pipeline (World.java)</h3>
+      <div class="code-block">// On roulette accept for existing weapon:
+        weapon.level++
+        weapon.bonusDamage += rarity.bonusWeapon × 8
+        weapon.bonusAtkSpeed += rarity.bonusWeapon × 2
+        weapon.bonusCritRate += rarity.bonusWeapon × 3
+        weapon.bonusCritDmg += rarity.bonusWeapon × 15
+        weapon.bonusSize += rarity.bonusWeapon × 10
+        weapon.bonusProjCount += rarity.bonusWeapon × 1
+
+        // For Cores: coreUpgrade(world, rarity.bonusCore) is called instead
+        // → applies the core's stat directly to the player</div>
+
+      <h3>11.11 Leveling &amp; Roulette System (Main.java — JavaFX UI)</h3>
+      <ul>
+        <li>EXP to next level starts at 50 and multiplies by 1.3 each level.</li>
+        <li>Each level up permanently increases Max HP by 10 and Max Stamina by 1.</li>
+        <li>Roulette spins 50 items; winning slot is index 40.</li>
+        <li>3 free refreshes per level-up; subsequent refreshes cost 30 coins (cost shown on button).</li>
+        <li>New weapon: always Common rarity. Existing weapon: rarity rolled via <code>gachaRarity()</code>.</li>
+        <li>Max 10 weapons can be active simultaneously.</li>
+      </ul>
+      <p><strong>JavaFX Implementation:</strong> The roulette is built entirely from JavaFX layout nodes. A
+        <code>StackPane</code> holds a dynamically generated <code>HBox</code> of 50 weapon/core cards built at level-up
+        time via <code>rouletteDatabase()</code>. The spin animation is a <code>TranslateTransition</code> applied to
+        the <code>HBox</code>, sliding it so card index 40 stops at center. A <code>PauseTransition</code> then delays
+        the Accept/Refresh/Skip buttons appearing. The Accept button calls <code>world.upgradeExistWeapon()</code> or
+        <code>world.addNewWeapon()</code> depending on whether the weapon already exists, then resumes the
+        <code>AnimationTimer</code> game loop.
+      </p>
+
+      <h3>11.12 Enemy Drop System (World.java)</h3>
+      <table>
+        <tr>
+          <th>Drop</th>
+          <th>Drop Chance</th>
+          <th>Condition</th>
+        </tr>
+        <tr>
+          <td>Experience Crystal</td>
+          <td>100%</td>
+          <td>Every kill. Value scales with difficulty^2.</td>
+        </tr>
+        <tr>
+          <td>Coin</td>
+          <td>~varies</td>
+          <td>Random 0–14 coins × coinMultiplier per kill.</td>
+        </tr>
+        <tr>
+          <td>Chest</td>
+          <td>0.1%</td>
+          <td>Berserker kill only.</td>
+        </tr>
+        <tr>
+          <td>Steak</td>
+          <td>1.0%</td>
+          <td>Berserker kill only.</td>
+        </tr>
+        <tr>
+          <td>Energy Drink</td>
+          <td>1.0%</td>
+          <td>Berserker kill only.</td>
+        </tr>
+        <tr>
+          <td>Boss EXP</td>
+          <td>100%</td>
+          <td>3000 × difficulty. +200 coins.</td>
+        </tr>
+      </table>
+      <p>EXP value multipliers by time: &lt;240s: ×diff²/1.5 | 240–480s: ×3×diff²/1.5 | 480s+: ×10×diff²/1.5</p>
+
+      <h3>11.13 Energy Drink Power-Up System (World.java)</h3>
+      <p>When collected, grants one of these temporary buffs:</p>
+      <table>
+        <tr>
+          <th>Effect</th>
+          <th>Duration</th>
+          <th>Mechanic</th>
+        </tr>
+        <tr>
+          <td>Shield</td>
+          <td>Timed (drinkShieldTimer)</td>
+          <td>Blocks all incoming damage. Shown as cyan aura.</td>
+        </tr>
+        <tr>
+          <td>Speed Boost</td>
+          <td>Timed (drinkSpeedTimer)</td>
+          <td>+100% movement speed, +20% atk speed for all weapons. Shown as yellow aura.</td>
+        </tr>
+        <tr>
+          <td>Magnet</td>
+          <td>Timed (drinkMagnetTimer)</td>
+          <td>Increases EXP collection radius. Shown as magenta aura.</td>
+        </tr>
+      </table>
+
+      <h3>11.14 Black Hole Mechanic (World.java — Deepest Void Item)</h3>
+      <div class="code-block">// Black hole spawns at player position when triggered
+        // Each frame for all enemies within 800 units:
+        enemy.posX += (blackHole.x - enemy.x) * 2 * deltaTime // pulled inward
+        // Every 0.1s: deals 5 damage to enemies in range
+        // Black hole expires when its timer reaches 0</div>
+
+      <h3>11.15 Map &amp; Obstacle System (World.java — JavaFX Canvas)</h3>
+      <ul>
+        <li>Map size: 40,000 × 40,000 units (±20,000 on each axis).</li>
+        <li>250 obstacles generated at start. 50% chance of small (100–400 units) or large (200–600 units).</li>
+        <li>100 chests pre-placed on map. 400 steaks pre-placed on map.</li>
+        <li>Spawn safe zone: obstacles cannot appear within ±1,500 of origin (0,0).</li>
+        <li>Minimap shows obstacles, chests, enemies, and player in real time (toggle with TAB).</li>
+      </ul>
+      <p><strong>JavaFX Implementation:</strong> The entire game world is drawn onto a single JavaFX <code>Canvas</code>
+        node managed by <code>GameEngine</code>. Each frame, the <code>GraphicsContext</code> (<code>gc</code>) is
+        cleared and all <code>Renderable</code> objects are drawn with a camera offset (<code>posX - cameraPosX</code>).
+        Obstacles use a tiled <code>WritableImage</code> (<code>tileNormal</code> / <code>tileCracked</code>) filled via
+        <code>gc.fillRect()</code> with an <code>ImagePattern</code>. The minimap is drawn as a small overlay in the
+        top-right corner of the same canvas: enemy dots are <code>gc.fillOval()</code> calls scaled to minimap
+        coordinates, and the player is a distinct colored dot. The background is a scrolling animated fire sprite sheet
+        (<code>fireFrames[]</code>) tiled behind everything.
+      </p>
+
+      <h3>11.16 Damage Formula Summary</h3>
+      <div class="code-block">// Weapon auto-attack:
+        finalDamage = baseDamage × (1 + bonusDamage% / 100)
+        if (random() &lt; critRate% / 100):
+        finalDamage *= (1 + critDmg% / 100) // crit multiplier
+
+        // Skill damage uses player.statDamage instead of weapon.bonusDamage:
+        skillDamage = baseSkillDmg × (1 + player.statDamage / 100)
+
+        // Cooldown:
+        effectiveCooldown = baseCooldown × max(0.1, 1.0 - totalAtkSpeed% / 100)
+        // totalAtkSpeed = weapon.bonusAttackSpeed + player.statAtkSpeed</div>
+
+      <h3>11.17 Animation States (Player.java)</h3>
+      <table>
+        <tr>
+          <th>State</th>
+          <th>Trigger</th>
+          <th>Frame Duration</th>
+          <th>Frames</th>
+        </tr>
+        <tr>
+          <td>Idle</td>
+          <td>No movement</td>
+          <td>0.15s</td>
+          <td>6</td>
+        </tr>
+        <tr>
+          <td>Run</td>
+          <td>WASD held</td>
+          <td>0.08s</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td>Dash</td>
+          <td>Shift/RClick</td>
+          <td>0.10s</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>JumpUp</td>
+          <td>Rising (velZ &gt; 0)</td>
+          <td>0.06s</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>JumpDown</td>
+          <td>Falling (velZ &lt;= 0)</td>
+          <td>0.06s</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Skill</td>
+          <td>Slash active</td>
+          <td>0.04s</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>SkillJump</td>
+          <td>JumpingSlash active</td>
+          <td>0.12s</td>
+          <td>1 (with rotation)</td>
+        </tr>
+        <tr>
+          <td>UltimateUp/Down</td>
+          <td>Ultimate cast</td>
+          <td>0.02s</td>
+          <td>1</td>
+        </tr>
+      </table>
+      <p>Trail effects are emitted at different rates: Run = 0.2s, Dash/Jump = 0.05s, Skill = 0.03s, SkillJump = 0.01s
+        between trail spawns.</p>
+
+      <h3>11.18 Screen Shake System (World.java)</h3>
+      <div class="code-block">triggerScreenShake(duration, intensity)
+        // Adds random offset to camera each frame:
+        cameraPosX += random(-0.5, 0.5) * intensity
+        cameraPosY += random(-0.5, 0.5) * intensity
+        // Triggered on: game start (1.5s, 30), ultimate slam (0.5s, 60)</div>
+
+      <h3>11.19 Necrotic Heart Chain Explosion (World.java)</h3>
+      <div class="code-block">// On every enemy death (5% chance if item equipped):
+        Explosion spawned at enemy position
+        All OTHER enemies within 250 units:
+        takeDamage(30 × (1 + player.statDamage / 100))</div>
+
+      <h3>11.20 BGM Playlist (GameEngine.java — JavaFX Media)</h3>
+      <p>The game rotates through 4 tracks automatically:</p>
+      <ol>
+        <li>illusion-of-control.wav</li>
+        <li>chrysalis.wav</li>
+        <li>Sewerslvt - all the joy in life was gone once you left.wav</li>
+        <li>why as soon as we become so close we have to say goodbye.wav</li>
+      </ol>
+      <p><strong>JavaFX Implementation:</strong> Music uses <code>javafx.scene.media.MediaPlayer</code> for full BGM
+        tracks (supports seeking, volume, looping). SFX (slash, dash, arrow, aura, etc.) use
+        <code>javafx.scene.media.AudioClip</code>, which is pre-loaded into memory for zero-latency one-shot playback —
+        critical for responsive combat feedback. The playlist cycling works by setting
+        <code>bgmPlayer.setOnEndOfMedia(() -&gt; playNextSong())</code> on the MediaPlayer. <code>playNextSong()</code>
+        increments <code>currentSongIndex</code> (wrapping with modulo), creates a new <code>Media</code> from the next
+        filename, assigns it to <code>bgmPlayer</code>, and calls <code>play()</code>. The entering animation and
+        ultimate both use dedicated <code>MediaPlayer</code> instances (<code>enteringPlayer</code>,
+        <code>ultimatePlayer</code>) so they can play over the BGM simultaneously.
+      </p>
+
+      <h2>12.Key Class &amp; Method Reference</h2>
+      <p><em>Method-level reference only. See Section 11 for behavioral detail.</em></p>
+
+      <h3>MyGame.Game</h3>
+      <table>
+        <tr>
+          <th>Class / Method</th>
+          <th>Signature</th>
+          <th>Summary</th>
+        </tr>
+        <tr>
+          <td>Main</td>
+          <td><code>start(Stage)</code></td>
+          <td>Builds the scene graph, starts GameEngine, registers key/mouse handlers.</td>
+        </tr>
+        <tr>
+          <td>Main</td>
+          <td><code>triggerPopupLevelUp(GameEngine)</code></td>
+          <td>Pauses game loop, shows roulette UI, wires Accept/Refresh/Skip buttons.</td>
+        </tr>
+        <tr>
+          <td>Main</td>
+          <td><code>gachaRarity(Player)</code></td>
+          <td>Rolls a weighted Rarity for existing-weapon upgrades using player luck.</td>
+        </tr>
+        <tr>
+          <td>GameEngine</td>
+          <td><code>renderGame(double dt)</code></td>
+          <td>Clears canvas, applies screen shake, calls renderList() for all object layers.</td>
+        </tr>
+        <tr>
+          <td>GameEngine</td>
+          <td><code>updateLeftPanelUI()</code></td>
+          <td>Syncs HP/stamina/exp bars and labels; skips if <code>uiNeedsUpdate == false</code>.</td>
+        </tr>
+        <tr>
+          <td>GameEngine</td>
+          <td><code>playNextSong()</code></td>
+          <td>Advances BGM playlist index and starts next MediaPlayer track.</td>
+        </tr>
+        <tr>
+          <td>World</td>
+          <td><code>update(double dt)</code></td>
+          <td>Master tick: runs player, enemies, weapons, skills, items, projectiles, collectables.</td>
+        </tr>
+        <tr>
+          <td>World</td>
+          <td><code>spawnEnemy(int type)</code></td>
+          <td>0=Berserker, 1=Charger wave (90 units), 2=Boss. Spawns off-screen at random angle.</td>
+        </tr>
+        <tr>
+          <td>World</td>
+          <td><code>triggerSlash() / triggerCrossSlash() / triggerUltimate()</code></td>
+          <td>Validate stamina/cooldown then add ActiveSkill to activeSkills list.</td>
+        </tr>
+        <tr>
+          <td>World</td>
+          <td><code>upgradeExistWeapon(Weapon, Rarity)</code></td>
+          <td>Increments level and adds rarity-scaled bonus stats to matching weapon.</td>
+        </tr>
+        <tr>
+          <td>World</td>
+          <td><code>checkCollection(List, double dt)</code></td>
+          <td>Iterates any Collectable list; calls onCollect() when player is in magnet radius.</td>
+        </tr>
+        <tr>
+          <td>Camera</td>
+          <td><code>update(Player)</code></td>
+          <td>Sets posX/posY to player center; GameEngine adds shake offset on top.</td>
+        </tr>
+        <tr>
+          <td>Controller</td>
+          <td><code>playerMovement(Player, World)</code></td>
+          <td>Called every frame; maps stored boolean flags to player dash/jump/skill calls.</td>
+        </tr>
+        <tr>
+          <td>GameAssets</td>
+          <td><code>img(String path)</code></td>
+          <td>Private helper; loads image from resources, returns placeholder on failure.</td>
+        </tr>
+        <tr>
+          <td>SoundManager</td>
+          <td><code>initSounds()</code></td>
+          <td>Static init: loads all AudioClips and MediaPlayers from resource paths.</td>
+        </tr>
+      </table>
+
+      <h3>MyGame.GameObject</h3>
+      <table>
+        <tr>
+          <th>Class</th>
+          <th>Key Methods</th>
+        </tr>
+        <tr>
+          <td>Player</td>
+          <td><code>update(dt, world)</code> — physics, dash, jump, regen. <code>dash()</code> — 15 STA, 0.6s CD.
+            <code>jump()</code> — 25 STA. <code>addExperience(amt)</code> — level-up logic.
+          </td>
+        </tr>
+        <tr>
+          <td>Enemy</td>
+          <td><code>doDamage(player, amt)</code> — applies damage respecting shield/overheal.
+            <code>takeDamageAndEffectPlayer(player, amt, texts, crit)</code> — takes damage, triggers
+            lifesteal/instant-kill.
+          </td>
+        </tr>
+        <tr>
+          <td>Boss</td>
+          <td><code>telegraphAttack(player)</code> — picks circle or dash+arc. <code>attack(dt, player, diff)</code> —
+            executes the telegraphed pattern.</td>
+        </tr>
+        <tr>
+          <td>Charger</td>
+          <td><code>update(dt)</code> — moves at 600 speed directly toward player direction.</td>
+        </tr>
+        <tr>
+          <td>DamageText</td>
+          <td><code>draw(gc, ...)</code> — floating damage number with fade-out opacity.</td>
+        </tr>
+      </table>
+
+      <h3>MyGame.GameObject.Weapon</h3>
+      <table>
+        <tr>
+          <th>Class</th>
+          <th>Key Methods</th>
+        </tr>
+        <tr>
+          <td>Weapon (abstract)</td>
+          <td><code>update(dt, world)</code> — handles cooldown and auto-fire. <code>playerAttack(world)</code> —
+            abstract attack logic. <code>coreUpgrade(world, bonus)</code> — applies core stat.</td>
+        </tr>
+        <tr>
+          <td>Sword</td>
+          <td><code>playerAttack(world)</code> — elliptical AoE centered on player facing. 60 base dmg. Knockback 200.
+          </td>
+        </tr>
+        <tr>
+          <td>Bow</td>
+          <td><code>playerAttack(world)</code> — fires arrows at nearest enemies. Sorts by distance via CompareEnemies.
+          </td>
+        </tr>
+        <tr>
+          <td>BoomerangWeapon</td>
+          <td><code>playerAttack(world)</code> — launches returning projectiles. Pierces and crits.</td>
+        </tr>
+        <tr>
+          <td>OrbitRock</td>
+          <td><code>update(dt, world)</code> — manages orbiting rocks. Respawns broken rocks after 1.5s.</td>
+        </tr>
+        <tr>
+          <td>Aura</td>
+          <td><code>inArea(world)</code> — tick-based AoE damage around player. Radius: 250 base.</td>
+        </tr>
+        <tr>
+          <td>LightningWeapon</td>
+          <td><code>playerAttack(world)</code> — chain lightning. 80 base dmg. Chains up to 8+projCount enemies within
+            600-unit jumps.</td>
+        </tr>
+      </table>
+
+      <h3>MyGame.GameObject.Skill</h3>
+      <table>
+        <tr>
+          <th>Class</th>
+          <th>Key Methods</th>
+        </tr>
+        <tr>
+          <td>Slash</td>
+          <td><code>updateSkill(dt, world)</code> — forward cone check (0.90 dot product). 60 base dmg. 700 range.</td>
+        </tr>
+        <tr>
+          <td>CrossSlash</td>
+          <td><code>updateSkill(dt, world)</code> — 300-unit radius AoE. 150 base dmg. Hits each enemy once.</td>
+        </tr>
+        <tr>
+          <td>JumpingSlash</td>
+          <td><code>updateSkill(dt, world)</code> — 300-unit radius. 80 base dmg. Reduces slash CD per hit.</td>
+        </tr>
+        <tr>
+          <td>Ultimate</td>
+          <td><code>updateSkill(dt, world)</code> — 3.5s sequence: pull → slam → flash. 500 base dmg to all.</td>
+        </tr>
+      </table>
+
+      <h3>MyGame.Interface</h3>
+      <table>
+        <tr>
+          <th>Interface</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Renderable</td>
+          <td>Any object with <code>draw(gc, camX, camY, w, h, margin, engine)</code>.</td>
+        </tr>
+        <tr>
+          <td>ActiveSkill</td>
+          <td>Skills with <code>updateSkill(dt, world)</code> and <code>isFinished()</code>.</td>
+        </tr>
+        <tr>
+          <td>Item</td>
+          <td>Equipment with <code>getName()</code>, <code>getDescribe()</code>, <code>applyEffect(world)</code>.</td>
+        </tr>
+        <tr>
+          <td>Collectable</td>
+          <td>Pickup items with collection logic.</td>
+        </tr>
+      </table>
+
+      <h3>MyGame.Rarity</h3>
+      <table>
+        <tr>
+          <th>Enum</th>
+          <th>Description</th>
+        </tr>
+        <tr>
+          <td>Rarity</td>
+          <td>7-tier weapon/core rarity: Common → Divine. Each has a color, weapon multiplier, and core multiplier.</td>
+        </tr>
+        <tr>
+          <td>ItemRarity</td>
+          <td>5-tier equipment rarity: Stock → Ultimate. Each has a display color.</td>
+        </tr>
+      </table>
+
+      <h2>13. Architecture &amp; UML Design Analysis</h2>
+      <p>This section is derived from <code>uml.puml</code> — the full PlantUML class diagram. Diagrams are inserted
+        separately.</p>
+
+      <h3>13.0 UML Diagrams</h3>
+      
+      <div style="text-align: center; margin: 20px 0;">
+        <p><em>Diagram A: Engine Layer (Main, GameEngine, World, Camera, Controller, GameAssets)</em></p>
+        <img src="src/main/resources/UML/uml_engine.svg" alt="Engine Layer UML Diagram" style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;">
+      </div>
+      
+      <div style="text-align: center; margin: 20px 0;">
+        <p><em>Diagram B: GameObject Hierarchy — all entities, enemies, projectiles, items and weapons</em></p>
+        <img src="src/main/resources/UML/uml_gameobject.svg" alt="GameObject Hierarchy UML Diagram" style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;">
+      </div>
+      
+      <div style="text-align: center; margin: 20px 0;">
+        <p><em>Diagram C: Interface</em></p>
+        <img src="src/main/resources/UML/interface.svg" alt="Weapon and Cores UML Diagram" style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;">
+      </div>
+      
+      <div style="text-align: center; margin: 20px 0;">
+        <p><em>All Diagram</em></p>
+        <img src="src/main/resources/UML/uml.svg" alt="Items and Collectables UML Diagram" style="max-width: 100%; height: auto; border: 1px solid #ccc; padding: 5px;">
+      </div>
+
+      <p><em>Open image in new tab for view.</em></p>
+
+
+      <table>
+        <tr>
+          <th>Base</th>
+          <th>Subclasses</th>
+          <th>Why This Design</th>
+        </tr>
+        <tr>
+          <td><code>GameObject</code> (abstract)</td>
+          <td>Player, Enemy, Obstacle, Projectile, Chest, Steak, Experience, EnergyDrink, DamageText</td>
+          <td>All physical in-world objects share posX, posY, hitbox, push(), and checkCollision(). This avoids code
+            duplication for every entity needing collision and world-space positioning.</td>
+        </tr>
+        <tr>
+          <td><code>Enemy</code> (extends GameObject)</td>
+          <td>Charger, Boss</td>
+          <td>Enemy holds the common state: health, speed, knockback, animation, and the damageTimer (immunity window).
+            Charger and Boss only override their unique behavior (charge direction, state machine) while reusing all
+            shared combat logic.</td>
+        </tr>
+        <tr>
+          <td><code>Weapon</code> (abstract)</td>
+          <td>Sword, Bow, BoomerangWeapon, OrbitRock, Aura, LightningWeapon, and all 16 Cores</td>
+          <td>Cores extend Weapon for a clever reason: they reuse the rarity/level system and the roulette mechanism
+            without needing a separate system. Cores set <code>isCore = true</code> and implement
+            <code>coreUpgrade()</code> instead of <code>playerAttack()</code>.
+          </td>
+        </tr>
+        <tr>
+          <td><code>Projectile</code> (abstract, extends GameObject)</td>
+          <td>Arrow, Boomerang, Rock, LightningEffect</td>
+          <td>All projectiles share <code>updateProj(dt, world)</code> and <code>isDone()</code>. The World's update
+            loop can iterate all projectiles uniformly via the abstract type, removing if-else chains per projectile
+            type.</td>
+        </tr>
+      </table>
+
+      <h3>13.1 Why Inheritance — and How It Is Used Correctly</h3>
+      <p>Inheritance is used where subclasses are <em>genuinely a kind of</em> the parent — not just for convenience:
+      </p>
+      <table>
+        <tr>
+          <th>Base</th>
+          <th>Subclasses</th>
+          <th>Why This Design</th>
+        </tr>
+        <tr>
+          <td><code>GameObject</code> (abstract)</td>
+          <td>Player, Enemy, Obstacle, Projectile, Chest, Steak, Experience, EnergyDrink, DamageText</td>
+          <td>All physical in-world objects share posX, posY, hitbox, push(), and checkCollision(). This eliminates
+            duplication across every entity that needs collision and world-space positioning.</td>
+        </tr>
+        <tr>
+          <td><code>Enemy</code> (extends GameObject)</td>
+          <td>Charger, Boss</td>
+          <td>Enemy holds shared state: health, speed, knockback, animation, and damageTimer (immunity window). Charger
+            and Boss override only their unique behavior while reusing all combat logic.</td>
+        </tr>
+        <tr>
+          <td><code>Weapon</code> (abstract)</td>
+          <td>Sword, Bow, BoomerangWeapon, OrbitRock, Aura, LightningWeapon, and all 17 Cores</td>
+          <td>Cores extend Weapon to reuse the rarity/level system and roulette mechanism. Cores set
+            <code>isCore=true</code> and implement <code>coreUpgrade()</code> instead of <code>playerAttack()</code> —
+            one unified pool for both weapons and cores.
+          </td>
+        </tr>
+        <tr>
+          <td><code>Projectile</code> (abstract, extends GameObject)</td>
+          <td>Arrow, Boomerang, Rock, LightningEffect</td>
+          <td>All projectiles share <code>updateProj(dt, world)</code> and <code>isDone()</code>. World iterates
+            <code>List&lt;Projectile&gt;</code> uniformly with no type-specific branching.
+          </td>
+        </tr>
+      </table>
+      <p><strong>Why this is correct:</strong> Each subclass satisfies the Liskov Substitution Principle — a
+        <code>Boss</code> can be treated as an <code>Enemy</code> everywhere in World, and a <code>Charger</code> is
+        stored in the same <code>List&lt;Enemy&gt;</code> as a <code>Boss</code>. The game loop never needs to know the
+        concrete type unless accessing type-specific behaviour (<code>instanceof Boss</code> for state machine updates).
+      </p>
+
+      <h3>13.2 Why Interfaces — and How Each One Is Used</h3>
+      <table>
+        <tr>
+          <th>Interface</th>
+          <th>Implemented By</th>
+          <th>Why Used &amp; How It Connects</th>
+        </tr>
+        <tr>
+          <td><code>Renderable</code></td>
+          <td>All GameObjects, Weapon, ActiveSkill subclasses</td>
+          <td>GameEngine's <code>renderList(List&lt;? extends Renderable&gt;, gc, ...)</code> draws any object without
+            knowing its concrete type. Adding a new entity only requires implementing <code>draw()</code> — no changes
+            to the render loop.</td>
+        </tr>
+        <tr>
+          <td><code>ActiveSkill</code> (extends Renderable)</td>
+          <td>Slash, JumpingSlash, CrossSlash, Ultimate</td>
+          <td>Skills are temporary objects. World calls <code>updateSkill()</code> each frame and removes them when
+            <code>isFinished()</code> is true. Because ActiveSkill extends Renderable, the same render loop draws skills
+            alongside enemies and projectiles — no special case.
+          </td>
+        </tr>
+        <tr>
+          <td><code>Collectable</code></td>
+          <td>Chest, Steak, EnergyDrink, Experience</td>
+          <td>Any pickup implements <code>onCollect(Player, World)</code> and
+            <code>updateCollectible(Player, World, dt)</code>. World calls <code>checkCollection()</code> on all
+            collectable lists uniformly — one method handles all pickup types.
+          </td>
+        </tr>
+        <tr>
+          <td><code>Item</code></td>
+          <td>All 18 Equipment classes</td>
+          <td>Equipment is stored as <code>List&lt;Item&gt;</code>. World calls
+            <code>item.updateEffect(dt, world, player)</code> every frame for all equipped items without knowing what
+            each item does. Adding a new item only requires a new class implementing Item — nothing else changes.
+          </td>
+        </tr>
+      </table>
+      <p><strong>Why interfaces over abstract classes here:</strong> Equipment items have no shared state — each has
+        completely different timers and logic. An interface enforces the contract without forcing a false hierarchy.</p>
+
+      <h3>13.3 Polymorphism — Where and Why It Is Used Correctly</h3>
+      <p>The project uses both <strong>subtype polymorphism</strong> (runtime dispatch) and <strong>parametric
+          polymorphism</strong> (generics):</p>
+      <table>
+        <tr>
+          <th>Location</th>
+          <th>Polymorphism Type</th>
+          <th>Example</th>
+        </tr>
+        <tr>
+          <td>World render loop</td>
+          <td>Subtype (Renderable)</td>
+          <td><code>renderList(List&lt;? extends Renderable&gt;)</code> calls <code>draw()</code> on enemies,
+            projectiles, skills, items — all in one loop.</td>
+        </tr>
+        <tr>
+          <td>World update loop</td>
+          <td>Subtype (Enemy)</td>
+          <td><code>for (Enemy e : enemies)</code> — Boss and Charger both update via their overridden
+            <code>update()</code> without if/else chains.
+          </td>
+        </tr>
+        <tr>
+          <td>Skill dispatch</td>
+          <td>Subtype (ActiveSkill)</td>
+          <td><code>skill.updateSkill(dt, world)</code> — Slash, CrossSlash, JumpingSlash, and Ultimate each execute
+            their own logic through the same interface call.</td>
+        </tr>
+        <tr>
+          <td>Weapon firing</td>
+          <td>Subtype (Weapon abstract)</td>
+          <td><code>weapon.update(dt, world)</code> calls the abstract <code>playerAttack(world)</code> which dispatches
+            to Sword, Bow, Aura, etc. each with different attack geometry.</td>
+        </tr>
+        <tr>
+          <td>Collectable pickup</td>
+          <td>Subtype (Collectable)</td>
+          <td><code>checkCollection(List&lt;? extends Collectable&gt;)</code> — one method handles Chest, Steak,
+            EnergyDrink, and Experience pickup logic.</td>
+        </tr>
+        <tr>
+          <td>Core vs Weapon</td>
+          <td>Conditional dispatch</td>
+          <td><code>if (weapon.isCore())</code> selects between <code>coreUpgrade()</code> and
+            <code>upgradeExistWeapon()</code> — minimal branching at the point where types actually diverge.
+          </td>
+        </tr>
+      </table>
+
+      <h3>13.4 Access Modifiers — Correct Application</h3>
+      <p>Access modifiers in SuperDank follow standard encapsulation principles:</p>
+      <table>
+        <tr>
+          <th>Modifier</th>
+          <th>Where Used</th>
+          <th>Reason</th>
+        </tr>
+        <tr>
+          <td><code>private</code></td>
+          <td>Most fields in all classes (e.g. Player's velocityX, Enemy's health)</td>
+          <td>Internal state is never accessible directly. All reads/writes go through getters/setters, allowing
+            invariants to be enforced (e.g. health can't go below 0 if clamped in the setter).</td>
+        </tr>
+        <tr>
+          <td><code>protected</code></td>
+          <td>GameObject fields (posX, posY, hitbox), Enemy fields (health, speed, faceToX), Weapon fields (cooldown,
+            bonusDamage, etc.)</td>
+          <td>Subclasses (Charger, Boss, Sword, Bow) need direct access to parent state for performance-critical
+            per-frame updates, avoiding getter overhead in the game loop while still blocking external access.</td>
+        </tr>
+        <tr>
+          <td><code>public</code></td>
+          <td>All interface methods, getters/setters, World API methods</td>
+          <td>Cross-system communication (e.g. skills accessing <code>world.getEnemies()</code>, items calling
+            <code>player.setMaxHealth()</code>) requires public visibility.
+          </td>
+        </tr>
+        <tr>
+          <td><code>static</code></td>
+          <td>SoundManager fields, Experience pool, ItemManager methods, SCREEN_WIDTH/HEIGHT</td>
+          <td>Shared global resources and constants. SoundManager is static because there is exactly one audio system.
+            Experience pool is static for reuse across all World instances. SCREEN_WIDTH/HEIGHT are referenced from
+            multiple packages without instantiation.</td>
+        </tr>
+      </table>
+
+      <h3>13.5 How the Architecture Connects Flawlessly</h3>
+      <p>The architecture follows a clear layered model where each layer only depends on the layer below it:</p>
+      <table>
+        <tr>
+          <th>Layer</th>
+          <th>Classes</th>
+          <th>Depends On</th>
+        </tr>
+        <tr>
+          <td>Entry / UI</td>
+          <td>Main (JavaFX Application), GameEngine</td>
+          <td>World, Controller, Camera, GameAssets</td>
+        </tr>
+        <tr>
+          <td>Game State</td>
+          <td>World</td>
+          <td>Player, Enemy, Weapon, Projectile, Item, Skill interfaces</td>
+        </tr>
+        <tr>
+          <td>Game Entities</td>
+          <td>Player, Enemy, Boss, Charger, Weapon subclasses, Skill subclasses</td>
+          <td>GameObject, interfaces (Renderable, ActiveSkill)</td>
+        </tr>
+        <tr>
+          <td>Projectiles &amp; Effects</td>
+          <td>Arrow, Boomerang, Rock, LightningEffect, Explosion</td>
+          <td>Projectile (abstract), World (for collision/damage)</td>
+        </tr>
+        <tr>
+          <td>Items &amp; Collectables</td>
+          <td>Equipment classes, Steak, EnergyDrink, Chest, Experience</td>
+          <td>Item interface, Collectable interface, Player, World</td>
+        </tr>
+        <tr>
+          <td>Infrastructure</td>
+          <td>GameAssets, SoundManager, Camera, Controller, ItemManager</td>
+          <td>JavaFX APIs only</td>
+        </tr>
+      </table>
+      <p><strong>Key decoupling points:</strong></p>
+      <ul>
+        <li>World fires <code>levelUpCallBack</code> / <code>gameOverCallBack</code> as Runnables — it never imports
+          Main or GameEngine, so game logic is fully decoupled from the UI framework.</li>
+        <li>All Renderable objects receive <code>GameEngine engine</code> as a parameter — they pull their images via
+          <code>engine.getArrowImage()</code> etc., avoiding static asset references scattered through game classes.
+        </li>
+        <li>Controller stores boolean flags instead of calling player methods directly from event handlers — input is
+          decoupled from game state updates.</li>
+        <li>Experience uses an object pool — the architecture accommodates high-frequency object creation without GC
+          pressure, a non-trivial design decision that required the pool to be in the domain layer, not infrastructure.
+        </li>
+      </ul>
+
+
+      <table>
+        <tr>
+          <th>Interface</th>
+          <th>Implemented By</th>
+          <th>Why Used</th>
+        </tr>
+        <tr>
+          <td><code>Renderable</code></td>
+          <td>GameObject (and all subclasses), Weapon, ActiveSkill subclasses</td>
+          <td>Decouples rendering from game logic. GameEngine's <code>renderList()</code> accepts
+            <code>List&lt;? extends Renderable&gt;</code> and draws anything without knowing its concrete type. This is
+            what allows one render loop to handle enemies, projectiles, items, and effects.
+          </td>
+        </tr>
+        <tr>
+          <td><code>ActiveSkill</code> (extends Renderable)</td>
+          <td>Slash, JumpingSlash, CrossSlash, Ultimate</td>
+          <td>Skills are short-lived objects added to <code>world.activeSkills</code> and removed when
+            <code>isFinished()</code> returns true. Extending Renderable means skills draw themselves during the same
+            render pass as everything else — no special case required.
+          </td>
+        </tr>
+        <tr>
+          <td><code>Collectable</code></td>
+          <td>Chest, Steak, EnergyDrink, Experience</td>
+          <td>Any object the player can walk over and collect implements <code>onCollect(Player, World)</code> and
+            <code>updateCollectible(Player, World, dt)</code>. World calls <code>checkCollection()</code> on all
+            collectable lists, keeping the pickup logic in one unified place.
+          </td>
+        </tr>
+        <tr>
+          <td><code>Item</code></td>
+          <td>All 18 Equipment classes</td>
+          <td>Equipment items define: <code>getName()</code>, <code>getDescription()</code>,
+            <code>applyBuff(World)</code> (one-time on equip), <code>updateEffect(dt, World, Player)</code> (per-frame
+            effect), and <code>getItemRarity()</code>. This interface allows World to iterate <code>itemList</code> and
+            call <code>updateEffect()</code> uniformly each tick.
+          </td>
+        </tr>
+      </table>
+
+      <h3>13.3 Weapon / Core Unified System</h3>
+      <p>This is one of the most important design decisions in the project. Cores and Weapons share the same class
+        hierarchy:</p>
+      <div class="code-block">// All cores extend Weapon, with isCore = true
+        // On roulette accept:
+        if (weapon.isCore()) {
+        weapon.coreUpgrade(world, rarity.getMultiplyBonusCore());
+        } else {
+        world.upgradeExistWeapon(weapon, rarity);
+        }
+
+        // Why: The roulette spins one pool of both weapons AND cores.
+        // The same Rarity enum governs both, using separate multipliers:
+        // rarity.getMultiplyBonusWeapon() → for weapon stat bonuses
+        // rarity.getMultiplyBonusCore() → for core stat application</div>
+
+      <h3>13.4 WeaponType Enum — Double Duty</h3>
+      <p>The <code>WeaponType</code> enum serves two purposes:</p>
+      <table>
+        <tr>
+          <th>Weapon Role</th>
+          <th>Core Role</th>
+        </tr>
+        <tr>
+          <td>SWORD, BOW, BOOMERANG, ROCKS, AURA, LIGHTNING — identify weapon slot</td>
+          <td>REGEN, LIFESTEAL, CHOAS, COIN, EXP, STAMINA, LUCK, PROJCOUNT, SIZE, COOLDOWN, CRITDMG, DAMAGE, ATKSPEED,
+            CRITRATE, OVERHEAL, HEALTH, MOVEMENTSPD — identify what stat the core modifies</td>
+        </tr>
+      </table>
+      <p>This allows <code>getWeaponLevel(WeaponType)</code> in World to check if a weapon of any type (including a
+        core) is already equipped, enabling proper deduplication in the roulette output.</p>
+
+      <h3>13.5 BossState Machine</h3>
+      <p>The Boss uses an explicit state machine via the <code>BossState</code> enum, which is the correct pattern for
+        complex AI:</p>
+      <table>
+        <tr>
+          <th>State</th>
+          <th>Description</th>
+          <th>Transitions To</th>
+        </tr>
+        <tr>
+          <td>ACTIVE</td>
+          <td>Normal movement toward player. Selects next attack after cooldown.</td>
+          <td>TELEGRAPH_CIRCLE or DASHING</td>
+        </tr>
+        <tr>
+          <td>TELEGRAPH_CIRCLE</td>
+          <td>Shows warning indicator at player position. Player has time to dodge.</td>
+          <td>ACTIVE (after attack resolves)</td>
+        </tr>
+        <tr>
+          <td>DASHING</td>
+          <td>Boss dashes at 1200 speed toward player position.</td>
+          <td>TELEGRAPH_ARC</td>
+        </tr>
+        <tr>
+          <td>TELEGRAPH_ARC</td>
+          <td>Shows arc/cone warning after dash. Player must jump or run.</td>
+          <td>ACTIVE</td>
+        </tr>
+        <tr>
+          <td>TELEGRAPH_AIR</td>
+          <td>(Reserved) Aerial attack state for future use.</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>TELEGRAPH_LINE</td>
+          <td>(Reserved) Line-based attack for future use.</td>
+          <td>—</td>
+        </tr>
+      </table>
+      <p>Using an enum state machine avoids boolean spaghetti. Each state has a clear entry and exit, and
+        <code>stateTimer</code> controls how long the boss remains in each state before transitioning.
+      </p>
+
+      <h3>13.6 MovementState Enum (Player Animation)</h3>
+      <p>Player animations are driven by the <code>MovementState</code> enum, with each state storing its own frame
+        metadata:</p>
+      <table>
+        <tr>
+          <th>Field</th>
+          <th>Purpose</th>
+        </tr>
+        <tr>
+          <td><code>checkSetFrame</code></td>
+          <td>The frame index to force the animation to when entering this state (prevents mid-sequence glitches).</td>
+        </tr>
+        <tr>
+          <td><code>frameDuration</code></td>
+          <td>How long (in seconds) each animation frame lasts for this state.</td>
+        </tr>
+        <tr>
+          <td><code>maxFrames</code></td>
+          <td>Total number of sprite frames in this state's animation strip.</td>
+        </tr>
+      </table>
+      <p>This design means changing an animation only requires updating the enum constant — no hard-coded frame counts
+        scattered through the Player update method.</p>
+
+      <h3>13.7 Experience Object Pool</h3>
+      <p>The <code>Experience</code> class uses a static object pool pattern — one of the most important performance
+        optimizations in the project:</p>
+      <div class="code-block">// Experience.java
+        private static List&lt;Experience&gt; pool = new ArrayList&lt;&gt;();
+
+        // Usage in World:
+        Experience exp = Experience.create(x, y); // reuses from pool if available
+        // ...
+        Experience.release(exp); // returns to pool instead of GC</div>
+      <p><strong>Why this matters:</strong> In later game stages, hundreds of experience crystals can be created and
+        destroyed per second. Without pooling, the Java garbage collector would create pauses every few seconds (GC
+        pauses). The pool eliminates allocation churn by reusing objects, which is critical for a smooth 120fps
+        experience.</p>
+
+      <h3>13.8 World as the Dependency Hub</h3>
+      <p>World is the central state container — almost every method in every system takes <code>World world</code> as a
+        parameter. This is intentional:</p>
+      <ul>
+        <li>Skills call <code>world.getEnemies()</code> to find targets.</li>
+        <li>Cores call <code>world.getPlayer()</code> to apply buffs.</li>
+        <li>Projectiles call <code>world.getArrows()</code> / <code>world.getBoomerangs()</code> to register hits.</li>
+        <li>Items call <code>world.getBlackHoles()</code> or <code>world.triggerScreenShake()</code>.</li>
+      </ul>
+      <p>World also fires callbacks (<code>levelUpCallBack</code>, <code>gameOverCallBack</code>) back to the JavaFX UI
+        layer (Main/GameEngine) without directly importing them — keeping game logic decoupled from the UI framework.
+      </p>
+
+      <h3>13.9 GameEngine — Render + UI Bridge</h3>
+      <p>GameEngine bridges the JavaFX scene graph and the game world:</p>
+      <table>
+        <tr>
+          <th>Responsibility</th>
+          <th>Implementation</th>
+        </tr>
+        <tr>
+          <td>Game loop</td>
+          <td><code>AnimationTimer loop</code> — calls <code>renderGame(dt)</code> every frame</td>
+        </tr>
+        <tr>
+          <td>Asset distribution</td>
+          <td>Holds <code>GameAssets assets</code> and exposes individual getters so all Renderable objects can access
+            images without static fields</td>
+        </tr>
+        <tr>
+          <td>UI sync</td>
+          <td><code>updateLeftPanelUI()</code> updates health/stamina/exp bars, labels only when
+            <code>world.uiNeedsUpdate == true</code> to avoid unnecessary JavaFX node updates
+          </td>
+        </tr>
+        <tr>
+          <td>Trail system</td>
+          <td>Maintains <code>List&lt;PlayerTrail&gt;</code> with opacity decay — pure data, rendered by the engine each
+            frame</td>
+        </tr>
+        <tr>
+          <td>BGM</td>
+          <td>Playlist of 4 songs cycled via <code>playNextSong()</code> using MediaPlayer's
+            <code>setOnEndOfMedia</code> callback
+          </td>
+        </tr>
+      </table>
+
+      <h3>13.10 ItemManager — Factory Pattern</h3>
+      <p><code>ItemManager</code> is a pure static factory class with two methods:</p>
+      <div class="code-block">ItemManager.openingChest(World) // returns a random Item for chest loot
+        ItemManager.chestGachaRarity(Player) // rolls item rarity based on player luck stat</div>
+      <p>This isolates all item-selection logic from the World and Main classes. Adding new items only requires updating
+        ItemManager — nothing else needs to change.</p>
+
+      <h3>13.11 Controller — Input Decoupling</h3>
+      <p><code>Controller</code> decouples raw JavaFX input events from player behavior:</p>
+      <ul>
+        <li>Listens to <code>Scene.setOnKeyPressed/Released</code> and <code>setOnMousePressed/Released</code>.</li>
+        <li>Stores boolean flags: up, down, left, right, etc.</li>
+        <li><code>playerMovement(Player, World)</code> is called each frame, translating these flags into actual Player
+          calls (<code>dash()</code>, <code>jump()</code>, <code>world.triggerSlash()</code>, etc.).</li>
+        <li>This means Player has no dependency on JavaFX input events — it's purely driven by method calls, making it
+          easy to test or swap input handling.</li>
+      </ul>
+
+      <h3>13.12 CompareEnemies — Sorting Utility</h3>
+      <p><code>CompareEnemies</code> is a specialized sorting helper used by Bow and LightningWeapon to find the closest
+        enemies:</p>
+      <div class="code-block">CompareEnemies.useComparator(enemies)
+        // Sorts world.getEnemies() by distance from a reference object
+        // Returns sorted list → weapon picks first N enemies as targets</div>
+      <p>Using a dedicated comparator class rather than an anonymous lambda makes the sorting logic reusable across
+        multiple weapons and keeps weapon code clean.</p>
+
+      <h3>13.13 Correction: Item Interface Method Name</h3>
+      <p>Based on the UML, the correct interface method is <code>applyBuff(World)</code>, not <code>applyEffect()</code>
+        as previously documented. The full Item interface contract is:</p>
+      <table>
+        <tr>
+          <th>Method</th>
+          <th>When Called</th>
+          <th>Purpose</th>
+        </tr>
+        <tr>
+          <td><code>getName()</code></td>
+          <td>UI display</td>
+          <td>Returns item display name</td>
+        </tr>
+        <tr>
+          <td><code>getDescription()</code></td>
+          <td>Chest popup UI</td>
+          <td>Returns effect description text</td>
+        </tr>
+        <tr>
+          <td><code>applyBuff(World)</code></td>
+          <td>Once on equip via <code>world.addItem()</code></td>
+          <td>Applies permanent stat change to player</td>
+        </tr>
+        <tr>
+          <td><code>updateEffect(dt, World, Player)</code></td>
+          <td>Every game frame</td>
+          <td>Handles timer-based or continuous effects (e.g., Necrotic Heart, Parasitic Gas)</td>
+        </tr>
+        <tr>
+          <td><code>getItemRarity()</code></td>
+          <td>UI display</td>
+          <td>Returns rarity for color-coding in chest popup</td>
+        </tr>
+      </table>
+
+      <hr>
+      <p style="text-align:center;color:#999;font-size:11px;">SuperDank — Game still in active development. Generated
+        from source code and UML inspection.</p>
+
+</body>
+
+</html>

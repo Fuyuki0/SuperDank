@@ -4,6 +4,9 @@ import MyGame.Game.GameEngine;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+ * Represents an obstacle in the game world that entities might collide with.
+ */
 public class Obstacle extends GameObject{
     private double width;
     private double height;

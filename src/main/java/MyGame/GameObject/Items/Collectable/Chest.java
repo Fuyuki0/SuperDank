@@ -9,6 +9,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import MyGame.Game.GameEngine;
 
+/**
+ * A collectable object that drops valuable items or power-ups when opened.
+ */
 public class Chest extends GameObject implements Collectable, Renderable {
     public Chest(double PosX, double PosY) {
         super(PosX, PosY, 20);

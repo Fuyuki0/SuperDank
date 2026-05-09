@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that multiplies or splits projectiles and effects.
+ */
 public class FractalCore extends Weapon {
     public FractalCore() {
         super(WeaponType.PROJCOUNT, AmountType.Amount, 1);

@@ -7,6 +7,9 @@ import MyGame.Game.SoundManager;
 import MyGame.Interface.ActiveSkill;
 import MyGame.Game.World;
 
+/**
+ * A powerful ultimate skill that deals significant damage.
+ */
 public class Ultimate implements ActiveSkill {
     private double ultimateTimer = 0;
 

@@ -45,6 +45,9 @@ import java.util.List;
 import static MyGame.Game.GameAssets.*;
 
 
+/**
+ * The bootstrap class for the JavaFX application.
+ */
 public class Main extends Application {
 
     public static double SCREEN_WIDTH = 1920;

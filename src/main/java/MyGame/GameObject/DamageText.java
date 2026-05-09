@@ -4,6 +4,9 @@ import MyGame.Game.GameEngine;
 
 import static MyGame.Game.GameAssets.FONT_30;
 
+/**
+ * A visual indicator that displays the amount of damage dealt to an entity.
+ */
 public class DamageText extends GameObject{
 
     private double posX;

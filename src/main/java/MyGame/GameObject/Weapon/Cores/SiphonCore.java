@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that heals the player based on damage dealt.
+ */
 public class SiphonCore extends Weapon {
     public SiphonCore() {
         super(WeaponType.LIFESTEAL, AmountType.Multiplier, 0.01);

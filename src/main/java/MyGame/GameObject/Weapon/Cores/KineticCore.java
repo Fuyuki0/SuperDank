@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that increases the physical force and knockback of attacks.
+ */
 public class KineticCore extends Weapon {
     public KineticCore() {
         super(WeaponType.MOVEMENTSPD, AmountType.Multiplier, 0.2);

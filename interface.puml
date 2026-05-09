@@ -1,0 +1,28 @@
+@startuml
+interface MyGame.Interface.ActiveSkill {
+~ void updateSkill(double,World)
+~ boolean isFinished()
+}
+
+interface MyGame.Interface.Renderable {
+~ void draw(GraphicsContext,double,double,double,double,double,GameEngine)
+}
+
+interface MyGame.Interface.Collectable {
+~ void onCollect(Player,World)
+~ void updateCollectible(Player,World,double)
+}
+
+interface MyGame.Interface.Item {
+~ String getName()
+~ String getDescription()
+~ void applyBuff(World)
+~ void updateEffect(double,World,Player)
+~ ItemRarity getItemRarity()
+~ void setItemRarity(ItemRarity)
+}
+
+
+
+MyGame.Interface.Renderable <|-- MyGame.Interface.ActiveSkill
+@enduml

@@ -8,6 +8,9 @@ import MyGame.Game.World;
 
 import java.util.List;
 
+/**
+ * An equipment item that provides a burst of healing or emergency power.
+ */
 public class AdrenalSyringe implements Item {
     private double adrenalTimer = 0;
     private boolean adrenalActive = false;

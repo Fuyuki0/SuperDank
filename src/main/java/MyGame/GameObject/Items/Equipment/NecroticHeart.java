@@ -5,6 +5,9 @@ import MyGame.Rarity.ItemRarity;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.World;
 
+/**
+ * An equipment item that grants power at the cost of health or causes decay.
+ */
 public class NecroticHeart implements Item {
     @Override
     public String getName() {

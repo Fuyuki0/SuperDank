@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that enhances data processing or tech-based abilities.
+ */
 public class DataCore extends Weapon {
     public DataCore() {
         super(WeaponType.EXP, AmountType.Multiplier, 0.1);

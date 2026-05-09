@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that increases attack speed and reduces cooldowns.
+ */
 public class OverClockCore extends Weapon {
     public OverClockCore() {
         super(WeaponType.COOLDOWN, AmountType.Multiplier, 0.05);

@@ -4,10 +4,14 @@ import MyGame.Game.GameEngine;
 import MyGame.GameObject.GameObject;
 import MyGame.Game.SoundManager;
 import MyGame.Game.World;
+import javafx.scene.canvas.GraphicsContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The main class representing the user-controlled character, managing health, stats, and input.
+ */
 public class Player extends GameObject {
 
     private final double MAP_LIMIT = 20000;
@@ -326,7 +330,7 @@ public class Player extends GameObject {
     }
 
     @Override
-    public void draw(javafx.scene.canvas.GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
+    public void draw(GraphicsContext gc, double cameraPosX, double cameraPosY, double screenWidth, double screenHeight, double margin, GameEngine engine) {
         javafx.scene.image.Image playerMech = engine.getPlayerMech();
         javafx.scene.effect.Effect hitPlayer = engine.getHitPlayer();
         java.util.List<PlayerTrail> playerTrails = engine.getPlayerTrails();
@@ -715,7 +719,7 @@ public class Player extends GameObject {
 
     public boolean canSlash() {
         if (gameStartTimer > 0) return false;
-        if (currentStamina > 10)
+        if (currentStamina >= 5)
             return this.slashCooldown <= 0;
         else return false;
     }

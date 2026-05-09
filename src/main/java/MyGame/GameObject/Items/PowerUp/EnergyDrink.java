@@ -10,6 +10,9 @@ import MyGame.Game.GameEngine;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+ * A power-up item that restores energy or stamina.
+ */
 public class EnergyDrink extends GameObject implements Collectable, Renderable {
     private int drinkType;
 

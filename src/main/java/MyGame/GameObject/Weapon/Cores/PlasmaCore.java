@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that melts enemies with high-temperature energy.
+ */
 public class PlasmaCore extends Weapon {
     public PlasmaCore() {
         super(WeaponType.DAMAGE, AmountType.Multiplier, 0.05);

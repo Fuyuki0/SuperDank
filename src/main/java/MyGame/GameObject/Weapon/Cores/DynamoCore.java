@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that focuses on energy generation and electrical attacks.
+ */
 public class DynamoCore extends Weapon {
     public DynamoCore() {
         super(WeaponType.STAMINA, AmountType.Amount, 20);

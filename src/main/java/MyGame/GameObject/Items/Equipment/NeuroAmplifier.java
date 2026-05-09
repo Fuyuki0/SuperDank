@@ -5,6 +5,9 @@ import MyGame.Rarity.ItemRarity;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.World;
 
+/**
+ * An equipment item that boosts mental or magical capabilities.
+ */
 public class NeuroAmplifier implements Item {
 
     @Override

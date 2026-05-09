@@ -4,6 +4,9 @@ import MyGame.GameObject.Weapon.Weapon;
 import MyGame.GameObject.Weapon.WeaponType;
 import MyGame.Game.World;
 
+/**
+ * A core upgrade that amplifies damage based on consecutive hits.
+ */
 public class ResonanceCore extends Weapon {
     public ResonanceCore() {
         super(WeaponType.ATKSPEED, AmountType.Multiplier, 0.015);
