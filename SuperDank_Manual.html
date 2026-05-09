@@ -85,20 +85,69 @@
     ul {
       margin-bottom: 12px;
     }
+
+    .toc {
+      background: #f8f9fa;
+      border: 1px solid #bdc3c7;
+      padding: 15px;
+      margin-bottom: 30px;
+      border-radius: 5px;
+    }
+    .toc h3 {
+      margin-top: 0;
+      color: #1a1a2e;
+    }
+    .toc ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    .toc li {
+      margin-bottom: 8px;
+    }
+    .toc a {
+      text-decoration: none;
+      color: #e94560;
+      font-weight: bold;
+    }
+    .toc a:hover {
+      text-decoration: underline;
+    }
   </style>
+
 </head>
 
-<body>
+<body id="top">
 
   <h1>SuperDank — Official Game Manual</h1>
   <p class="subtitle">Comprehensive Guide & Technical Reference</p>
 
-  <h2>1. Introduction</h2>
+<div class="toc">
+  <h3>Table of Contents</h3>
+  <ul>
+    <li><a href="#section-1">1. Introduction</a></li>
+    <li><a href="#section-2">2. System Requirements &amp; Installation</a></li>
+    <li><a href="#section-3">3. Controls & Gameplay</a></li>
+    <li><a href="#section-4">4. Player Base Stats</a></li>
+    <li><a href="#section-5">5. Weapons</a></li>
+    <li><a href="#section-6">6. Active Skills</a></li>
+    <li><a href="#section-7">7. Core Upgrades</a></li>
+    <li><a href="#section-8">8. Weapon &amp; Core Rarity System</a></li>
+    <li><a href="#section-9">9. Enemy Bestiary</a></li>
+    <li><a href="#section-10">10. Equipment Items</a></li>
+    <li><a href="#section-11">11. Game Systems &amp; Mechanics</a></li>
+    <li><a href="#section-12">12.Key Class &amp; Method Reference (Javadoc)</a></li>
+    <li><a href="#section-13">13. Architecture &amp; UML Design Analysis</a></li>
+  </ul>
+</div>
+
+
+  <h2 id="section-1">1. Introduction</h2>
   <p><strong>SuperDank</strong> is an action survival game built with JavaFX. You pilot a mech through an endless
     battlefield, fighting waves of enemies, leveling up, and building the ultimate weapon loadout. The game features
     fluid physics-based movement, a roulette-based upgrade system, and scaling difficulty.</p>
 
-  <h2>2. System Requirements &amp; Installation</h2>
+  <div style="text-align: right; margin-top: 40px;"><a href="#top" style="color: #0f3460; text-decoration: none; font-size: 14px;">&uarr; Back to Top</a></div>
+<h2 id="section-2">2. System Requirements &amp; Installation</h2>
   <table>
     <tr>
       <th>Requirement</th>
@@ -147,7 +196,8 @@
   <p class="note">The JAR file is located in <code>SuperDank/build/libs/</code>. Place the JavaFX SDK folder next to the
     JAR.</p>
 
-  <h2>3. Controls & Gameplay</h2>
+  <div style="text-align: right; margin-top: 40px;"><a href="#top" style="color: #0f3460; text-decoration: none; font-size: 14px;">&uarr; Back to Top</a></div>
+<h2 id="section-3">3. Controls & Gameplay</h2>
 
   <h3>In-Game Controls</h3>
   <table>
@@ -258,7 +308,8 @@
       'Weapons & Cores' to customize your preferred gameplay experience.</li>
   </ul>
 
-  <h2>4. Player Base Stats</h2>
+  <div style="text-align: right; margin-top: 40px;"><a href="#top" style="color: #0f3460; text-decoration: none; font-size: 14px;">&uarr; Back to Top</a></div>
+<h2 id="section-4">4. Player Base Stats</h2>
   <p>Stats extracted from <code>Player.java</code>:</p>
   <table>
     <tr>
@@ -352,7 +403,8 @@
     </tr>
   </table>
 
-  <h2>5. Weapons</h2>
+  <div style="text-align: right; margin-top: 40px;"><a href="#top" style="color: #0f3460; text-decoration: none; font-size: 14px;">&uarr; Back to Top</a></div>
+<h2 id="section-5">5. Weapons</h2>
   <p>Weapons fire automatically. Each can be leveled up to 20 via the roulette system. Stats scale with bonus stats
     gained per level.</p>
 
@@ -487,7 +539,8 @@
 
 
 
-  <h2>6. Active Skills</h2>
+  <div style="text-align: right; margin-top: 40px;"><a href="#top" style="color: #0f3460; text-decoration: none; font-size: 14px;">&uarr; Back to Top</a></div>
+<h2 id="section-6">6. Active Skills</h2>
   <table>
     <tr>
       <th>Skill</th>
@@ -538,7 +591,8 @@
     </tr>
   </table>
 
-  <h2>7. Core Upgrades</h2>
+  <div style="text-align: right; margin-top: 40px;"><a href="#top" style="color: #0f3460; text-decoration: none; font-size: 14px;">&uarr; Back to Top</a></div>
+<h2 id="section-7">7. Core Upgrades</h2>
   <p>Cores are passive stat modifiers that enhance your mech globally. They are acquired through the roulette system
     alongside weapons.</p>
 
@@ -653,7 +707,8 @@
     </tr>
   </table>
 
-  <h2>8. Weapon &amp; Core Rarity System</h2>
+  <div style="text-align: right; margin-top: 40px;"><a href="#top" style="color: #0f3460; text-decoration: none; font-size: 14px;">&uarr; Back to Top</a></div>
+<h2 id="section-8">8. Weapon &amp; Core Rarity System</h2>
   <table>
     <tr>
       <th>Rarity</th>
@@ -714,7 +769,8 @@
   </table>
   <p><em>Drop rates are modified by the player's Luck stat (from EntropyCore).</em></p>
 
-  <h2>9. Enemy Bestiary</h2>
+  <div style="text-align: right; margin-top: 40px;"><a href="#top" style="color: #0f3460; text-decoration: none; font-size: 14px;">&uarr; Back to Top</a></div>
+<h2 id="section-9">9. Enemy Bestiary</h2>
   <table>
     <tr>
       <th>Enemy</th>
@@ -780,7 +836,8 @@
     </tr>
   </table>
 
-  <h2>10. Equipment Items</h2>
+  <div style="text-align: right; margin-top: 40px;"><a href="#top" style="color: #0f3460; text-decoration: none; font-size: 14px;">&uarr; Back to Top</a></div>
+<h2 id="section-10">10. Equipment Items</h2>
 
   <h3>Item Rarity Tiers</h3>
   <table>
@@ -901,7 +958,8 @@
 
 
 
-  <h2>11. Game Systems &amp; Mechanics</h2>
+  <div style="text-align: right; margin-top: 40px;"><a href="#top" style="color: #0f3460; text-decoration: none; font-size: 14px;">&uarr; Back to Top</a></div>
+<h2 id="section-11">11. Game Systems &amp; Mechanics</h2>
 
   <h3>11.1 Difficulty Scaling (World.java)</h3>
   <p>Difficulty grows continuously based on time survived:</p>
@@ -1382,8 +1440,14 @@
         <code>ultimatePlayer</code>) so they can play over the BGM simultaneously.
       </p>
 
-      <h2>12.Key Class &amp; Method Reference</h2>
-      <p><em>Method-level reference only. See Section 11 for behavioral detail.</em></p>
+      <div style="text-align: right; margin-top: 40px;"><a href="#top" style="color: #0f3460; text-decoration: none; font-size: 14px;">&uarr; Back to Top</a></div>
+<h2 id="section-12">12. Key Class &amp; Method Reference (Javadoc)</h2>
+      <div style="margin: 20px 0; text-align: center;">
+        <a href="build/docs/javadoc/index.html" target="_blank" style="background-color: #0f3460; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 16px; display: inline-block; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+          &#128214; Open Full Javadoc Documentation
+        </a>
+      </div>
+      <p><em>Method-level reference only. See Section 11 for behavioral detail. Or click the button above for the full autogenerated Javadoc.</em></p>
 
       <h3>MyGame.Game</h3>
       <table>
@@ -1607,7 +1671,8 @@
         </tr>
       </table>
 
-      <h2>13. Architecture &amp; UML Design Analysis</h2>
+      <div style="text-align: right; margin-top: 40px;"><a href="#top" style="color: #0f3460; text-decoration: none; font-size: 14px;">&uarr; Back to Top</a></div>
+<h2 id="section-13">13. Architecture &amp; UML Design Analysis</h2>
       <p>This section is derived from <code>uml.puml</code> — the full PlantUML class diagram. Diagrams are inserted
         separately.</p>
 
