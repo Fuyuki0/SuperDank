@@ -61,7 +61,7 @@ public class Ultimate implements ActiveSkill {
                 enemy.takeDamageAndEffectPlayer(player, 500 * (1 + player.getStatDamage() / 100), world.getDamageTexts(), false);
             }
         } else if (ultimateTimer >= 2.0 && ultimateTimer < 2.3) {
-            world.setEnteringAnimationTimer(world.getEnteringAnimationTimer() - deltaTime);
+            world.setEnteringAnimationTimer(world.getEnteringAnimationTimer() + deltaTime);
             if (world.getEnteringAnimationTimer() > 0.06) {
                 world.setCurrentEnteringFrame(world.getCurrentEnteringFrame() + 1);
                 if (world.getCurrentEnteringFrame() >= 5) {
