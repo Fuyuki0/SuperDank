@@ -53,7 +53,7 @@ public class Slash implements ActiveSkill {
                 double distancePosX = enemy.getPosX() - getPosX();
                 double distancePosY = enemy.getPosY() - getPosY();
                 double distance = Math.sqrt(distancePosX * distancePosX + distancePosY * distancePosY);
-                if (distance < 700) {
+                if (distance < 650) {
                     double slashCheckFront = (distancePosX / distance) * Math.cos(Math.toRadians(getAngle())) + (distancePosY / distance) * Math.sin(Math.toRadians(getAngle()));
                     if (slashCheckFront > 0.90) {
                         double slashDamage = 60 * (1 + player.getStatDamage() / 100);

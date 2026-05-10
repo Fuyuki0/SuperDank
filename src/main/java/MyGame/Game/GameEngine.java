@@ -1259,6 +1259,7 @@ public class GameEngine {
             } else {
                 bgmPlayer.setVolume(0.05);
             }
+            bgmPlayer.setRate(1.5);
             bgmPlayer.setOnEndOfMedia(() -> {
                 currentSongIndex++;
                 if (currentSongIndex >= playlist.length) {

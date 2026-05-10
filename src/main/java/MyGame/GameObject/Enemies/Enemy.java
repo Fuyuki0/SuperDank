@@ -320,8 +320,8 @@ public class Enemy extends GameObject {
     }
 
     public void setHealth(double health) {
-        if (this.health < 0) this.health = 0;
-        else if (this.health > this.maxHealth) this.health = maxHealth;
+        if (health < 0) this.health = 0;
+        else if (health > this.maxHealth) this.health = maxHealth;
         else this.health = health;
     }
 
