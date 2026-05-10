@@ -262,11 +262,27 @@ public class World {
         double playerPosX = player.getPosX();
         double playerPosY = player.getPosY();
         double playerRadius = player.getHitbox();
+        
+        // check only near obby
+
+        List<Obstacle> activeObstaclesForPlayer = new ArrayList<>();
         for (Obstacle obstacle : obstacles) {
+            if (Math.abs(obstacle.getPosX() - playerPosX) < 500 && Math.abs(obstacle.getPosY() - playerPosY) < 500) {
+                activeObstaclesForPlayer.add(obstacle);
+            }
+        }
+
+        for (Obstacle obstacle : activeObstaclesForPlayer) {
             double left = obstacle.getPosX();
             double right = obstacle.getPosX() + obstacle.getWidth();
             double top = obstacle.getPosY();
             double bottom = obstacle.getPosY() + obstacle.getHeight();
+
+            // fast skip
+            if (playerPosX + playerRadius < left || playerPosX - playerRadius > right ||
+                playerPosY + playerRadius < top || playerPosY - playerRadius > bottom) {
+                continue;
+            }
 
             // prevent dash inside
             if (playerPosX > left && playerPosX < right && playerPosY > top && playerPosY < bottom) {
@@ -395,10 +411,17 @@ public class World {
                         }
 
                 // enemy vs obby
+                List<Obstacle> activeObstaclesForEnemies = new ArrayList<>();
+                for (Obstacle obstacle : obstacles) {
+                    if (Math.abs(obstacle.getPosX() - playerPosX) < 4000 && Math.abs(obstacle.getPosY() - playerPosY) < 4000) {
+                        activeObstaclesForEnemies.add(obstacle);
+                    }
+                }
+
                 if (!enemy.isCharger()) {
                     double enemyPosX = enemy.getPosX();
                     double enemyPosY = enemy.getPosY();
-                    for (Obstacle obstacle : obstacles) {
+                    for (Obstacle obstacle : activeObstaclesForEnemies) {
                         double left = obstacle.getPosX();
                         double right = obstacle.getPosX() + obstacle.getWidth();
                         double top = obstacle.getPosY();
