@@ -219,9 +219,7 @@ public class World {
 
         if (gameStop) {
             return;
-        }
-
-        else
+        } else
             timeSurvived += deltaTime;
         if (screenShakeTimer > 0) {
             screenShakeTimer -= deltaTime;
@@ -262,7 +260,7 @@ public class World {
         double playerPosX = player.getPosX();
         double playerPosY = player.getPosY();
         double playerRadius = player.getHitbox();
-        
+
         // check only near obby
 
         List<Obstacle> activeObstaclesForPlayer = new ArrayList<>();
@@ -281,7 +279,7 @@ public class World {
 
                 // fast skip
                 if (playerPosX + playerRadius < left || playerPosX - playerRadius > right ||
-                    playerPosY + playerRadius < top || playerPosY - playerRadius > bottom) {
+                        playerPosY + playerRadius < top || playerPosY - playerRadius > bottom) {
                     continue;
                 }
 
@@ -344,7 +342,12 @@ public class World {
 
         // >>>>>>>> Base enemy <<<<<<<<<
         enemySpawnTimer += deltaTime;
-        if (timeSurvived > 300) {
+        if (timeSurvived > 600) {
+            if (enemySpawnTimer >= 0.05) {
+                spawnEnemy(0);
+                enemySpawnTimer = 0;
+            }
+        } else if (timeSurvived >= 300 && timeSurvived < 600) {
             if (enemySpawnTimer >= 0.10) {
                 spawnEnemy(0);
                 enemySpawnTimer = 0;

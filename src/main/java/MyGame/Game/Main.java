@@ -1175,7 +1175,6 @@ public class Main extends Application {
             SoundManager.ultimatePlayer.stop();
             engine.getWorld().getPlayer().setPosZ(7500);
             engine.getWorld().setEntering(true);
-            engine.getWorld().setTimeSurvived(0);
             engine.getWorld().setEnteringSoundCheck(0);
             engine.getWorld().setTimeSurvived(0);
             coinCountLabel.setText("0");

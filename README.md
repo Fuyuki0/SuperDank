@@ -11,7 +11,6 @@ How to start:
 - Linux 
 
   `java -Xms2G -Xmx2G -XX:+UseG1GC -XX:MaxGCPauseMillis=5 -XX:G1ReservePercent=20 
-  -Dprism.forceGPU=true 
   -Dprism.order=es2 
   --module-path "path/to/javafx-sdk/lib" 
   --add-modules javafx.controls,javafx.graphics,javafx.fxml,javafx.media 
@@ -21,7 +20,6 @@ How to start:
   `java -Xms2G -Xmx2G -XX:+UseG1GC -XX:MaxGCPauseMillis=5 -XX:G1ReservePercent=20 
     -Dglass.win.uiScale=1 
     -Dprism.allowhidpi=true 
-    -Dprism.forceGPU=true 
     --module-path "path\to\javafx-sdk-26.0.1\lib" 
     --add-modules javafx.controls,javafx.graphics,javafx.fxml,javafx.media 
     -jar "path\to\SuperDank-1.jar`

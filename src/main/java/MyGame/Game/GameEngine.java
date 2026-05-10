@@ -364,7 +364,8 @@ public class GameEngine {
 
         // enemy
         for (Enemy enemy : enemies) {
-            enemy.draw(gc, cameraPosX, cameraPosY, screenWidth, screenHeight, margin, this);
+            if (!enemy.isCharger())
+                enemy.draw(gc, cameraPosX, cameraPosY, screenWidth, screenHeight, margin, this);
         }
 
         // boss pointer
@@ -527,6 +528,11 @@ public class GameEngine {
         // top obby
         for (Obstacle obstacle : getWorld().getObstacles()) {
             obstacle.drawHeight(gc, cameraPosX, cameraPosY, screenWidth, screenHeight, margin, this);
+        }
+
+        for (Enemy enemy : enemies) {
+            if (enemy.isCharger())
+                enemy.draw(gc, cameraPosX, cameraPosY, screenWidth, screenHeight, margin, this);
         }
 
         //============ Items =============
@@ -1205,6 +1211,10 @@ public class GameEngine {
                         int getMinutes = totalSecond / 60;
                         int getSeconds = totalSecond % 60;
                         timeSurvivedLabel.setText(String.format("%02d:%02d", getMinutes, getSeconds));
+                        if (getSeconds < lastsecond) {
+                            popAnimation(timeSurvivedLabel);
+                            lastsecond = getSeconds;
+                        }
                         if (getSeconds > lastsecond) {
                             popAnimation(timeSurvivedLabel);
                             lastsecond = getSeconds;
