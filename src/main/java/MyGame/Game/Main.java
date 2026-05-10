@@ -357,6 +357,7 @@ public class Main extends Application {
 
     public void triggerPopupLevelUp(GameEngine gameEngine) {
         gameEngine.getWorld().setGameStop(true);
+        gameEngine.getWorld().pauseGame();
         gameEngine.setLevelUpCallBack(true);
         rouletteDatabase(gameEngine.getWorld());
         refreshButtonState(gameEngine.getWorld().getPlayer());

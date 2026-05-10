@@ -263,7 +263,7 @@ public class Player extends GameObject {
             if (this.posY > MAP_LIMIT) this.posY = MAP_LIMIT - 1;
             if (this.posY < -MAP_LIMIT) this.posY = -MAP_LIMIT + 1;
 
-            // no set when dash :)
+            // no set when dash
             setFaceTo(directionToX, directionToY, deltaTime);
 
             this.smoothDash = 0.3;
