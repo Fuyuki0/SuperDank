@@ -71,6 +71,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#draw(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,MyGame.Game.GameEngine)" tabindex="0">draw(GraphicsContext, double, double, double, double, double, GameEngine)</a></li>
+<li><a href="#drawHeight(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,MyGame.Game.GameEngine)" tabindex="0">drawHeight(GraphicsContext, double, double, double, double, double, GameEngine)</a></li>
 <li><a href="#update(double)" tabindex="0">update(double)</a></li>
 <li><a href="#getWidth()" tabindex="0">getWidth()</a></li>
 <li><a href="#setWidth(double)" tabindex="0">setWidth(double)</a></li>
@@ -149,21 +150,30 @@ loadScripts(document, 'script');</script>
  double&nbsp;margin,
  <a href="../Game/GameEngine.html" title="class in MyGame.Game">GameEngine</a>&nbsp;engine)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeight()" class="member-name-link">getHeight</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#drawHeight(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,MyGame.Game.GameEngine)" class="member-name-link">drawHeight</a><wbr>(javafx.scene.canvas.GraphicsContext&nbsp;gc,
+ double&nbsp;cameraPosX,
+ double&nbsp;cameraPosY,
+ double&nbsp;screenWidth,
+ double&nbsp;screenHeight,
+ double&nbsp;margin,
+ <a href="../Game/GameEngine.html" title="class in MyGame.Game">GameEngine</a>&nbsp;engine)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWidth()" class="member-name-link">getWidth</a>()</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getHeight()" class="member-name-link">getHeight</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHeight(double)" class="member-name-link">setHeight</a><wbr>(double&nbsp;height)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getWidth()" class="member-name-link">getWidth</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWidth(double)" class="member-name-link">setWidth</a><wbr>(double&nbsp;width)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setHeight(double)" class="member-name-link">setHeight</a><wbr>(double&nbsp;height)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(double)" class="member-name-link">update</a><wbr>(double&nbsp;deltaTime)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#setWidth(double)" class="member-name-link">setWidth</a><wbr>(double&nbsp;width)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(double)" class="member-name-link">update</a><wbr>(double&nbsp;deltaTime)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 </div>
 </div>
 </div>
@@ -208,6 +218,20 @@ loadScripts(document, 'script');</script>
 <h3>draw</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">draw</span><wbr><span class="parameters">(javafx.scene.canvas.GraphicsContext&nbsp;gc,
+ double&nbsp;cameraPosX,
+ double&nbsp;cameraPosY,
+ double&nbsp;screenWidth,
+ double&nbsp;screenHeight,
+ double&nbsp;margin,
+ <a href="../Game/GameEngine.html" title="class in MyGame.Game">GameEngine</a>&nbsp;engine)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="drawHeight(javafx.scene.canvas.GraphicsContext,double,double,double,double,double,MyGame.Game.GameEngine)">
+<h3>drawHeight</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">drawHeight</span><wbr><span class="parameters">(javafx.scene.canvas.GraphicsContext&nbsp;gc,
  double&nbsp;cameraPosX,
  double&nbsp;cameraPosY,
  double&nbsp;screenWidth,

@@ -1,6 +1,7 @@
 package MyGame.GameObject.Enemies;
 
 import MyGame.Game.GameEngine;
+import MyGame.GameObject.Obstacle;
 import MyGame.GameObject.Player.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Effect;
@@ -89,6 +90,8 @@ public class Charger extends Enemy {
             if (this.getDirectionX() < 0) {
                 gc.scale(-1, 1);
             }
+
+
             gc.drawImage(
                     chargerMech,
                     sourceX, sourceY, frameWidth, frameHeight,

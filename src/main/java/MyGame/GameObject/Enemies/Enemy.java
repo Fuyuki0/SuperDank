@@ -3,6 +3,7 @@ package MyGame.GameObject.Enemies;
 import MyGame.Game.GameEngine;
 import MyGame.GameObject.DamageText;
 import MyGame.GameObject.GameObject;
+import MyGame.GameObject.Obstacle;
 import MyGame.GameObject.Player.Player;
 import MyGame.Game.SoundManager;
 import javafx.scene.canvas.GraphicsContext;
@@ -270,6 +271,7 @@ public class Enemy extends GameObject {
             if (isFlipped) {
                 gc.scale(-1, 1);
             }
+
             gc.drawImage(
                     enemyMech,
                     sourceX, sourceY, frameWidth, frameHeight,

@@ -523,6 +523,14 @@ public class GameEngine {
 
         renderList(world.getActiveSkills(), gc, cameraPosX, cameraPosY, screenWidth, screenHeight, 0);
 
+
+        // top obby
+        for (Obstacle obstacle : getWorld().getObstacles()) {
+            obstacle.drawHeight(gc, cameraPosX, cameraPosY, screenWidth, screenHeight, margin, this);
+        }
+
+        //============ Items =============
+
         // Mutated brain rainbow effect @>
         double rainbowTimer = world.getRainbowTimer();
         if (rainbowTimer > 0) {
@@ -753,6 +761,7 @@ public class GameEngine {
                 gc.restore();
             }
         }
+
 
         // =============== Minimap ===============
         if (world.isShowMiniMap()) {
@@ -1261,6 +1270,7 @@ public class GameEngine {
             renderable.draw(gc, cameraPosX, cameraPosY, screenWidth, screenHeight, margin, this);
         }
     }
+
 
     public void setWorld(World world) {
         this.world = world;

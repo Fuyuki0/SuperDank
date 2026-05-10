@@ -175,11 +175,11 @@ public class World {
             double width;
             double height;
             if (Math.random() > 0.5) {
-                width = 100 + (Math.random() * 300);
-                height = 100 + (Math.random() * 300);
+                width = 300 + (Math.random() * 300);
+                height = 150 + (Math.random() * 300);
             } else {
-                width = 200 + (Math.random() * 400);
-                height = 200 + (Math.random() * 400);
+                width = 400 + (Math.random() * 400);
+                height = 250 + (Math.random() * 200);
             }
             do {
                 posX = (Math.random() * MAP_LIMIT * 2) - MAP_LIMIT;
@@ -267,52 +267,54 @@ public class World {
 
         List<Obstacle> activeObstaclesForPlayer = new ArrayList<>();
         for (Obstacle obstacle : obstacles) {
-            if (Math.abs(obstacle.getPosX() - playerPosX) < 500 && Math.abs(obstacle.getPosY() - playerPosY) < 500) {
+            if (Math.abs(obstacle.getPosX() - playerPosX) < 1200 && Math.abs(obstacle.getPosY() - playerPosY) < 1200) {
                 activeObstaclesForPlayer.add(obstacle);
             }
         }
 
-        for (Obstacle obstacle : activeObstaclesForPlayer) {
-            double left = obstacle.getPosX();
-            double right = obstacle.getPosX() + obstacle.getWidth();
-            double top = obstacle.getPosY();
-            double bottom = obstacle.getPosY() + obstacle.getHeight();
+        for (int iter = 0; iter < 3; iter++) {
+            for (Obstacle obstacle : activeObstaclesForPlayer) {
+                double left = obstacle.getPosX();
+                double right = obstacle.getPosX() + obstacle.getWidth();
+                double top = obstacle.getPosY();
+                double bottom = obstacle.getPosY() + obstacle.getHeight();
 
-            // fast skip
-            if (playerPosX + playerRadius < left || playerPosX - playerRadius > right ||
-                playerPosY + playerRadius < top || playerPosY - playerRadius > bottom) {
-                continue;
-            }
+                // fast skip
+                if (playerPosX + playerRadius < left || playerPosX - playerRadius > right ||
+                    playerPosY + playerRadius < top || playerPosY - playerRadius > bottom) {
+                    continue;
+                }
 
-            // prevent dash inside
-            if (playerPosX > left && playerPosX < right && playerPosY > top && playerPosY < bottom) {
-                double distanceLeft = playerPosX - left;
-                double distanceRight = right - playerPosX;
-                double distanceTop = playerPosY - top;
-                double distanceBottom = bottom - playerPosY;
-                double min = Math.min(Math.min(distanceLeft, distanceRight), Math.min(distanceTop, distanceBottom));
-                if (min == distanceLeft)
-                    playerPosX = left - playerRadius;
-                else if (min == distanceRight)
-                    playerPosX = right + playerRadius;
-                else if (min == distanceTop)
-                    playerPosY = top - playerRadius;
-                else if (min == distanceBottom)
-                    playerPosY = bottom + playerRadius;
+                // prevent dash inside
+                if (playerPosX > left && playerPosX < right && playerPosY > top && playerPosY < bottom) {
+                    double distanceLeft = playerPosX - left;
+                    double distanceRight = right - playerPosX;
+                    double distanceTop = playerPosY - top;
+                    double distanceBottom = bottom - playerPosY;
+                    double min = Math.min(Math.min(distanceLeft, distanceRight), Math.min(distanceTop, distanceBottom));
+                    if (min == distanceLeft)
+                        playerPosX = left - playerRadius;
+                    else if (min == distanceRight)
+                        playerPosX = right + playerRadius;
+                    else if (min == distanceTop)
+                        playerPosY = top - playerRadius;
+                    else if (min == distanceBottom)
+                        playerPosY = bottom + playerRadius;
 
-            } else { // normal collision
-                double closeToX = Math.max(obstacle.getPosX(),
-                        Math.min(playerPosX, obstacle.getPosX() + obstacle.getWidth()));
-                double closeToY = Math.max(obstacle.getPosY(),
-                        Math.min(playerPosY, obstacle.getPosY() + obstacle.getHeight()));
-                double distanceX = playerPosX - closeToX;
-                double distanceY = playerPosY - closeToY;
-                double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-                if (distance < playerRadius) {
-                    if (distance > 0) {
-                        double overlap = playerRadius - distance;
-                        playerPosX += (distanceX / distance) * overlap;
-                        playerPosY += (distanceY / distance) * overlap;
+                } else { // normal collision
+                    double closeToX = Math.max(obstacle.getPosX(),
+                            Math.min(playerPosX, obstacle.getPosX() + obstacle.getWidth()));
+                    double closeToY = Math.max(obstacle.getPosY(),
+                            Math.min(playerPosY, obstacle.getPosY() + obstacle.getHeight()));
+                    double distanceX = playerPosX - closeToX;
+                    double distanceY = playerPosY - closeToY;
+                    double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+                    if (distance < playerRadius) {
+                        if (distance > 0) {
+                            double overlap = playerRadius - distance;
+                            playerPosX += (distanceX / distance) * overlap;
+                            playerPosY += (distanceY / distance) * overlap;
+                        }
                     }
                 }
             }

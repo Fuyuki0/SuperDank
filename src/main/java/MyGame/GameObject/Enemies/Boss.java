@@ -1,6 +1,7 @@
 package MyGame.GameObject.Enemies;
 
 import MyGame.Game.GameEngine;
+import MyGame.GameObject.Obstacle;
 import MyGame.GameObject.Player.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.Effect;
@@ -269,6 +270,7 @@ public class Boss extends Enemy{
             if (isFlipped) {
                 gc.scale(-1, 1);
             }
+
 
             gc.drawImage(
                     bossMech,
